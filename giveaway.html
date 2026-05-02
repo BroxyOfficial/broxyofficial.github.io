@@ -288,15 +288,15 @@ function dailySpin(){
   const today = new Date().toDateString();
   const lastClaim = localStorage.getItem("dailyClaim");
 
-  if(lastClaim === today){
-    showPopup("Already claimed today");
+  if(lastClaim && lastClaim === today){
+    showPopup("Already claimed"); // ✅ same style as before
     return;
   }
 
   spins++;
   localStorage.setItem("dailyClaim", today);
   saveSpins();
-  showPopup("+1 spin (daily)");
+  showPopup("+1 spin");
 }
 
 // ✅ REAL SHARE (only reward if completed)
