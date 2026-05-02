@@ -285,17 +285,26 @@ function spin(){
 
 // ✅ DAILY SPIN (resets at 12 AM)
 function dailySpin(){
-  const today = new Date().toDateString();
+  const now = new Date();
+
+  // create a unique key per day (year-month-day)
+  const todayKey = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
+
   const lastClaim = localStorage.getItem("dailyClaim");
 
-  if(lastClaim && lastClaim === today){
-    showPopup("Already claimed"); // ✅ same style as before
+  // 🔴 if already claimed today
+  if(lastClaim === todayKey){
+    showPopup("Already claimed");
     return;
   }
 
+  // ✅ give spin
   spins++;
-  localStorage.setItem("dailyClaim", today);
   saveSpins();
+
+  // save today's claim
+  localStorage.setItem("dailyClaim", todayKey);
+
   showPopup("+1 spin");
 }
 
