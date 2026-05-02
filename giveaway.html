@@ -9,20 +9,15 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   text-align: center;
   font-family: Arial;
   background: #f5f5f5;
-  overflow-x: hidden; /* 🔥 FIX SIDE SCROLL */
+  overflow-x: hidden;
 }
 
-/* 🔥 CONTAINER FIX */
 .container {
   max-width: 420px;
   margin: auto;
@@ -47,20 +42,16 @@ body {
   border-radius: 10px;
   display: none;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  z-index: 2000; /* 🔥 FIX OVERLAP */
+  z-index: 2000;
 }
 
-#menu div {
-  padding: 10px 16px;
-  font-size: 14px;
-  cursor: pointer;
-}
+#menu div { padding: 10px 16px; font-size: 14px; cursor: pointer; }
 
 /* WHEEL */
 #wheelBox {
   position: relative;
   width: 90vw;
-  max-width: 300px; /* 🔥 SMALLER */
+  max-width: 300px;
   margin: 20px auto;
 }
 
@@ -88,21 +79,10 @@ button {
   font-size: 14px;
 }
 
-/* TEXT */
-h2 {
-  font-size: 20px;
-  margin-top: 10px;
-}
+h2 { font-size: 20px; margin-top: 10px; }
 
-#spinCount {
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-#result {
-  font-size: 14px;
-  margin-top: 8px;
-}
+#spinCount { font-size: 14px; margin-top: 6px; }
+#result { font-size: 14px; margin-top: 8px; }
 
 /* POPUP */
 .popup {
@@ -118,11 +98,9 @@ h2 {
   z-index: 3000;
 }
 
-.popup.show {
-  bottom: 20px;
-}
+.popup.show { bottom: 20px; }
 
-/* WINNER BOX */
+/* WINNERS */
 .leaderboard-box {
   margin-top: 20px;
   padding: 14px;
@@ -142,11 +120,44 @@ h2 {
   margin-top: 6px;
 }
 
-/* 🔥 DESKTOP */
+/* 🔥 ABOUT SECTION */
+.about-box {
+  margin-top: 25px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.about-box h3 {
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.about-box p {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.about-box ul {
+  padding-left: 18px;
+  font-size: 13px;
+  color: #444;
+}
+
+.about-box li { margin-bottom: 5px; }
+
+.about-box .note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
 @media (min-width: 600px) {
-  #wheelBox {
-    max-width: 350px;
-  }
+  #wheelBox { max-width: 350px; }
 }
 </style>
 </head>
@@ -165,6 +176,7 @@ h2 {
 <div id="popup" class="popup"><span id="popupText"></span></div>
 
 <h2>🎯 MLBB LUCKY SPIN</h2>
+<p style="font-size:12px; color:#777;">Community rewards by Broxy 🎮</p>
 
 <div id="wheelBox">
   <div class="pointer"></div>
@@ -180,9 +192,43 @@ h2 {
   <div class="leaderboard-empty">No winners yet</div>
 </div>
 
+<!-- 🔥 ABOUT SECTION ADDED -->
+<div class="about-box">
+  <h3>🎯 About Broxy Spin</h3>
+  <p>
+    Hey, I’m <b>Broxy</b> 👋 — creator of this platform and a Mobile Legends content creator.
+    This spin system is part of my community where I occasionally reward lucky users with in-game prizes.
+  </p>
+
+  <h3>🎁 Rewards</h3>
+  <p>
+    Some rewards like Diamonds or Redeem Codes are <b>limited giveaways</b> provided by me.
+    Not every spin will win — only lucky users get selected.
+  </p>
+
+  <h3>⚙️ How It Works</h3>
+  <ul>
+    <li>Spin the wheel using your available spins</li>
+    <li>Most results will be common (Try Again)</li>
+    <li>Rare rewards have extremely low chances</li>
+  </ul>
+
+  <h3>🔥 How To Get More Spins</h3>
+  <ul>
+    <li>🎁 Daily login → +1 spin</li>
+    <li>📤 Share with friends → +1 spin</li>
+    <li>📺 Watch ads → +1 spin</li>
+  </ul>
+
+  <p class="note">
+    ⚠️ This is a fan-based reward system. Rewards are limited and not guaranteed.
+  </p>
+</div>
+
 </div>
 
 <script>
+// YOUR JS (UNCHANGED)
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
@@ -192,7 +238,6 @@ const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0
 const total = sections.length;
 const arc = 2*Math.PI/total;
 
-// DRAW
 for(let i=0;i<total;i++){
   ctx.beginPath();
   ctx.fillStyle=colors[i];
@@ -205,18 +250,16 @@ for(let i=0;i<total;i++){
   ctx.rotate(i*arc+arc/2);
   ctx.fillStyle="#000";
   ctx.textAlign="right";
-  ctx.font="bold 14px Arial"; /* 🔥 smaller text */
+  ctx.font="bold 14px Arial";
   ctx.fillText(sections[i],200,8);
   ctx.restore();
 }
 
-// MENU FIX
 document.getElementById("menuBtn").onclick=()=>{
   const m=document.getElementById("menu");
   m.style.display=m.style.display==="block"?"none":"block";
 };
 
-// POPUP
 function showPopup(msg){
   const p=document.getElementById("popup");
   document.getElementById("popupText").innerText=msg;
@@ -224,7 +267,6 @@ function showPopup(msg){
   setTimeout(()=>p.classList.remove("show"),2000);
 }
 
-// STORAGE FIX
 let spins,lastDaily;
 
 if(localStorage.getItem("initialized")){
@@ -248,15 +290,10 @@ function updateSpinUI(){
 }
 updateSpinUI();
 
-// SPIN (UNCHANGED)
 function spin(){
-  if(spins<=0){
-    showPopup("No spins left!");
-    return;
-  }
+  if(spins<=0){ showPopup("No spins left!"); return; }
 
-  spins--;
-  saveSpins();
+  spins--; saveSpins();
 
   const rand=Math.random()*100;
   let winIdx;
@@ -289,7 +326,6 @@ function spin(){
   },5000);
 }
 
-// DAILY
 function dailySpin(){
   const now=Date.now();
   if(now-lastDaily>86400000){
@@ -298,36 +334,18 @@ function dailySpin(){
     localStorage.setItem("lastDaily",lastDaily);
     saveSpins();
     showPopup("+1 spin");
-  }else{
-    showPopup("Already claimed");
-  }
+  }else showPopup("Already claimed");
 }
 
-// SHARE
 function shareSpin(){
-  if(!navigator.share){
-    showPopup("Not supported");
-    return;
-  }
-  navigator.share({
-    title:"Broxy Spin",
-    text:"Try your luck!",
-    url:location.href
-  }).then(()=>{
-    spins++;
-    saveSpins();
-    showPopup("+1 spin");
-  });
+  if(!navigator.share){ showPopup("Not supported"); return; }
+  navigator.share({title:"Broxy Spin",text:"Try your luck!",url:location.href})
+  .then(()=>{ spins++; saveSpins(); showPopup("+1 spin"); });
 }
 
-// ADS
 function watchAd(){
   window.open("https://www.profitableratecpm.com/abc123","_blank");
-  setTimeout(()=>{
-    spins++;
-    saveSpins();
-    showPopup("+1 spin");
-  },4000);
+  setTimeout(()=>{ spins++; saveSpins(); showPopup("+1 spin"); },4000);
 }
 </script>
 
