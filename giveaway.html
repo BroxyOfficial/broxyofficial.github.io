@@ -286,32 +286,26 @@ function spin(){
 // ✅ DAILY SPIN (resets at 12 AM)
 function dailySpin(){
   const now = new Date();
-
-  // create a unique key per day (year-month-day)
   const todayKey = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
 
   const lastClaim = localStorage.getItem("dailyClaim");
 
-  // 🔴 if already claimed today
   if(lastClaim === todayKey){
     showPopup("Already claimed");
     return;
   }
 
-  // ✅ give spin
   spins++;
   saveSpins();
 
-  // save today's claim
   localStorage.setItem("dailyClaim", todayKey);
 
-  showPopup("+1 spin");
+  showPopup("+1 spin"); // 🔥 FIXED MESSAGE
 }
-
 // ✅ REAL SHARE (only reward if completed)
 function shareSpin(){
   if(!navigator.share){
-    showPopup("Sharing not supported");
+    showPopup("Not supported");
     return;
   }
 
@@ -323,7 +317,8 @@ function shareSpin(){
   .then(()=>{
     spins++;
     saveSpins();
-    showPopup("+1 spin (shared)");
+
+    showPopup("+1 spin"); // 🔥 FIXED (was missing consistency)
   })
   .catch(()=>{
     showPopup("Share cancelled");
@@ -332,14 +327,15 @@ function shareSpin(){
 
 // ✅ ADS (temporary safe version - no spam)
 function watchAd(){
-  const lastAd = localStorage.getItem("lastAdTime");
-  const now = Date.now();
+  window.open("https://example.com", "_blank");
 
-  // 30 sec cooldown (prevent spam)
-  if(lastAd && (now - lastAd < 30000)){
-    showPopup("Wait before next ad");
-    return;
-  }
+  setTimeout(()=>{
+    spins++;
+    saveSpins();
+
+    showPopup("+1 spin"); // 🔥 SAME MESSAGE STYLE
+  }, 5000);
+}
 
   // placeholder (you’ll replace with real ad later)
   window.open("https://example.com", "_blank");
