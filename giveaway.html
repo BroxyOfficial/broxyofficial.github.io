@@ -283,9 +283,66 @@ function spin(){
   },5000);
 }
 
-function dailySpin(){ spins++; saveSpins(); }
-function shareSpin(){ spins++; saveSpins(); }
-function watchAd(){ spins++; saveSpins(); }
+// ✅ DAILY SPIN (resets at 12 AM)
+function dailySpin(){
+  const today = new Date().toDateString();
+  const lastClaim = localStorage.getItem("dailyClaim");
+
+  if(lastClaim === today){
+    showPopup("Already claimed today");
+    return;
+  }
+
+  spins++;
+  localStorage.setItem("dailyClaim", today);
+  saveSpins();
+  showPopup("+1 spin (daily)");
+}
+
+// ✅ REAL SHARE (only reward if completed)
+function shareSpin(){
+  if(!navigator.share){
+    showPopup("Sharing not supported");
+    return;
+  }
+
+  navigator.share({
+    title: "Broxy Spin",
+    text: "Try your luck 🎯",
+    url: location.href
+  })
+  .then(()=>{
+    spins++;
+    saveSpins();
+    showPopup("+1 spin (shared)");
+  })
+  .catch(()=>{
+    showPopup("Share cancelled");
+  });
+}
+
+// ✅ ADS (temporary safe version - no spam)
+function watchAd(){
+  const lastAd = localStorage.getItem("lastAdTime");
+  const now = Date.now();
+
+  // 30 sec cooldown (prevent spam)
+  if(lastAd && (now - lastAd < 30000)){
+    showPopup("Wait before next ad");
+    return;
+  }
+
+  // placeholder (you’ll replace with real ad later)
+  window.open("https://example.com", "_blank");
+
+  setTimeout(()=>{
+    spins++;
+    saveSpins();
+    localStorage.setItem("lastAdTime", Date.now());
+    showPopup("+1 spin (ad)");
+  }, 5000);
+}
+
 </script>
 
 </body>
