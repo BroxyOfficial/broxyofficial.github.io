@@ -212,33 +212,74 @@ function saveSpins(){
 }
 saveSpins();
 
+
 function spin(){
-  if(spins<=0) return;
+  if(spins<=0){ showPopup("No spins left!"); return; }
 
-  spins--; saveSpins();
+  spins--; 
+  saveSpins();
 
-  // ✅ SOUND START ONLY HERE (no random play)
+  // 🎧 SOUND START (clean, no bug)
   spinSound.pause();
   spinSound.currentTime = 0;
+  spinSound.playbackRate = 1;
   spinSound.play().catch(()=>{});
 
-  const winIdx=Math.floor(Math.random()*8);
+  // 📳 vibration
+  if(navigator.vibrate){
+    navigator.vibrate(60);
+  }
 
-  const rotate=360*5 + (360/8*winIdx);
+  const rand=Math.random()*100;
+  let winIdx;
 
-  canvas.style.transition="transform 5s ease-out";
+  if(rand<0.05) winIdx=7;
+  else if(rand<0.10) winIdx=2;
+  else if(rand<0.15) winIdx=4;
+  else{
+    const common=[0,3,6];
+    winIdx=common[Math.floor(Math.random()*common.length)];
+  }
+
+  const sliceDeg=360/total;
+  const target=(winIdx*sliceDeg)+sliceDeg/2;
+  const final=360-target-90;
+  const rotate=360*6+final;
+
+  canvas.style.transition="none";
+  canvas.style.transform="rotate(0deg)";
+  canvas.offsetHeight;
+
+  canvas.style.transition="transform 5s cubic-bezier(0.25,1,0.5,1)";
   canvas.style.transform=`rotate(${rotate}deg)`;
 
+  // 🎧 OPTIONAL smooth slow feel (no glitch)
+  let speed = 1;
+  const slow = setInterval(()=>{
+    speed -= 0.02;
+    if(speed <= 0.7){
+      clearInterval(slow);
+    } else {
+      spinSound.playbackRate = speed;
+    }
+  }, 200);
+
   setTimeout(()=>{
+    // STOP spin sound
     spinSound.pause();
 
     document.getElementById("result").innerText="You got: "+sections[winIdx];
 
-    // ✅ ALWAYS PLAY RESULT SOUND
+    // 🎉 ALWAYS PLAY RESULT SOUND
+    winSound.pause();
     winSound.currentTime = 0;
     winSound.play().catch(()=>{});
 
-    confetti({particleCount:100,spread:70});
+    // confetti only for rare (your original behavior)
+    if([2,4,7].includes(winIdx)){
+      confetti({particleCount:120,spread:80});
+    }
+
   },5000);
 }
 
