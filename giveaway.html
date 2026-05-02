@@ -283,6 +283,24 @@ function spin(){
   },5000);
 }
 
+  function showPopup(msg){
+  const p = document.getElementById("popup");
+  const t = document.getElementById("popupText");
+
+  if(!p || !t) return; // safety
+
+  t.innerText = msg;
+
+  p.classList.remove("show"); // reset if already visible
+  void p.offsetWidth; // force reflow (important fix)
+
+  p.classList.add("show");
+
+  setTimeout(()=>{
+    p.classList.remove("show");
+  },2000);
+}
+  
 // ✅ DAILY SPIN (resets at 12 AM)
 function dailySpin(){
   const now = new Date();
