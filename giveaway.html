@@ -130,9 +130,8 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 <div id="popup" class="popup"><span id="popupText"></span></div>
 
-<!-- AUDIO -->
-<audio id="spinSound" src="assets/spin_loop.mp3" preload="auto"></audio>
-<audio id="winSound" src="assets/win_fanfare.mp3" preload="auto"></audio>
+<audio id="spinSound" src="assets/spin_loop.mp3"></audio>
+<audio id="winSound" src="assets/win_fanfare.mp3"></audio>
 
 <h2>🎯 MLBB LUCKY SPIN</h2>
 <p style="font-size:12px; color:#777;">Community rewards by Broxy 🎮</p>
@@ -153,18 +152,7 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 <div class="about-box">
 🎯 About Broxy Lucky Spin Giveaway<br><br>
-Hey, I'm Broxy 👋 — creator of this platform and a Mobile Legends content creator. This spin system is part of my community where I occasionally reward lucky users with in-game prizes.<br><br>
-🎁 Rewards<br>
-Some rewards like Diamonds or Redeem Codes are limited giveaways provided by me. Not every spin will win — only lucky users get selected.<br><br>
-⚙️ How It Works<br>
-Spin the wheel using your available spins<br>
-Most results will be common (Try Again)<br>
-Rare rewards have extremely low chances<br><br>
-🔥 How To Get More Spins<br>
-🎁 Daily login → +1 spin<br>
-📥 Share with friends → +1 spin<br>
-📺 Watch ads → +1 spin<br><br>
-⚠️ This is a fan-based reward system. Rewards are limited and not guaranteed.
+Hey, I'm Broxy 👋 — creator of this platform and a Mobile Legends content creator.
 </div>
 
 </div>
@@ -212,142 +200,67 @@ function saveSpins(){
 }
 saveSpins();
 
+function showPopup(msg){
+  const p=document.getElementById("popup");
+  document.getElementById("popupText").innerText=msg;
+  p.classList.add("show");
+  setTimeout(()=>p.classList.remove("show"),2000);
+}
 
 function spin(){
   if(spins<=0){ showPopup("No spins left!"); return; }
 
-  spins--; 
-  saveSpins();
+  spins--; saveSpins();
 
-  // 🎧 SOUND START (clean, no bug)
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  spinSound.playbackRate = 1;
-  spinSound.play().catch(()=>{});
+  spinSound.currentTime=0;
+  spinSound.play();
 
-  // 📳 vibration
-  if(navigator.vibrate){
-    navigator.vibrate(60);
-  }
+  const winIdx=Math.floor(Math.random()*8);
 
-  const rand=Math.random()*100;
-  let winIdx;
-
-  if(rand<0.05) winIdx=7;
-  else if(rand<0.10) winIdx=2;
-  else if(rand<0.15) winIdx=4;
-  else{
-    const common=[0,3,6];
-    winIdx=common[Math.floor(Math.random()*common.length)];
-  }
-
-  const sliceDeg=360/total;
-  const target=(winIdx*sliceDeg)+sliceDeg/2;
-  const final=360-target-90;
-  const rotate=360*6+final;
-
-  canvas.style.transition="none";
-  canvas.style.transform="rotate(0deg)";
-  canvas.offsetHeight;
-
-  canvas.style.transition="transform 5s cubic-bezier(0.25,1,0.5,1)";
+  const rotate=360*5 + (360/8*winIdx);
+  canvas.style.transition="transform 5s ease-out";
   canvas.style.transform=`rotate(${rotate}deg)`;
 
-  // 🎧 OPTIONAL smooth slow feel (no glitch)
-  let speed = 1;
-  const slow = setInterval(()=>{
-    speed -= 0.02;
-    if(speed <= 0.7){
-      clearInterval(slow);
-    } else {
-      spinSound.playbackRate = speed;
-    }
-  }, 200);
-
   setTimeout(()=>{
-    // STOP spin sound
     spinSound.pause();
-
     document.getElementById("result").innerText="You got: "+sections[winIdx];
 
-    // 🎉 ALWAYS PLAY RESULT SOUND
-    winSound.pause();
-    winSound.currentTime = 0;
-    winSound.play().catch(()=>{});
+    winSound.currentTime=0;
+    winSound.play();
 
-    // confetti only for rare (your original behavior)
-    if([2,4,7].includes(winIdx)){
-      confetti({particleCount:120,spread:80});
-    }
-
+    confetti({particleCount:100,spread:70});
   },5000);
 }
 
-// ✅ DAILY SPIN (resets at 12 AM)
 function dailySpin(){
-  const now = new Date();
-  const todayKey = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
-
-  const lastClaim = localStorage.getItem("dailyClaim");
-
-  if(lastClaim === todayKey){
+  const today = new Date().toDateString();
+  if(localStorage.getItem("dailyClaim")===today){
     showPopup("Already claimed");
     return;
   }
-
-  spins++;
-  saveSpins();
-
-  localStorage.setItem("dailyClaim", todayKey);
-
-  showPopup("+1 spin"); // 🔥 FIXED MESSAGE
+  spins++; saveSpins();
+  localStorage.setItem("dailyClaim",today);
+  showPopup("+1 spin");
 }
-// ✅ REAL SHARE (only reward if completed)
+
 function shareSpin(){
-  if(!navigator.share){
-    showPopup("Not supported");
-    return;
-  }
-
   navigator.share({
-    title: "Broxy Spin",
-    text: "Try your luck 🎯",
-    url: location.href
-  })
-  .then(()=>{
-    spins++;
-    saveSpins();
-
-    showPopup("+1 spin"); // 🔥 FIXED (was missing consistency)
-  })
-  .catch(()=>{
-    showPopup("Share cancelled");
+    title:"Broxy Spin",
+    text:"Try your luck!",
+    url:location.href
+  }).then(()=>{
+    spins++; saveSpins();
+    showPopup("+1 spin");
   });
 }
 
-// ✅ ADS (temporary safe version - no spam)
 function watchAd(){
-  window.open("https://example.com", "_blank");
-
+  window.open("https://example.com","_blank");
   setTimeout(()=>{
-    spins++;
-    saveSpins();
-
-    showPopup("+1 spin"); // 🔥 SAME MESSAGE STYLE
-  }, 5000);
+    spins++; saveSpins();
+    showPopup("+1 spin");
+  },5000);
 }
-
-  // placeholder (you’ll replace with real ad later)
-  window.open("https://example.com", "_blank");
-
-  setTimeout(()=>{
-    spins++;
-    saveSpins();
-    localStorage.setItem("lastAdTime", Date.now());
-    showPopup("+1 spin (ad)");
-  }, 5000);
-}
-
 </script>
 
 </body>
