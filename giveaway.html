@@ -24,7 +24,6 @@ body {
   padding: 10px;
 }
 
-/* MENU */
 #menuBtn {
   position: fixed;
   top: 12px;
@@ -47,7 +46,6 @@ body {
 
 #menu div { padding: 10px 16px; font-size: 14px; cursor: pointer; }
 
-/* WHEEL */
 #wheelBox {
   position: relative;
   width: 90vw;
@@ -72,7 +70,6 @@ canvas {
   border: 8px solid white;
 }
 
-/* BUTTON */
 button {
   padding: 10px 30px;
   margin-top: 10px;
@@ -84,7 +81,6 @@ h2 { font-size: 20px; margin-top: 10px; }
 #spinCount { font-size: 14px; margin-top: 6px; }
 #result { font-size: 14px; margin-top: 8px; }
 
-/* POPUP */
 .popup {
   position: fixed;
   bottom: -100px;
@@ -100,7 +96,6 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 .popup.show { bottom: 20px; }
 
-/* WINNERS */
 .leaderboard-box {
   margin-top: 20px;
   padding: 14px;
@@ -120,7 +115,6 @@ h2 { font-size: 20px; margin-top: 10px; }
   margin-top: 6px;
 }
 
-/* 🔥 ABOUT SECTION */
 .about-box {
   margin-top: 25px;
   padding: 16px;
@@ -175,6 +169,10 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 <div id="popup" class="popup"><span id="popupText"></span></div>
 
+<!-- 🔊 AUDIO ADDED HERE -->
+<audio id="spinSound" src="assets/spin_loop.mp3" preload="auto"></audio>
+<audio id="winSound" src="assets/win_fanfare.aac" preload="auto"></audio>
+
 <h2>🎯 MLBB LUCKY SPIN</h2>
 <p style="font-size:12px; color:#777;">Community rewards by Broxy 🎮</p>
 
@@ -192,45 +190,22 @@ h2 { font-size: 20px; margin-top: 10px; }
   <div class="leaderboard-empty">No winners yet</div>
 </div>
 
-<!-- 🔥 ABOUT SECTION ADDED -->
 <div class="about-box">
   <h3>🎯 About Broxy Spin</h3>
-  <p>
-    Hey, I’m <b>Broxy</b> 👋 — creator of this platform and a Mobile Legends content creator.
-    This spin system is part of my community where I occasionally reward lucky users with in-game prizes.
-  </p>
-
-  <h3>🎁 Rewards</h3>
-  <p>
-    Some rewards like Diamonds or Redeem Codes are <b>limited giveaways</b> provided by me.
-    Not every spin will win — only lucky users get selected.
-  </p>
-
-  <h3>⚙️ How It Works</h3>
-  <ul>
-    <li>Spin the wheel using your available spins</li>
-    <li>Most results will be common (Try Again)</li>
-    <li>Rare rewards have extremely low chances</li>
-  </ul>
-
-  <h3>🔥 How To Get More Spins</h3>
-  <ul>
-    <li>🎁 Daily login → +1 spin</li>
-    <li>📤 Share with friends → +1 spin</li>
-    <li>📺 Watch ads → +1 spin</li>
-  </ul>
-
-  <p class="note">
-    ⚠️ This is a fan-based reward system. Rewards are limited and not guaranteed.
-  </p>
+  <p>Hey, I’m <b>Broxy</b> 👋 — creator of this platform.</p>
 </div>
 
 </div>
 
 <script>
-// YOUR JS (UNCHANGED)
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
+
+const spinSound = document.getElementById("spinSound");
+const winSound = document.getElementById("winSound");
+
+spinSound.loop = true;
+spinSound.volume = 0.5;
 
 const sections = ["Try Again","2💎","1💎","Try Again","CODE","1 Spin","Try Again","10💎"];
 const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
@@ -295,6 +270,10 @@ function spin(){
 
   spins--; saveSpins();
 
+  // 🔊 START SMOOTH SOUND
+  spinSound.currentTime = 0;
+  spinSound.play();
+
   const rand=Math.random()*100;
   let winIdx;
 
@@ -319,8 +298,12 @@ function spin(){
   canvas.style.transform=`rotate(${rotate}deg)`;
 
   setTimeout(()=>{
+    spinSound.pause(); // 🔊 STOP SOUND
+
     document.getElementById("result").innerText="You got: "+sections[winIdx];
+
     if([2,4,7].includes(winIdx)){
+      winSound.play();
       confetti({particleCount:120,spread:80});
     }
   },5000);
