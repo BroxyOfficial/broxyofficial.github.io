@@ -151,37 +151,25 @@ h2 { font-size: 20px; margin-top: 10px; }
   <div>No winners yet</div>
 </div>
 
-<!-- ✅ YOUR EXACT TEXT -->
 <div class="about-box">
 🎯 About Broxy Lucky Spin Giveaway<br><br>
-
 Hey, I'm Broxy 👋 — creator of this platform and a Mobile Legends content creator. This spin system is part of my community where I occasionally reward lucky users with in-game prizes.<br><br>
-
 🎁 Rewards<br>
 Some rewards like Diamonds or Redeem Codes are limited giveaways provided by me. Not every spin will win — only lucky users get selected.<br><br>
-
 ⚙️ How It Works<br>
 Spin the wheel using your available spins<br>
 Most results will be common (Try Again)<br>
 Rare rewards have extremely low chances<br><br>
-
 🔥 How To Get More Spins<br>
 🎁 Daily login → +1 spin<br>
 📥 Share with friends → +1 spin<br>
 📺 Watch ads → +1 spin<br><br>
-
 ⚠️ This is a fan-based reward system. Rewards are limited and not guaranteed.
 </div>
 
 </div>
 
 <script>
-// AUDIO UNLOCK FIX (IMPORTANT)
-document.body.addEventListener("click", () => {
-  document.getElementById("spinSound").play().then(a=>a.pause()).catch(()=>{});
-  document.getElementById("winSound").play().then(a=>a.pause()).catch(()=>{});
-}, {once:true});
-
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
@@ -211,6 +199,11 @@ for(let i=0;i<total;i++){
   ctx.restore();
 }
 
+document.getElementById("menuBtn").onclick=()=>{
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="block"?"none":"block";
+};
+
 let spins = localStorage.getItem("spins") ? parseInt(localStorage.getItem("spins")) : 2;
 
 function saveSpins(){
@@ -220,16 +213,19 @@ function saveSpins(){
 saveSpins();
 
 function spin(){
-  if(spins<=0){ return; }
+  if(spins<=0) return;
 
   spins--; saveSpins();
 
-  spinSound.currentTime=0;
-  spinSound.play();
+  // ✅ SOUND START ONLY HERE (no random play)
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  spinSound.play().catch(()=>{});
 
   const winIdx=Math.floor(Math.random()*8);
 
   const rotate=360*5 + (360/8*winIdx);
+
   canvas.style.transition="transform 5s ease-out";
   canvas.style.transform=`rotate(${rotate}deg)`;
 
@@ -238,8 +234,8 @@ function spin(){
 
     document.getElementById("result").innerText="You got: "+sections[winIdx];
 
-    // 🔥 ALWAYS PLAY WIN SOUND
-    winSound.currentTime=0;
+    // ✅ ALWAYS PLAY RESULT SOUND
+    winSound.currentTime = 0;
     winSound.play().catch(()=>{});
 
     confetti({particleCount:100,spread:70});
