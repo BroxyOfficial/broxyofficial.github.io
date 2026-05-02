@@ -24,6 +24,7 @@ body {
   padding: 10px;
 }
 
+/* MENU */
 #menuBtn {
   position: fixed;
   top: 12px;
@@ -46,6 +47,7 @@ body {
 
 #menu div { padding: 10px 16px; font-size: 14px; cursor: pointer; }
 
+/* WHEEL */
 #wheelBox {
   position: relative;
   width: 90vw;
@@ -70,6 +72,7 @@ canvas {
   border: 8px solid white;
 }
 
+/* BUTTON */
 button {
   padding: 10px 30px;
   margin-top: 10px;
@@ -81,6 +84,7 @@ h2 { font-size: 20px; margin-top: 10px; }
 #spinCount { font-size: 14px; margin-top: 6px; }
 #result { font-size: 14px; margin-top: 8px; }
 
+/* POPUP */
 .popup {
   position: fixed;
   bottom: -100px;
@@ -96,6 +100,7 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 .popup.show { bottom: 20px; }
 
+/* WINNERS */
 .leaderboard-box {
   margin-top: 20px;
   padding: 14px;
@@ -115,6 +120,7 @@ h2 { font-size: 20px; margin-top: 10px; }
   margin-top: 6px;
 }
 
+/* ABOUT */
 .about-box {
   margin-top: 25px;
   padding: 16px;
@@ -169,9 +175,9 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 <div id="popup" class="popup"><span id="popupText"></span></div>
 
-<!-- 🔊 AUDIO ADDED HERE -->
+<!-- 🔊 AUDIO -->
 <audio id="spinSound" src="assets/spin_loop.mp3" preload="auto"></audio>
-<audio id="winSound" src="assets/win_fanfare.aac" preload="auto"></audio>
+<audio id="winSound" src="assets/win_fanfare.mp3" preload="auto"></audio>
 
 <h2>🎯 MLBB LUCKY SPIN</h2>
 <p style="font-size:12px; color:#777;">Community rewards by Broxy 🎮</p>
@@ -192,7 +198,24 @@ h2 { font-size: 20px; margin-top: 10px; }
 
 <div class="about-box">
   <h3>🎯 About Broxy Spin</h3>
-  <p>Hey, I’m <b>Broxy</b> 👋 — creator of this platform.</p>
+  <p>Hey, I’m <b>Broxy</b> 👋 — creator of this platform and a Mobile Legends content creator.</p>
+
+  <h3>🎁 Rewards</h3>
+  <p>Diamonds & codes are limited giveaways. Not guaranteed.</p>
+
+  <h3>⚙️ How It Works</h3>
+  <ul>
+    <li>Spin using available spins</li>
+    <li>Most results are common</li>
+    <li>Rare rewards are very lucky</li>
+  </ul>
+
+  <h3>🔥 How To Get More Spins</h3>
+  <ul>
+    <li>Daily login</li>
+    <li>Share</li>
+    <li>Watch ads</li>
+  </ul>
 </div>
 
 </div>
@@ -203,9 +226,6 @@ const ctx = canvas.getContext("2d");
 
 const spinSound = document.getElementById("spinSound");
 const winSound = document.getElementById("winSound");
-
-spinSound.loop = true;
-spinSound.volume = 0.5;
 
 const sections = ["Try Again","2💎","1💎","Try Again","CODE","1 Spin","Try Again","10💎"];
 const colors = ["#f4d3d3","#d1e7dd","#cfe2f3","#fff3cd","#e2e3e5","#f8d7da","#e0fbfc","#ffefdb"];
@@ -270,9 +290,13 @@ function spin(){
 
   spins--; saveSpins();
 
-  // 🔊 START SMOOTH SOUND
+  spinSound.pause();
   spinSound.currentTime = 0;
-  spinSound.play();
+  spinSound.loop = false;
+  spinSound.playbackRate = 1.4;
+  spinSound.play().catch(()=>{});
+
+  if(navigator.vibrate){ navigator.vibrate(80); }
 
   const rand=Math.random()*100;
   let winIdx;
@@ -297,15 +321,27 @@ function spin(){
   canvas.style.transition="transform 5s cubic-bezier(0.25,1,0.5,1)";
   canvas.style.transform=`rotate(${rotate}deg)`;
 
+  let speed = 1.4;
+  const slowDown = setInterval(()=>{
+    speed -= 0.03;
+    if(speed <= 0.6){
+      clearInterval(slowDown);
+    } else {
+      spinSound.playbackRate = speed;
+    }
+  }, 250);
+
   setTimeout(()=>{
-    spinSound.pause(); // 🔊 STOP SOUND
+    spinSound.pause();
 
     document.getElementById("result").innerText="You got: "+sections[winIdx];
 
     if([2,4,7].includes(winIdx)){
-      winSound.play();
+      winSound.currentTime = 0;
+      winSound.play().catch(()=>{});
       confetti({particleCount:120,spread:80});
     }
+
   },5000);
 }
 
