@@ -1,25 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BROXY | Archive</title><script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BROXY | Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b0e14; color: white; font-family: 'Inter', sans-serif; }
+        .broxy-logo { font-family: 'Rajdhani', sans-serif; letter-spacing: -1px; text-transform: uppercase; }
+        .bento-card { background: #151921; border-radius: 24px; padding: 20px; border: 1px solid #232a35; }
+    </style>
 </head>
-<body class="bg-[#0b0e14] text-white">
-    <nav class="p-6 border-b border-gray-800 flex justify-between items-center"><h1 class="text-2xl font-black italic">BROXY <span class="text-orange-500">ARCHIVE</span></h1><a href="index.html" class="text-orange-500 font-bold">HOME</a></nav>
-    <main class="max-w-7xl mx-auto p-6"><div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></main>
+<body>
+    <nav class="p-6 border-b border-gray-800 flex justify-between items-center sticky top-0 bg-[#0b0e14]/95 backdrop-blur-xl z-[100]">
+        <h1 class="broxy-logo text-2xl font-black italic">BROXY <span class="text-orange-500">ARCHIVE</span></h1>
+        <a href="index.html" class="text-orange-500 font-bold hover:underline tracking-widest text-xs uppercase">Back to Home</a>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 space-y-12">
+        <!-- Professional About Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10 border-b border-gray-800/50">
+            <div class="space-y-4">
+                <span class="text-orange-500 font-black uppercase tracking-[0.3em] text-[10px]">Content Creator & Strategist</span>
+                <h2 class="text-4xl font-black italic uppercase leading-none">Mastering the <br>Land of Dawn</h2>
+                <p class="text-gray-400 text-sm leading-relaxed max-w-md">
+                    Welcome to the official repository of **PaqutoSito**. I specialize in high-level Mobile Legends: Bang Bang gameplay, focusing on advanced mechanics, meta-shifting item builds, and hero counter-strategies.
+                </p>
+                <div class="flex gap-4 pt-2">
+                    <div class="text-center bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                        <span class="block text-orange-500 font-bold">MLBB</span>
+                        <span class="text-[9px] uppercase text-gray-500">Expertise</span>
+                    </div>
+                    <div class="text-center bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                        <span class="block text-orange-500 font-bold">10K+</span>
+                        <span class="text-[9px] uppercase text-gray-500">Daily Quota</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bento-card bg-gradient-to-br from-orange-600/20 to-transparent flex flex-col justify-center items-center text-center p-10">
+                <i class="fa-solid fa-clapperboard text-5xl text-orange-500 mb-4"></i>
+                <h3 class="text-xl font-bold uppercase italic">Video Library</h3>
+                <p class="text-xs text-gray-400 mt-2">Browse my latest uploads, tutorials, and rank climbs below. Every video is optimized for competitive insights.</p>
+            </div>
+        </section>
+
+        <!-- Video Grid -->
+        <section>
+            <h3 class="text-xl font-black uppercase italic mb-8 underline decoration-orange-500 underline-offset-8">Latest Tactical Uploads</h3>
+            <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Vids load here -->
+                <p class="col-span-full text-center py-20 text-gray-600 italic animate-pulse uppercase tracking-widest text-xs">Accessing YouTube Database...</p>
+            </div>
+        </section>
+    </main>
+
     <script>
-        const API = 'AIzaSyD-aZcMCuAFtnCKUd0wu7uv4Dp9UYtfkyc'; const CID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+        // Updated restricted key and efficient method
+        const API = 'AIzaSyCu71zE0Qd3wUIoPP8XWTOfNnctRuKuBcY'; 
+        const CID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+
         async function load() {
+            const grid = document.getElementById('grid');
             try {
-                const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API}&channelId=${CID}&part=snippet,id&order=date&maxResults=20&type=video`);
+                // Use Uploads Playlist ID to save quota (Replace 'UC' with 'UU')
+                const UPLOADS_ID = CID.replace('UC', 'UU');
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API}&playlistId=${UPLOADS_ID}&part=snippet,contentDetails&maxResults=12`);
+                
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error.message);
+                }
+
                 const data = await res.json();
-                let h = '';
-                data.items.forEach(i => {
-                    if(!i.snippet.title.toLowerCase().includes("live")) {
-                        h += `<div class="bg-[#151921] rounded-2xl overflow-hidden border border-gray-800"><iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${i.id.videoId}" frameborder="0" allowfullscreen></iframe></div>`;
-                    }
+                let html = '';
+                
+                data.items.forEach(item => {
+                    const id = item.contentDetails.videoId;
+                    const title = item.snippet.title;
+                    html += `
+                        <div class="bento-card !p-0 overflow-hidden hover:border-orange-500/50 transition duration-300 group">
+                            <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>
+                            <div class="p-5">
+                                <h4 class="text-xs font-bold uppercase truncate text-white/90 group-hover:text-orange-500 transition">${title}</h4>
+                                <span class="text-[9px] text-gray-600 font-bold uppercase tracking-widest mt-2 block">PaqutoSito Original</span>
+                            </div>
+                        </div>`;
                 });
-                document.getElementById('grid').innerHTML = h;
-            } catch (e) { console.error(e); }
+                grid.innerHTML = html;
+            } catch (e) { 
+                console.error(e); 
+                grid.innerHTML = `<div class="col-span-full text-center py-20 border-2 border-dashed border-red-500/20 rounded-3xl">
+                    <p class="text-red-500 text-xs font-bold uppercase tracking-widest italic">Archive Sync Error: ${e.message}</p>
+                </div>`;
+            }
         }
         load();
     </script>
