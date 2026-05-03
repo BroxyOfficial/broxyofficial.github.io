@@ -133,85 +133,52 @@
     </footer>
 
     <script>
-    function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-    
-    // Your existing keys
-    const API_KEY = 'AIzaSyCu71zE0Qd3wUIoPP8XWTOfNnctRuKuBcY'; 
-    const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+        
+        // YouTube API Configuration
+        const API_KEY = 'AIzaSyCu71zE0Qd3wUIoPP8XWTOfNnctRuKuBcY'; 
+        const CHANNEL_ID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
 
-    // UPDATED FUNCTION: Replaces the old loadLatest()
-    async function loadLatest() {
-        const vidContainer = document.getElementById('latest-vid');
-        try {
-            const UPLOADS_ID = CHANNEL_ID.replace('UC', 'UU');
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${UPLOADS_ID}&part=snippet,contentDetails&maxResults=1`);
-            
-            if (!res.ok) {
-                const errData = await res.json();
-                if (res.status === 403) {
-                    throw new Error("API Key Restricted: Check Google Cloud Settings.");
+        // Optimized function to load the latest video
+        async function loadLatest() {
+            const vidContainer = document.getElementById('latest-vid');
+            try {
+                const UPLOADS_ID = CHANNEL_ID.replace('UC', 'UU');
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${UPLOADS_ID}&part=snippet,contentDetails&maxResults=1`);
+                
+                if (!res.ok) {
+                    const errData = await res.json();
+                    if (res.status === 403) {
+                        throw new Error("API Key Restricted: Check Google Cloud Settings.");
+                    }
+                    throw new Error(errData.error.message);
                 }
-                throw new Error(errData.error.message);
+
+                const data = await res.json();
+                if (data.items && data.items.length > 0) {
+                    const id = data.items[0].contentDetails.videoId;
+                    vidContainer.innerHTML = `<iframe class="w-full aspect-video rounded-2xl" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+                }
+            } catch (e) { 
+                console.error("Video Sync Error:", e);
+                vidContainer.innerHTML = `<div class="text-center p-6"><p class="text-red-500 text-[10px] uppercase font-bold">Sync Error: ${e.message}</p></div>`;
             }
-
-            const data = await res.json();
-            if (data.items && data.items.length > 0) {
-                const id = data.items[0].contentDetails.videoId;
-                vidContainer.innerHTML = `<iframe class="w-full aspect-video rounded-2xl" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
-            }
-        } catch (e) { 
-            console.error("Video Sync Error:", e);
-            vidContainer.innerHTML = `<div class="text-center p-6"><p class="text-red-500 text-[10px] uppercase font-bold">Sync Error: ${e.message}</p></div>`;
         }
-    }
-    
-    loadLatest();
-
-    // Your existing Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyDfU4QX9m6u7d4rk690GkoFmJpTXm-ubMA",
-        authDomain: "broxyhub-e6cc5.firebaseapp.com",
-        databaseURL: "https://broxyhub-e6cc5-default-rtdb.firebaseio.com/",
-        projectId: "broxyhub-e6cc5",
-        storageBucket: "broxyhub-e6cc5.firebasestorage.app",
-        messagingSenderId: "123356235763",
-        appId: "1:123356235763:web:7753060844be2c8539f486"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    function sendMessage() {
-        const input = document.getElementById('chat-input');
-        if (input.value.trim()) {
-            database.ref('messages').push().set({ 
-                username: "Bro_" + Math.floor(Math.random()*999), 
-                message: input.value.trim(), 
-                timestamp: Date.now() 
-            });
-            input.value = "";
-        }
-    }
-
-    database.ref('messages').limitToLast(20).on('child_added', (snap) => {
-        const data = snap.val();
-        document.getElementById('chat-messages').innerHTML += `<div class="bg-white/5 p-3 rounded-2xl"><span class="text-orange-500 font-bold uppercase block">${data.username}</span><p>${data.message}</p></div>`;
-        document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-    });
-</script>
+        
         loadLatest();
 
-        // New Personal Firebase Configuration
+        // Your specific Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDfU4QX9m6u7d4rk690GkoFmJpTXm-ubMA",
             authDomain: "broxyhub-e6cc5.firebaseapp.com",
-            databaseURL: "https://broxyhub-e6cc5-default-rtdb.firebaseio.com/", 
+            databaseURL: "https://broxyhub-e6cc5-default-rtdb.firebaseio.com/",
             projectId: "broxyhub-e6cc5",
             storageBucket: "broxyhub-e6cc5.firebasestorage.app",
             messagingSenderId: "123356235763",
             appId: "1:123356235763:web:7753060844be2c8539f486"
         };
 
+        // Initialize Firebase services
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
@@ -227,6 +194,7 @@
             }
         }
 
+        // Listen for new chat messages
         database.ref('messages').limitToLast(20).on('child_added', (snap) => {
             const data = snap.val();
             document.getElementById('chat-messages').innerHTML += `<div class="bg-white/5 p-3 rounded-2xl"><span class="text-orange-500 font-bold uppercase block">${data.username}</span><p>${data.message}</p></div>`;
