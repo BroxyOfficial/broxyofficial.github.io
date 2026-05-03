@@ -235,7 +235,9 @@ function spin(){
 
   spins--; 
   saveSpins();
-
+  
+  document.getElementById("result").innerText = "";
+  
   // 🎧 SOUND START (clean, no bug)
   spinSound.pause();
   spinSound.currentTime = 0;
@@ -285,7 +287,13 @@ function spin(){
     // STOP spin sound
     spinSound.pause();
 
-    document.getElementById("result").innerText="You got: "+sections[winIdx];
+   const resultEl = document.getElementById("result");
+resultEl.style.opacity = 0;
+
+setTimeout(()=>{
+  resultEl.innerText = "You got: " + sections[winIdx];
+  resultEl.style.opacity = 1;
+}, 200);
 
     // 🎉 ALWAYS PLAY RESULT SOUND
     winSound.pause();
