@@ -61,6 +61,13 @@
                 <!-- Vids load here -->
                 <p class="col-span-full text-center py-20 text-gray-600 italic animate-pulse uppercase tracking-widest text-xs">Accessing YouTube Database...</p>
             </div>
+            
+            <!-- Load More Button Integration -->
+            <div class="flex justify-center mt-10">
+                <button id="load-more-btn" onclick="load(nextToken)" class="bg-white/5 border border-white/10 hover:border-orange-500 text-orange-500 font-black px-10 py-4 rounded-2xl uppercase text-xs tracking-widest transition active:scale-95" style="display:none;">
+                    Load Older Videos
+                </button>
+            </div>
         </section>
     </main>
 
@@ -68,13 +75,15 @@
         // Updated restricted key and efficient method
         const API = 'AIzaSyCu71zE0Qd3wUIoPP8XWTOfNnctRuKuBcY'; 
         const CID = 'UCHuhBLFe1uxLgESiYpDfQgQ';
+        let nextToken = ''; // Pagination Token Storage
 
-        async function load() {
+        async function load(pageToken = '') {
             const grid = document.getElementById('grid');
+            const btn = document.getElementById('load-more-btn');
             try {
-                // Use Uploads Playlist ID to save quota (Replace 'UC' with 'UU')
                 const UPLOADS_ID = CID.replace('UC', 'UU');
-                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API}&playlistId=${UPLOADS_ID}&part=snippet,contentDetails&maxResults=50`);
+                // Added pageToken parameter to the fetch URL
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=${API}&playlistId=${UPLOADS_ID}&part=snippet,contentDetails&maxResults=12&pageToken=${pageToken}`);
                 
                 if (!res.ok) {
                     const err = await res.json();
@@ -82,8 +91,9 @@
                 }
 
                 const data = await res.json();
-                let html = '';
+                nextToken = data.nextPageToken || ''; // Update token for next request
                 
+                let html = '';
                 data.items.forEach(item => {
                     const id = item.contentDetails.videoId;
                     const title = item.snippet.title;
@@ -96,12 +106,23 @@
                             </div>
                         </div>`;
                 });
-                grid.innerHTML = html;
+
+                if (pageToken === '') {
+                    grid.innerHTML = html; // Fresh load
+                } else {
+                    grid.innerHTML += html; // Append older videos
+                }
+
+                // Show button only if more videos exist
+                btn.style.display = nextToken ? 'block' : 'none';
+
             } catch (e) { 
                 console.error(e); 
-                grid.innerHTML = `<div class="col-span-full text-center py-20 border-2 border-dashed border-red-500/20 rounded-3xl">
-                    <p class="text-red-500 text-xs font-bold uppercase tracking-widest italic">Archive Sync Error: ${e.message}</p>
-                </div>`;
+                if (pageToken === '') {
+                    grid.innerHTML = `<div class="col-span-full text-center py-20 border-2 border-dashed border-red-500/20 rounded-3xl">
+                        <p class="text-red-500 text-xs font-bold uppercase tracking-widest italic">Archive Sync Error: ${e.message}</p>
+                    </div>`;
+                }
             }
         }
         load();
