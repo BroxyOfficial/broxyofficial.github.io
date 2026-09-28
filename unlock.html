@@ -242,6 +242,7 @@
 
         .task-button {
             min-width: 88px;
+            height: 40px;
             border: 0;
             outline: none;
             cursor: pointer;
@@ -252,6 +253,11 @@
             font-weight: 700;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             transition: 0.2s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
         }
 
         .task-button:hover {
@@ -264,6 +270,34 @@
             background: #20242e;
             color: #22c55e;
             box-shadow: none;
+        }
+
+        /* =========================
+           CIRCULAR LOADER
+        ========================= */
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.18);
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .unlock-spinner {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* =========================
@@ -289,6 +323,11 @@
             background: linear-gradient(135deg, #6366f1, #a855f7);
             box-shadow: 0 12px 35px rgba(99,102,241,0.22);
             transition: 0.25s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .unlock-button:hover:not(:disabled) {
@@ -402,7 +441,7 @@
 
 
     <!-- =========================
-         ADSTERAA TOP AD
+         TOP AD
     ========================== -->
 
     <div class="ad-box">
@@ -411,8 +450,11 @@
             Advertisement
         </span>
 
-        <!-- AD CODE 1 -->
-        <script async="async" data-cfasync="false" src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js"></script>
+        <script async="async"
+            data-cfasync="false"
+            src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js">
+        </script>
+
         <div id="container-754ce29789e6d637de830761ceb267aa"></div>
 
     </div>
@@ -455,9 +497,7 @@
             </div>
 
             <div class="progress-track">
-
                 <div id="progressBar"></div>
-
             </div>
 
         </div>
@@ -470,7 +510,7 @@
         <div class="tasks">
 
 
-            <!-- TASK 1 : YOUTUBE -->
+            <!-- TASK 1 -->
 
             <div class="task" id="task1">
 
@@ -505,7 +545,7 @@
             </div>
 
 
-            <!-- TASK 2 : PROMOTION -->
+            <!-- TASK 2 -->
 
             <div class="task" id="task2">
 
@@ -543,7 +583,9 @@
         </div>
 
 
-        <!-- UNLOCK -->
+        <!-- =========================
+             UNLOCK
+        ========================== -->
 
         <div class="unlock-area">
 
@@ -566,7 +608,7 @@
 
 
     <!-- =========================
-         ADSTERAA BOTTOM AD
+         BOTTOM AD
     ========================== -->
 
     <div class="ad-box">
@@ -575,21 +617,24 @@
             Advertisement
         </span>
 
-        <!-- AD CODE 2 -->
         <div style="width:100%; overflow-x:auto; display:flex; justify-content:center;">
+
             <div>
+
                 <script>
-                  atOptions = {
-                    'key' : '3fd7cae2f72453a6616518fdbb40de89',
-                    'format' : 'iframe',
-                    'height' : 60,
-                    'width' : 468,
-                    'params' : {}
-                  };
+                    atOptions = {
+                        'key' : '3fd7cae2f72453a6616518fdbb40de89',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
                 </script>
 
                 <script src="https://www.highrevenueformat.com/3fd7cae2f72453a6616518fdbb40de89/invoke.js"></script>
+
             </div>
+
         </div>
 
     </div>
@@ -610,34 +655,20 @@
 
     const CONFIG = {
 
-        /*
-         * YOUR YOUTUBE CHANNEL
-         */
+        youtubeURL:
+            "https://www.youtube.com/@Broxy6",
 
-        youtubeURL: "https://www.youtube.com/@Broxy6",
-
-
-        /*
-         * YOUR PROMOTION PAGE
-         */
-
-        promotionURL: "/promotion.html",
-
-
-        /*
-         * DESTINATION LINK
-         */
+        promotionURL:
+            "/promotion.html",
 
         destinationURL:
             "https://link-hub.net/9703092/jW90eakVlhdW",
 
+        /* 10 seconds for EACH task */
+        taskWaitSeconds: 10,
 
-        /*
-         * Seconds the user has to wait after opening
-         * each task before it can be marked complete.
-         */
-
-        taskWaitSeconds: 5
+        /* 16 seconds after BOTH tasks */
+        finalWaitSeconds: 16
 
     };
 
@@ -651,8 +682,9 @@
         2: false
     };
 
-
     let taskTimers = {};
+
+    let finalUnlockTimer = null;
 
 
     /* =====================================================
@@ -662,15 +694,9 @@
     function startTask(taskNumber) {
 
         const button =
-            document.getElementById("taskButton" + taskNumber);
-
-        const task =
-            document.getElementById("task" + taskNumber);
-
-
-        /*
-         * Don't allow the same task to start twice.
-         */
+            document.getElementById(
+                "taskButton" + taskNumber
+            );
 
         if (completedTasks[taskNumber]) {
             return;
@@ -678,7 +704,7 @@
 
 
         /*
-         * Open the task.
+         * Open the requested task.
          */
 
         if (taskNumber === 1) {
@@ -702,16 +728,21 @@
 
 
         /*
-         * Start countdown.
+         * Disable button while waiting.
+         */
+
+        button.disabled = true;
+
+        button.innerHTML =
+            '<span class="spinner"></span>';
+
+
+        /*
+         * 10-second task timer.
          */
 
         let remaining =
             CONFIG.taskWaitSeconds;
-
-        button.disabled = true;
-
-        button.textContent =
-            "Wait " + remaining + "s";
 
 
         taskTimers[taskNumber] =
@@ -719,16 +750,13 @@
 
                 remaining--;
 
-                if (remaining > 0) {
-
-                    button.textContent =
-                        "Wait " + remaining + "s";
-
-                } else {
+                if (remaining <= 0) {
 
                     clearInterval(
                         taskTimers[taskNumber]
                     );
+
+                    delete taskTimers[taskNumber];
 
                     completeTask(taskNumber);
 
@@ -741,7 +769,7 @@
 
     /* =====================================================
        COMPLETE TASK
-    ===================================================== */
+       ===================================================== */
 
     function completeTask(taskNumber) {
 
@@ -749,13 +777,18 @@
 
 
         const button =
-            document.getElementById("taskButton" + taskNumber);
+            document.getElementById(
+                "taskButton" + taskNumber
+            );
 
         const task =
-            document.getElementById("task" + taskNumber);
+            document.getElementById(
+                "task" + taskNumber
+            );
 
 
-        button.textContent = "✓ Done";
+        button.innerHTML =
+            "✓ Done";
 
         button.disabled = true;
 
@@ -769,53 +802,47 @@
 
     /* =====================================================
        UPDATE PROGRESS
-    ===================================================== */
+       ===================================================== */
 
     function updateProgress() {
 
         const totalTasks =
             Object.keys(completedTasks).length;
 
-
         const completed =
             Object.values(completedTasks)
             .filter(Boolean)
             .length;
 
-
         const percentage =
             (completed / totalTasks) * 100;
 
 
-        document.getElementById("taskCount")
-            .textContent =
+        document.getElementById(
+            "taskCount"
+        ).textContent =
             completed + "/" + totalTasks;
 
 
-        document.getElementById("progressBar")
-            .style.width =
+        document.getElementById(
+            "progressBar"
+        ).style.width =
             percentage + "%";
 
 
+        /*
+         * BOTH TASKS COMPLETE
+         */
+
         if (completed === totalTasks) {
 
-            document.getElementById("progressText")
-                .textContent =
-                "All tasks completed!";
-
-            const unlockButton =
-                document.getElementById("unlockButton");
-
-
-            unlockButton.disabled = false;
-
-            unlockButton.textContent =
-                "🔓 UNLOCK LINK";
+            startFinalUnlockTimer();
 
         } else {
 
-            document.getElementById("progressText")
-                .textContent =
+            document.getElementById(
+                "progressText"
+            ).textContent =
                 "Complete the tasks";
 
         }
@@ -824,8 +851,81 @@
 
 
     /* =====================================================
+       FINAL 16-SECOND CIRCULAR LOADING
+       ===================================================== */
+
+    function startFinalUnlockTimer() {
+
+        const unlockButton =
+            document.getElementById(
+                "unlockButton"
+            );
+
+
+        const progressText =
+            document.getElementById(
+                "progressText"
+            );
+
+
+        unlockButton.disabled = true;
+
+
+        progressText.textContent =
+            "Preparing your link...";
+
+
+        unlockButton.innerHTML =
+            '<span class="unlock-spinner"></span> Preparing...';
+
+
+        let remaining =
+            CONFIG.finalWaitSeconds;
+
+
+        if (finalUnlockTimer) {
+
+            clearInterval(
+                finalUnlockTimer
+            );
+
+        }
+
+
+        finalUnlockTimer =
+            setInterval(function () {
+
+                remaining--;
+
+
+                if (remaining <= 0) {
+
+                    clearInterval(
+                        finalUnlockTimer
+                    );
+
+                    finalUnlockTimer = null;
+
+
+                    unlockButton.disabled = false;
+
+                    unlockButton.innerHTML =
+                        "🔓 UNLOCK LINK";
+
+
+                    progressText.textContent =
+                        "Ready to unlock!";
+
+                }
+
+            }, 1000);
+
+    }
+
+
+    /* =====================================================
        UNLOCK
-    ===================================================== */
+       ===================================================== */
 
     function unlockLink() {
 
@@ -846,7 +946,7 @@
 
 
         /*
-         * Open your destination.
+         * Open destination.
          */
 
         window.location.href =
@@ -857,7 +957,7 @@
 
     /* =====================================================
        INITIALIZE
-    ===================================================== */
+       ===================================================== */
 
     updateProgress();
 
