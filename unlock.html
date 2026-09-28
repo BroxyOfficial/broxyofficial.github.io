@@ -1,34 +1,873 @@
-<!-- TOP AD -->
-<div class="ad-slot" id="top-ad">
-  <span>[Advertisement Banner]</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Unlock Your Link</title>
+    <meta name="description" content="Complete the tasks to unlock your link.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.25), transparent 30%),
+                radial-gradient(circle at 80% 90%, rgba(168, 85, 247, 0.22), transparent 30%),
+                #070812;
+            padding: 25px 15px 50px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 760px;
+            margin: auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .brand {
+            text-align: center;
+            margin: 15px 0 25px;
+        }
+
+        .brand-icon {
+            width: 62px;
+            height: 62px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.35);
+        }
+
+        .brand h1 {
+            margin-top: 15px;
+            font-size: clamp(25px, 6vw, 38px);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand p {
+            margin-top: 8px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* =========================
+           AD CONTAINER
+        ========================= */
+
+        .ad-box {
+            width: 100%;
+            min-height: 90px;
+            margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.025);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .ad-label {
+            color: #525866;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .card {
+            background: rgba(15, 17, 30, 0.86);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow:
+                0 25px 80px rgba(0,0,0,0.45),
+                inset 0 1px rgba(255,255,255,0.04);
+            backdrop-filter: blur(18px);
+        }
+
+        .locked-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .lock-icon {
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            background: rgba(99,102,241,0.13);
+            border: 1px solid rgba(99,102,241,0.25);
+        }
+
+        .locked-header h2 {
+            font-size: 20px;
+        }
+
+        .locked-header p {
+            color: #8b92a3;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-area {
+            margin-bottom: 22px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 9px;
+            font-size: 13px;
+        }
+
+        #progressText {
+            color: #a5adbd;
+        }
+
+        #taskCount {
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            border-radius: 99px;
+            overflow: hidden;
+            background: #252837;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            transition: width 0.4s ease;
+        }
+
+        /* =========================
+           TASKS
+        ========================= */
+
+        .tasks {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .task {
+            position: relative;
+            padding: 17px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.035);
+            transition: 0.25s ease;
+        }
+
+        .task:hover {
+            border-color: rgba(139,92,246,0.35);
+            transform: translateY(-1px);
+        }
+
+        .task.completed {
+            border-color: rgba(34,197,94,0.35);
+            background: rgba(34,197,94,0.06);
+        }
+
+        .task-top {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .task-icon {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(99,102,241,0.13);
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .task-description {
+            margin-top: 4px;
+            color: #8c93a3;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .task-button {
+            min-width: 88px;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 13px;
+            border-radius: 11px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: 0.2s ease;
+        }
+
+        .task-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(99,102,241,0.25);
+        }
+
+        .task-button:disabled {
+            cursor: default;
+            background: #20242e;
+            color: #22c55e;
+            box-shadow: none;
+        }
+
+        /* =========================
+           UNLOCK
+        ========================= */
+
+        .unlock-area {
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .unlock-button {
+            width: 100%;
+            height: 55px;
+            border: 0;
+            border-radius: 16px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 12px 35px rgba(99,102,241,0.22);
+            transition: 0.25s ease;
+        }
+
+        .unlock-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(99,102,241,0.35);
+        }
+
+        .unlock-button:disabled {
+            cursor: not-allowed;
+            background: #242735;
+            color: #666d7d;
+            box-shadow: none;
+        }
+
+        .unlock-note {
+            text-align: center;
+            margin-top: 10px;
+            color: #686f7e;
+            font-size: 11px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #555b69;
+            font-size: 11px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 560px) {
+
+            body {
+                padding: 15px 10px 35px;
+            }
+
+            .card {
+                padding: 18px;
+                border-radius: 21px;
+            }
+
+            .brand {
+                margin-top: 8px;
+            }
+
+            .brand-icon {
+                width: 55px;
+                height: 55px;
+                border-radius: 17px;
+            }
+
+            .task {
+                padding: 14px;
+            }
+
+            .task-top {
+                align-items: flex-start;
+            }
+
+            .task-button {
+                min-width: 75px;
+                padding: 9px 10px;
+            }
+
+            .task-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .task-title {
+                font-size: 14px;
+            }
+
+            .task-description {
+                font-size: 11px;
+            }
+
+            .ad-box {
+                min-height: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =========================
+         BRAND
+    ========================== -->
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🔐
+        </div>
+
+        <h1>Unlock Your Link</h1>
+
+        <p>Complete the quick tasks below to continue.</p>
+
+    </div>
+
+
+    <!-- =========================
+         ADSTERAA TOP AD
+         PASTE YOUR ADSTERRA CODE HERE
+    ========================== -->
+
+    <div class="ad-box">
+
+        <span class="ad-label">
+            Advertisement
+        </span>
+
+        <!--
+        PASTE YOUR ADSTERRA BANNER CODE HERE
+
+        Example:
+
+        <script type="text/javascript">
+        // YOUR ADSTERRA CODE
+        </script>
+
+        -->
+
+    </div>
+
+
+    <!-- =========================
+         MAIN CARD
+    ========================== -->
+
+    <div class="card">
+
+        <div class="locked-header">
+
+            <div class="lock-icon">
+                🔒
+            </div>
+
+            <div>
+                <h2>Link Locked</h2>
+                <p>Complete all tasks to unlock.</p>
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-area">
+
+            <div class="progress-info">
+
+                <span id="progressText">
+                    Complete the tasks
+                </span>
+
+                <span id="taskCount">
+                    0/2
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div id="progressBar"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TASKS
+        ========================== -->
+
+        <div class="tasks">
+
+
+            <!-- TASK 1 : YOUTUBE -->
+
+            <div class="task" id="task1">
+
+                <div class="task-top">
+
+                    <div class="task-icon">
+                        ▶️
+                    </div>
+
+                    <div class="task-info">
+
+                        <div class="task-title">
+                            Subscribe to our YouTube
+                        </div>
+
+                        <div class="task-description">
+                            Visit our channel and subscribe if you'd like to support us.
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="task-button"
+                        id="taskButton1"
+                        onclick="startTask(1)"
+                    >
+                        Subscribe
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TASK 2 : PROMOTION -->
+
+            <div class="task" id="task2">
+
+                <div class="task-top">
+
+                    <div class="task-icon">
+                        🌐
+                    </div>
+
+                    <div class="task-info">
+
+                        <div class="task-title">
+                            Visit our Promotion
+                        </div>
+
+                        <div class="task-description">
+                            Check out our promoted apps, websites and creators.
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="task-button"
+                        id="taskButton2"
+                        onclick="startTask(2)"
+                    >
+                        Visit
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- UNLOCK -->
+
+        <div class="unlock-area">
+
+            <button
+                class="unlock-button"
+                id="unlockButton"
+                disabled
+                onclick="unlockLink()"
+            >
+                🔒 Complete Tasks to Unlock
+            </button>
+
+            <div class="unlock-note">
+                Your destination link will open after all required tasks are completed.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ADSTERAA BOTTOM AD
+    ========================== -->
+
+    <div class="ad-box">
+
+        <span class="ad-label">
+            Advertisement
+        </span>
+
+        <!--
+        PASTE ANOTHER ADSTERAA BANNER CODE HERE
+        IF YOU WANT A SECOND AD UNIT.
+
+        Do not make clicking this advertisement
+        a required task.
+        -->
+
+    </div>
+
+
+    <footer>
+        © 2026 • Your Website
+    </footer>
+
 </div>
 
-<div class="task-list">
-  <!-- TASK 1 -->
-  <button class="task-btn" id="task1" onclick="handleTask('task1', '[https://youtube.com/@YOUR_CHANNEL?sub_confirmation=1](https://youtube.com/@YOUR_CHANNEL?sub_confirmation=1)', 10)">
-    <span>🔴 Subscribe on YouTube</span>
-    <span class="badge" id="task1-badge">Start</span>
-  </button>
 
-  <!-- TASK 2 -->
-  <button class="task-btn" id="task2" onclick="handleTask('task2', '[https://youtube.com](https://youtube.com)', 8)">
-    <span>👍 Watch / Like Video</span>
-    <span class="badge" id="task2-badge">Start</span>
-  </button>
+<script>
 
-  <!-- TASK 3 -->
-  <button class="task-btn" id="task3" onclick="handleTask('task3', '[https://google.com](https://google.com)', 8)">
-    <span>⚡ Visit Sponsor (Ads)</span>
-    <span class="badge" id="task3-badge">Start</span>
-  </button>
-</div>
+    /* =====================================================
+       CONFIGURATION
+       ===================================================== */
 
-<!-- BOTTOM AD -->
-<div class="ad-slot" id="bottom-ad">
-  <span>[Ad Banner]</span>
-</div>
+    const CONFIG = {
 
-<!-- UNLOCK BUTTON -->
-<a href="#" target="_blank" id="final-link" class="unlock-btn">
-  🔒 Complete All Tasks First
-</a>
+        /*
+         * YOUR YOUTUBE CHANNEL
+         *
+         * Replace this with your actual channel URL.
+         */
+
+        youtubeURL: "https://www.youtube.com/@Broxy6",
+
+
+        /*
+         * YOUR PROMOTION PAGE
+         *
+         * Replace this with the URL of the promotion page
+         * on your existing website.
+         */
+
+        promotionURL: "/promotion.html",
+
+
+        /*
+         * DESTINATION LINK
+         *
+         * Your Link-Hub URL.
+         */
+
+        destinationURL:
+            "https://link-hub.net/9703092/jW90eakV",
+
+
+        /*
+         * Seconds the user has to wait after opening
+         * each task before it can be marked complete.
+         */
+
+        taskWaitSeconds: 5
+
+    };
+
+
+    /* =====================================================
+       TASK STATE
+       ===================================================== */
+
+    let completedTasks = {
+        1: false,
+        2: false
+    };
+
+
+    let taskTimers = {};
+
+
+    /* =====================================================
+       START TASK
+       ===================================================== */
+
+    function startTask(taskNumber) {
+
+        const button =
+            document.getElementById("taskButton" + taskNumber);
+
+        const task =
+            document.getElementById("task" + taskNumber);
+
+
+        /*
+         * Don't allow the same task to start twice.
+         */
+
+        if (completedTasks[taskNumber]) {
+            return;
+        }
+
+
+        /*
+         * Open the task.
+         */
+
+        if (taskNumber === 1) {
+
+            window.open(
+                CONFIG.youtubeURL,
+                "_blank"
+            );
+
+        }
+
+
+        if (taskNumber === 2) {
+
+            window.open(
+                CONFIG.promotionURL,
+                "_blank"
+            );
+
+        }
+
+
+        /*
+         * Start countdown.
+         */
+
+        let remaining =
+            CONFIG.taskWaitSeconds;
+
+        button.disabled = true;
+
+        button.textContent =
+            "Wait " + remaining + "s";
+
+
+        taskTimers[taskNumber] =
+            setInterval(function () {
+
+                remaining--;
+
+                if (remaining > 0) {
+
+                    button.textContent =
+                        "Wait " + remaining + "s";
+
+                } else {
+
+                    clearInterval(
+                        taskTimers[taskNumber]
+                    );
+
+                    completeTask(taskNumber);
+
+                }
+
+            }, 1000);
+
+    }
+
+
+    /* =====================================================
+       COMPLETE TASK
+       ===================================================== */
+
+    function completeTask(taskNumber) {
+
+        completedTasks[taskNumber] = true;
+
+
+        const button =
+            document.getElementById("taskButton" + taskNumber);
+
+        const task =
+            document.getElementById("task" + taskNumber);
+
+
+        button.textContent = "✓ Done";
+
+        button.disabled = true;
+
+        task.classList.add("completed");
+
+
+        updateProgress();
+
+    }
+
+
+    /* =====================================================
+       UPDATE PROGRESS
+       ===================================================== */
+
+    function updateProgress() {
+
+        const totalTasks =
+            Object.keys(completedTasks).length;
+
+
+        const completed =
+            Object.values(completedTasks)
+            .filter(Boolean)
+            .length;
+
+
+        const percentage =
+            (completed / totalTasks) * 100;
+
+
+        document.getElementById("taskCount")
+            .textContent =
+            completed + "/" + totalTasks;
+
+
+        document.getElementById("progressBar")
+            .style.width =
+            percentage + "%";
+
+
+        if (completed === totalTasks) {
+
+            document.getElementById("progressText")
+                .textContent =
+                "All tasks completed!";
+
+            const unlockButton =
+                document.getElementById("unlockButton");
+
+
+            unlockButton.disabled = false;
+
+            unlockButton.textContent =
+                "🔓 UNLOCK LINK";
+
+        } else {
+
+            document.getElementById("progressText")
+                .textContent =
+                "Complete the tasks";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       UNLOCK
+       ===================================================== */
+
+    function unlockLink() {
+
+        const allCompleted =
+            Object.values(completedTasks)
+            .every(Boolean);
+
+
+        if (!allCompleted) {
+
+            alert(
+                "Please complete all tasks first."
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Open your destination.
+         */
+
+        window.location.href =
+            CONFIG.destinationURL;
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    updateProgress();
+
+</script>
+
+</body>
+</html>
