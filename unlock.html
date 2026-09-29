@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Unlock Your Link</title>
-    <meta name="description" content="Complete the tasks to unlock your link.">
+
+    <meta
+        name="description"
+        content="Complete the tasks to unlock your link."
+    >
+
 
     <style>
 
@@ -15,53 +26,91 @@
             padding: 0;
         }
 
+
+        html {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+
         body {
-            font-family: Inter, Arial, Helvetica, sans-serif;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
             min-height: 100vh;
+
+            width: 100%;
+
             color: #ffffff;
 
             background:
+
                 radial-gradient(
                     circle at 20% 10%,
                     rgba(99, 102, 241, 0.25),
                     transparent 30%
                 ),
+
                 radial-gradient(
                     circle at 80% 90%,
                     rgba(168, 85, 247, 0.22),
                     transparent 30%
                 ),
+
                 #070812;
 
-            padding: 25px 15px 50px;
+            padding:
+                25px 15px 50px;
+
+            overflow-x: hidden;
         }
+
 
         .page {
+
             width: 100%;
+
             max-width: 760px;
+
             margin: auto;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            HEADER
-        ========================= */
+        ===================================================== */
 
         .brand {
+
             text-align: center;
-            margin: 15px 0 25px;
+
+            margin:
+                15px 0 25px;
+
         }
 
+
         .brand-icon {
+
             width: 62px;
+
             height: 62px;
+
             margin: auto;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             border-radius: 20px;
+
             font-size: 28px;
 
             background:
@@ -74,170 +123,257 @@
             box-shadow:
                 0 15px 40px
                 rgba(99, 102, 241, 0.35);
+
         }
+
 
         .brand h1 {
+
             margin-top: 15px;
-            font-size: clamp(25px, 6vw, 38px);
+
+            font-size:
+                clamp(
+                    25px,
+                    6vw,
+                    38px
+                );
+
             font-weight: 800;
+
             letter-spacing: -1px;
+
         }
+
 
         .brand p {
+
             margin-top: 8px;
+
             color: #9ca3af;
+
             font-size: 14px;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            AD CONTAINER
-        ========================= */
+        ===================================================== */
 
         .ad-box {
+
             width: 100%;
+
             min-height: 90px;
+
             margin: 20px 0;
 
-            border: 1px solid rgba(255,255,255,0.07);
+            border:
+                1px solid
+                rgba(255,255,255,0.07);
+
             border-radius: 16px;
 
-            background: rgba(255,255,255,0.025);
+            background:
+                rgba(255,255,255,0.025);
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             overflow: hidden;
 
             position: relative;
+
         }
+
 
         .ad-label {
+
             color: #525866;
+
             font-size: 10px;
+
             letter-spacing: 1.5px;
+
             text-transform: uppercase;
+
         }
 
 
-        /* =========================
-           MOBILE AD STAGE
-        ========================= */
+        /* =====================================================
+           TOP AD WRAPPER
+        ===================================================== */
 
-        /*
-           Desktop:
-           Nothing changes.
+        .top-ad-wrapper {
 
-           Mobile:
-           The ad network gets a wide internal canvas,
-           which is then scaled down so multiple ad cards
-           can remain on one horizontal line.
-        */
-
-        .mobile-ad-stage {
             width: 100%;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
-            overflow: visible;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            MAIN CARD
-        ========================= */
+        ===================================================== */
 
         .card {
-            background: rgba(15, 17, 30, 0.86);
 
-            border: 1px solid rgba(255,255,255,0.08);
+            background:
+                rgba(15, 17, 30, 0.86);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
             border-radius: 25px;
 
             padding: 25px;
 
             box-shadow:
-                0 25px 80px rgba(0,0,0,0.45),
-                inset 0 1px rgba(255,255,255,0.04);
+
+                0 25px 80px
+                rgba(0,0,0,0.45),
+
+                inset 0 1px
+                rgba(255,255,255,0.04);
 
             backdrop-filter: blur(18px);
+
         }
 
 
+        /* =====================================================
+           LOCKED HEADER
+        ===================================================== */
+
         .locked-header {
+
             display: flex;
+
             align-items: center;
+
             gap: 15px;
 
             margin-bottom: 22px;
+
         }
 
+
         .lock-icon {
+
             width: 52px;
+
             height: 52px;
+
             flex-shrink: 0;
 
             border-radius: 16px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             font-size: 23px;
 
-            background: rgba(99,102,241,0.13);
-            border: 1px solid rgba(99,102,241,0.25);
+            background:
+                rgba(99,102,241,0.13);
+
+            border:
+                1px solid
+                rgba(99,102,241,0.25);
+
         }
+
 
         .locked-header h2 {
+
             font-size: 20px;
+
         }
+
 
         .locked-header p {
+
             color: #8b92a3;
+
             font-size: 13px;
+
             margin-top: 4px;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            PROGRESS
-        ========================= */
+        ===================================================== */
 
         .progress-area {
+
             margin-bottom: 22px;
+
         }
 
+
         .progress-info {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
 
             margin-bottom: 9px;
+
             font-size: 13px;
+
         }
+
 
         #progressText {
+
             color: #a5adbd;
+
         }
+
 
         #taskCount {
+
             font-weight: 700;
+
             color: #ffffff;
+
         }
 
+
         .progress-track {
+
             width: 100%;
+
             height: 8px;
 
             border-radius: 99px;
+
             overflow: hidden;
 
             background: #252837;
+
         }
 
+
         #progressBar {
+
             width: 0%;
+
             height: 100%;
 
             border-radius: inherit;
@@ -249,57 +385,88 @@
                     #a855f7
                 );
 
-            transition: width 0.4s ease;
+            transition:
+                width 0.4s ease;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            TASKS
-        ========================= */
+        ===================================================== */
 
         .tasks {
+
             display: flex;
+
             flex-direction: column;
+
             gap: 13px;
+
         }
 
+
         .task {
+
             position: relative;
 
             padding: 17px;
 
             border-radius: 18px;
 
-            border: 1px solid rgba(255,255,255,0.07);
+            border:
+                1px solid
+                rgba(255,255,255,0.07);
 
-            background: rgba(255,255,255,0.035);
+            background:
+                rgba(255,255,255,0.035);
 
             transition: 0.25s ease;
+
         }
+
 
         .task:hover {
-            border-color: rgba(139,92,246,0.35);
-            transform: translateY(-1px);
+
+            border-color:
+                rgba(139,92,246,0.35);
+
+            transform:
+                translateY(-1px);
+
         }
+
 
         .task.completed {
-            border-color: rgba(34,197,94,0.35);
-            background: rgba(34,197,94,0.06);
+
+            border-color:
+                rgba(34,197,94,0.35);
+
+            background:
+                rgba(34,197,94,0.06);
+
         }
+
 
         .task-top {
+
             display: flex;
+
             align-items: center;
+
             gap: 13px;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            TASK ICON
-        ========================= */
+        ===================================================== */
 
         .task-icon {
+
             width: 45px;
+
             height: 45px;
 
             flex-shrink: 0;
@@ -307,67 +474,92 @@
             border-radius: 14px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             font-size: 20px;
 
-            background: rgba(99,102,241,0.13);
+            background:
+                rgba(99,102,241,0.13);
 
             overflow: hidden;
+
         }
 
 
-        /* ACTUAL YOUTUBE ICON */
+        /* =====================================================
+           REAL YOUTUBE LOGO
+        ===================================================== */
 
         .youtube-icon {
-            width: 27px;
-            height: 27px;
+
+            width: 28px;
+
+            height: 28px;
 
             display: block;
+
         }
 
 
         .task-info {
+
             flex: 1;
+
             min-width: 0;
+
         }
+
 
         .task-title {
+
             font-size: 15px;
+
             font-weight: 700;
+
         }
 
+
         .task-description {
+
             margin-top: 4px;
 
             color: #8c93a3;
 
             font-size: 12px;
+
             line-height: 1.4;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            TASK BUTTON
-        ========================= */
+        ===================================================== */
 
         .task-button {
+
             min-width: 88px;
+
             height: 40px;
 
             border: 0;
+
             outline: none;
 
             cursor: pointer;
 
-            padding: 10px 13px;
+            padding:
+                10px 13px;
 
             border-radius: 11px;
 
             color: white;
 
             font-size: 12px;
+
             font-weight: 700;
 
             background:
@@ -380,21 +572,30 @@
             transition: 0.2s ease;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             gap: 7px;
+
         }
 
+
         .task-button:hover {
-            transform: scale(1.03);
+
+            transform:
+                scale(1.03);
 
             box-shadow:
                 0 8px 20px
                 rgba(99,102,241,0.25);
+
         }
 
+
         .task-button:disabled {
+
             cursor: default;
 
             background: #20242e;
@@ -402,55 +603,72 @@
             color: #22c55e;
 
             box-shadow: none;
+
         }
 
 
-        /* =========================
-           CIRCULAR LOADER
-        ========================= */
+        /* =====================================================
+           LOADER
+        ===================================================== */
 
         .spinner {
+
             width: 18px;
+
             height: 18px;
 
             border-radius: 50%;
 
-            border: 3px solid
+            border:
+                3px solid
                 rgba(255,255,255,0.18);
 
-            border-top-color: #ffffff;
+            border-top-color:
+                #ffffff;
 
             animation:
                 spin 0.8s linear infinite;
+
         }
 
+
         .unlock-spinner {
+
             width: 22px;
+
             height: 22px;
 
             border-radius: 50%;
 
-            border: 3px solid
+            border:
+                3px solid
                 rgba(255,255,255,0.15);
 
-            border-top-color: #ffffff;
+            border-top-color:
+                #ffffff;
 
             animation:
                 spin 0.8s linear infinite;
+
         }
+
 
         @keyframes spin {
+
             to {
-                transform: rotate(360deg);
+                transform:
+                    rotate(360deg);
             }
+
         }
 
 
-        /* =========================
+        /* =====================================================
            UNLOCK
-        ========================= */
+        ===================================================== */
 
         .unlock-area {
+
             margin-top: 22px;
 
             padding-top: 22px;
@@ -458,13 +676,18 @@
             border-top:
                 1px solid
                 rgba(255,255,255,0.07);
+
         }
 
+
         .unlock-button {
+
             width: 100%;
+
             height: 55px;
 
             border: 0;
+
             border-radius: 16px;
 
             cursor: pointer;
@@ -472,6 +695,7 @@
             color: white;
 
             font-size: 15px;
+
             font-weight: 800;
 
             letter-spacing: 0.2px;
@@ -490,21 +714,30 @@
             transition: 0.25s ease;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             gap: 10px;
+
         }
 
+
         .unlock-button:hover:not(:disabled) {
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
 
             box-shadow:
                 0 18px 40px
                 rgba(99,102,241,0.35);
+
         }
 
+
         .unlock-button:disabled {
+
             cursor: not-allowed;
 
             background: #242735;
@@ -512,9 +745,12 @@
             color: #666d7d;
 
             box-shadow: none;
+
         }
 
+
         .unlock-note {
+
             text-align: center;
 
             margin-top: 10px;
@@ -522,14 +758,16 @@
             color: #686f7e;
 
             font-size: 11px;
+
         }
 
 
-        /* =========================
+        /* =====================================================
            FOOTER
-        ========================= */
+        ===================================================== */
 
         footer {
+
             text-align: center;
 
             margin-top: 25px;
@@ -537,65 +775,153 @@
             color: #555b69;
 
             font-size: 11px;
+
         }
 
 
-        /* =================================================
+        /* =====================================================
            MOBILE
-        ================================================= */
+        ===================================================== */
 
         @media (max-width: 560px) {
 
+
             body {
-                padding: 15px 10px 35px;
+
+                padding:
+                    15px 10px 35px;
+
             }
 
 
             .card {
+
                 padding: 18px;
+
                 border-radius: 21px;
+
             }
 
 
             .brand {
+
                 margin-top: 8px;
-                margin-bottom: 16px;
+
+                margin-bottom: 15px;
+
             }
 
 
             .brand-icon {
+
                 width: 55px;
+
                 height: 55px;
+
                 border-radius: 17px;
+
             }
 
 
-            /* =========================================
-               MOBILE ADS
+            /* =================================================
+               MOBILE TOP AD
 
-               Make the ad area short.
-            ========================================= */
+               IMPORTANT:
+               Do NOT use a tiny 80px clipping box.
 
-            .ad-box {
-                min-height: 92px;
+               The generated network ad can be taller than
+               the visible portion. Give it enough room.
+            ================================================= */
 
-                height: 92px;
+            .ad-box.top-ad {
 
-                margin: 10px 0;
+                height: 190px;
 
-                border-radius: 13px;
+                min-height: 190px;
+
+                margin:
+                    10px 0 18px;
+
+                border-radius: 14px;
+
+            }
+
+
+            .top-ad-wrapper {
+
+                width: 100%;
+
+                height: 100%;
+
+                overflow: hidden;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+
             }
 
 
             /*
-               Hide the large Advertisement text
-               from taking up horizontal space.
+               Keep the ad network's generated content
+               complete instead of cutting it halfway.
+
+               The 760px virtual width prevents the ad from
+               becoming extremely wide on the page.
             */
 
-            .ad-label {
+            .top-ad-inner {
+
+                width: 760px;
+
+                min-width: 760px;
+
+                height: 420px;
+
+                min-height: 420px;
+
+                display: flex;
+
+                justify-content: center;
+
+                align-items: flex-start;
+
+                transform:
+                    scale(0.42);
+
+                transform-origin:
+                    center center;
+
+                flex-shrink: 0;
+
+            }
+
+
+            #container-754ce29789e6d637de830761ceb267aa {
+
+                width: 760px !important;
+
+                min-width: 760px !important;
+
+                max-width: 760px !important;
+
+                overflow: visible !important;
+
+            }
+
+
+            /*
+               Advertisement label
+            */
+
+            .top-ad .ad-label {
+
                 position: absolute;
 
-                left: 4px;
+                left: 2px;
+
                 top: 50%;
 
                 transform:
@@ -606,218 +932,289 @@
 
                 letter-spacing: 1px;
 
-                z-index: 5;
+                z-index: 20;
+
+                pointer-events: none;
+
             }
 
 
-            /*
-               The ad network normally sees a small phone
-               width and stacks its cards vertically.
-
-               Give it a wide virtual canvas and scale
-               the complete ad down.
-            */
-
-            .ad-box > .mobile-ad-stage {
-                width: 760px;
-
-                min-width: 760px;
-
-                height: 82px;
-
-                transform:
-                    scale(0.42);
-
-                transform-origin:
-                    center center;
-
-                margin-left: 0;
-
-                flex-shrink: 0;
-            }
-
-
-            /*
-               First/top ad's generated container.
-            */
-
-            #container-754ce29789e6d637de830761ceb267aa {
-
-                width: 760px !important;
-
-                max-width: none !important;
-
-                min-width: 760px !important;
-
-                overflow: visible !important;
-            }
-
-
-            /*
-               Bottom 468x60 banner:
-               keep it compact on mobile.
-            */
-
-            .bottom-ad-inner {
-                width: 468px;
-
-                transform: scale(0.55);
-
-                transform-origin:
-                    center center;
-
-                flex-shrink: 0;
-            }
-
+            /* =================================================
+               TASKS
+            ================================================= */
 
             .task {
+
                 padding: 14px;
+
             }
+
 
             .task-top {
-                align-items: flex-start;
+
+                align-items:
+                    flex-start;
+
             }
+
 
             .task-button {
+
                 min-width: 75px;
-                padding: 9px 10px;
+
+                padding:
+                    9px 10px;
+
             }
 
+
             .task-icon {
+
                 width: 40px;
+
                 height: 40px;
 
                 border-radius: 12px;
+
             }
+
+
+            .youtube-icon {
+
+                width: 25px;
+
+                height: 25px;
+
+            }
+
 
             .task-title {
+
                 font-size: 14px;
+
             }
 
+
             .task-description {
+
                 font-size: 11px;
+
+            }
+
+
+            /* =================================================
+               MOBILE BOTTOM AD
+            ================================================= */
+
+            .bottom-ad-box {
+
+                height: 85px;
+
+                min-height: 85px;
+
+                margin-top: 15px;
+
+            }
+
+
+            .bottom-ad-inner {
+
+                width: 468px;
+
+                min-width: 468px;
+
+                height: 60px;
+
+                transform:
+                    scale(0.55);
+
+                transform-origin:
+                    center center;
+
+                flex-shrink: 0;
+
             }
 
         }
 
 
-        /* =================================================
-           VERY SMALL PHONES
-        ================================================= */
+        /* =====================================================
+           SMALL PHONES
+        ===================================================== */
 
         @media (max-width: 380px) {
 
+
             body {
-                padding-left: 7px;
-                padding-right: 7px;
+
+                padding:
+                    12px 7px 30px;
+
             }
+
 
             .card {
+
                 padding: 15px;
+
             }
+
 
             .task {
+
                 padding: 12px;
+
             }
+
 
             .task-top {
+
                 gap: 9px;
+
             }
+
 
             .task-button {
+
                 min-width: 68px;
+
                 font-size: 11px;
-                padding-left: 8px;
-                padding-right: 8px;
+
+                padding:
+                    8px;
+
             }
+
 
             .task-title {
+
                 font-size: 13px;
+
             }
+
 
             .task-description {
+
                 font-size: 10px;
+
             }
 
-            .ad-box {
-                height: 86px;
-                min-height: 86px;
+
+            /*
+               Slightly shorter but still COMPLETE ad area.
+            */
+
+            .ad-box.top-ad {
+
+                height: 175px;
+
+                min-height: 175px;
+
             }
 
-            .ad-box > .mobile-ad-stage {
-                transform: scale(0.38);
+
+            .top-ad-inner {
+
+                transform:
+                    scale(0.38);
+
             }
 
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
 <div class="page">
 
 
-    <!-- =========================
+    <!-- =================================================
          BRAND
-    ========================== -->
+    ================================================= -->
 
     <div class="brand">
+
 
         <div class="brand-icon">
             🔐
         </div>
 
-        <h1>Unlock Your Link</h1>
+
+        <h1>
+            Unlock Your Link
+        </h1>
+
 
         <p>
             Complete the quick tasks below to continue.
         </p>
 
+
     </div>
 
 
-    <!-- =========================
-         TOP AD
-    ========================== -->
 
-    <div class="ad-box">
+    <!-- =================================================
+         TOP AD
+    ================================================= -->
+
+    <div class="ad-box top-ad">
+
 
         <span class="ad-label">
             Advertisement
         </span>
 
 
-        <div class="mobile-ad-stage">
+        <div class="top-ad-wrapper">
 
-            <script
-                async="async"
-                data-cfasync="false"
-                src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js">
-            </script>
 
-            <div
-                id="container-754ce29789e6d637de830761ceb267aa">
+            <div class="top-ad-inner">
+
+
+                <script
+                    async="async"
+                    data-cfasync="false"
+                    src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js">
+                </script>
+
+
+                <div
+                    id="container-754ce29789e6d637de830761ceb267aa">
+                </div>
+
+
             </div>
 
+
         </div>
+
 
     </div>
 
 
-    <!-- =========================
+
+    <!-- =================================================
          MAIN CARD
-    ========================== -->
+    ================================================= -->
 
     <div class="card">
 
 
+        <!-- LOCKED HEADER -->
+
         <div class="locked-header">
+
 
             <div class="lock-icon">
                 🔒
             </div>
+
 
             <div>
 
@@ -831,26 +1228,33 @@
 
             </div>
 
+
         </div>
 
 
-        <!-- =========================
+
+        <!-- =================================================
              PROGRESS
-        ========================== -->
+        ================================================= -->
 
         <div class="progress-area">
 
+
             <div class="progress-info">
+
 
                 <span id="progressText">
                     Complete the tasks
                 </span>
 
+
                 <span id="taskCount">
                     0/2
                 </span>
 
+
             </div>
+
 
             <div class="progress-track">
 
@@ -858,65 +1262,77 @@
 
             </div>
 
+
         </div>
 
 
-        <!-- =========================
+
+        <!-- =================================================
              TASKS
-        ========================== -->
+        ================================================= -->
 
         <div class="tasks">
 
 
-            <!-- =========================
-                 TASK 1
-            ========================== -->
+            <!-- =================================================
+                 TASK 1 - YOUTUBE
+            ================================================= -->
 
             <div
                 class="task"
                 id="task1"
             >
 
+
                 <div class="task-top">
 
 
-                    <!-- ACTUAL YOUTUBE LOGO -->
+                    <!-- REAL YOUTUBE LOGO -->
 
                     <div class="task-icon">
+
 
                         <svg
                             class="youtube-icon"
                             viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg"
-                            aria-label="YouTube"
                         >
+
 
                             <path
                                 fill="#FF0000"
                                 d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"
                             />
 
+
                             <path
-                                fill="#fff"
+                                fill="#ffffff"
                                 d="M9.75 15.75 15.75 12l-6-3.75v7.5Z"
                             />
 
+
                         </svg>
+
 
                     </div>
 
 
+
                     <div class="task-info">
+
 
                         <div class="task-title">
                             Subscribe to our YouTube
                         </div>
 
+
                         <div class="task-description">
                             Visit our channel and subscribe if you'd like to support us.
                         </div>
 
+
                     </div>
+
 
 
                     <button
@@ -924,22 +1340,28 @@
                         id="taskButton1"
                         onclick="startTask(1)"
                     >
+
                         Subscribe
+
                     </button>
 
+
                 </div>
+
 
             </div>
 
 
-            <!-- =========================
+
+            <!-- =================================================
                  TASK 2
-            ========================== -->
+            ================================================= -->
 
             <div
                 class="task"
                 id="task2"
             >
+
 
                 <div class="task-top">
 
@@ -951,13 +1373,16 @@
 
                     <div class="task-info">
 
+
                         <div class="task-title">
                             Visit our Promotion
                         </div>
 
+
                         <div class="task-description">
                             Check out our promoted apps, websites and creators.
                         </div>
+
 
                     </div>
 
@@ -967,10 +1392,14 @@
                         id="taskButton2"
                         onclick="startTask(2)"
                     >
+
                         Visit
+
                     </button>
 
+
                 </div>
+
 
             </div>
 
@@ -978,11 +1407,13 @@
         </div>
 
 
-        <!-- =========================
+
+        <!-- =================================================
              UNLOCK
-        ========================== -->
+        ================================================= -->
 
         <div class="unlock-area">
+
 
             <button
                 class="unlock-button"
@@ -1002,17 +1433,21 @@
 
             </div>
 
+
         </div>
 
 
     </div>
 
 
-    <!-- =========================
-         BOTTOM AD
-    ========================== -->
 
-    <div class="ad-box">
+    <!-- =================================================
+         BOTTOM AD
+    ================================================= -->
+
+    <div
+        class="ad-box bottom-ad-box"
+    >
 
 
         <span class="ad-label">
@@ -1030,7 +1465,9 @@
             "
         >
 
+
             <div class="bottom-ad-inner">
+
 
                 <script>
 
@@ -1060,12 +1497,20 @@
                     src="https://www.highrevenueformat.com/3fd7cae2f72453a6616518fdbb40de89/invoke.js">
                 </script>
 
+
             </div>
+
 
         </div>
 
+
     </div>
 
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================= -->
 
     <footer>
 
@@ -1077,6 +1522,7 @@
 </div>
 
 
+
 <script>
 
 
@@ -1086,22 +1532,28 @@
 
     const CONFIG = {
 
+
         youtubeURL:
             "https://www.youtube.com/@Broxy6",
+
 
         promotionURL:
             "/promotion.html",
 
+
         destinationURL:
             "https://link-hub.net/9703092/jW90eakVlhdW",
 
+
         taskWaitSeconds:
             30,
+
 
         finalWaitSeconds:
             40
 
     };
+
 
 
     /* =====================================================
@@ -1111,6 +1563,7 @@
     let completedTasks = {
 
         1: false,
+
         2: false
 
     };
@@ -1118,7 +1571,9 @@
 
     let taskTimers = {};
 
+
     let finalUnlockTimer = null;
+
 
 
     /* =====================================================
@@ -1127,88 +1582,111 @@
 
     function startTask(taskNumber) {
 
+
         const button =
             document.getElementById(
                 "taskButton" + taskNumber
             );
 
 
-        if (completedTasks[taskNumber]) {
+        if (
+            completedTasks[taskNumber]
+        ) {
 
             return;
 
         }
 
 
-        /*
-         * Open requested task.
-         */
 
-        if (taskNumber === 1) {
+        /* OPEN TASK */
+
+        if (
+            taskNumber === 1
+        ) {
+
 
             window.open(
                 CONFIG.youtubeURL,
                 "_blank"
             );
 
+
         }
 
 
-        if (taskNumber === 2) {
+
+        if (
+            taskNumber === 2
+        ) {
+
 
             window.open(
                 CONFIG.promotionURL,
                 "_blank"
             );
 
+
         }
 
 
-        /*
-         * Disable button while waiting.
-         */
 
-        button.disabled = true;
+        /* DISABLE BUTTON */
+
+        button.disabled =
+            true;
 
 
         button.innerHTML =
             '<span class="spinner"></span>';
 
 
-        /*
-         * Task timer.
-         */
+
+        /* START TIMER */
 
         let remaining =
             CONFIG.taskWaitSeconds;
 
 
+
         taskTimers[taskNumber] =
 
-            setInterval(function () {
-
-                remaining--;
-
-
-                if (remaining <= 0) {
-
-                    clearInterval(
-                        taskTimers[taskNumber]
-                    );
+            setInterval(
+                function () {
 
 
-                    delete taskTimers[taskNumber];
+                    remaining--;
 
 
-                    completeTask(
-                        taskNumber
-                    );
 
-                }
+                    if (
+                        remaining <= 0
+                    ) {
 
-            }, 1000);
+
+                        clearInterval(
+                            taskTimers[taskNumber]
+                        );
+
+
+                        delete
+                            taskTimers[taskNumber];
+
+
+                        completeTask(
+                            taskNumber
+                        );
+
+
+                    }
+
+
+                },
+                1000
+            );
 
     }
+
 
 
     /* =====================================================
@@ -1217,8 +1695,10 @@
 
     function completeTask(taskNumber) {
 
+
         completedTasks[taskNumber] =
             true;
+
 
 
         const button =
@@ -1227,10 +1707,12 @@
             );
 
 
+
         const task =
             document.getElementById(
                 "task" + taskNumber
             );
+
 
 
         button.innerHTML =
@@ -1241,14 +1723,17 @@
             true;
 
 
+
         task.classList.add(
             "completed"
         );
 
 
+
         updateProgress();
 
     }
+
 
 
     /* =====================================================
@@ -1257,10 +1742,12 @@
 
     function updateProgress() {
 
+
         const totalTasks =
             Object.keys(
                 completedTasks
             ).length;
+
 
 
         const completed =
@@ -1271,43 +1758,51 @@
             .length;
 
 
+
         const percentage =
             (completed / totalTasks) * 100;
+
 
 
         document.getElementById(
             "taskCount"
         ).textContent =
-            completed + "/" + totalTasks;
+            completed +
+            "/" +
+            totalTasks;
+
 
 
         document.getElementById(
             "progressBar"
         ).style.width =
-            percentage + "%";
+            percentage +
+            "%";
 
 
-        /*
-         * Both tasks complete.
-         */
 
         if (
             completed === totalTasks
         ) {
 
+
             startFinalUnlockTimer();
+
 
         }
         else {
+
 
             document.getElementById(
                 "progressText"
             ).textContent =
                 "Complete the tasks";
 
+
         }
 
     }
+
 
 
     /* =====================================================
@@ -1316,10 +1811,12 @@
 
     function startFinalUnlockTimer() {
 
+
         const unlockButton =
             document.getElementById(
                 "unlockButton"
             );
+
 
 
         const progressText =
@@ -1328,65 +1825,89 @@
             );
 
 
+
         unlockButton.disabled =
             true;
+
 
 
         progressText.textContent =
             "Preparing your link...";
 
 
+
         unlockButton.innerHTML =
             '<span class="unlock-spinner"></span> Preparing...';
+
 
 
         let remaining =
             CONFIG.finalWaitSeconds;
 
 
-        if (finalUnlockTimer) {
+
+        if (
+            finalUnlockTimer
+        ) {
+
 
             clearInterval(
                 finalUnlockTimer
             );
 
+
         }
+
 
 
         finalUnlockTimer =
 
-            setInterval(function () {
-
-                remaining--;
-
-
-                if (remaining <= 0) {
-
-                    clearInterval(
-                        finalUnlockTimer
-                    );
+            setInterval(
+                function () {
 
 
-                    finalUnlockTimer =
-                        null;
+                    remaining--;
 
 
-                    unlockButton.disabled =
-                        false;
+
+                    if (
+                        remaining <= 0
+                    ) {
 
 
-                    unlockButton.innerHTML =
-                        "🔓 UNLOCK LINK";
+                        clearInterval(
+                            finalUnlockTimer
+                        );
 
 
-                    progressText.textContent =
-                        "Ready to unlock!";
+                        finalUnlockTimer =
+                            null;
 
-                }
 
-            }, 1000);
+
+                        unlockButton.disabled =
+                            false;
+
+
+
+                        unlockButton.innerHTML =
+                            "🔓 UNLOCK LINK";
+
+
+
+                        progressText.textContent =
+                            "Ready to unlock!";
+
+
+                    }
+
+
+                },
+                1000
+            );
 
     }
+
 
 
     /* =====================================================
@@ -1395,28 +1916,37 @@
 
     function unlockLink() {
 
+
         const allCompleted =
+
             Object.values(
                 completedTasks
             )
             .every(Boolean);
 
 
-        if (!allCompleted) {
+
+        if (
+            !allCompleted
+        ) {
+
 
             alert(
                 "Please complete all tasks first."
             );
+
 
             return;
 
         }
 
 
+
         window.location.href =
             CONFIG.destinationURL;
 
     }
+
 
 
     /* =====================================================
@@ -1428,5 +1958,7 @@
 
 </script>
 
+
 </body>
+
 </html>
