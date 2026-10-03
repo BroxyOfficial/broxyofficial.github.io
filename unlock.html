@@ -694,6 +694,17 @@
         }
 
         /* =====================================================
+           PROMOTIONAL VIDEO PLAYER
+        ===================================================== */
+
+        #promoPlayer iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* =====================================================
            MOBILE
         ===================================================== */
 
@@ -1150,7 +1161,7 @@
 
 
             <!-- =================================================
-                 TASK 2
+                 TASK 2 - WATCH PROMOTIONAL VIDEO
             ================================================= -->
 
             <div
@@ -1161,17 +1172,17 @@
                 <div class="task-top">
 
                     <div class="task-icon">
-                        🌐
+                        ▶️
                     </div>
 
                     <div class="task-info">
 
                         <div class="task-title">
-                            Visit our Promotion
+                            Watch our promotional video
                         </div>
 
                         <div class="task-description">
-                            Check out our promoted apps, websites and creators.
+                            Watch the video for 16 seconds to complete this task.
                         </div>
 
                     </div>
@@ -1182,9 +1193,42 @@
                         onclick="startTask(2)"
                     >
 
-                        Visit
+                        Watch
 
                     </button>
+
+                </div>
+
+                <div
+                    id="promoPlayerWrap"
+                    style="
+                        display:none;
+                        margin-top:14px;
+                        width:100%;
+                        overflow:hidden;
+                        border-radius:14px;
+                        background:#000;
+                    "
+                >
+
+                    <div
+                        id="promoPlayer"
+                        style="
+                            width:100%;
+                            aspect-ratio:16/9;
+                        "
+                    ></div>
+
+                    <div
+                        style="
+                            padding:9px 10px;
+                            text-align:center;
+                            color:#a5adbd;
+                            font-size:12px;
+                        "
+                    >
+                        Watch for <span id="promoTime">16</span>s to complete this task.
+                    </div>
 
                 </div>
 
@@ -1294,7 +1338,9 @@
 </div>
 
 
-<script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
 
 
     /* =====================================================
@@ -1383,6 +1429,9 @@
         taskWaitSeconds:
             30,
 
+        promoWatchSeconds:
+            16,
+
         finalWaitSeconds:
             20
 
@@ -1443,6 +1492,176 @@
 
 
     /* =====================================================
+       PROMOTIONAL VIDEO PLAYER
+       Task 2 completes only after 16 seconds of actual
+       YouTube PLAYING time. Pause/buffering stops counting.
+    ===================================================== */
+
+    let promoPlayer = null;
+    let promoPlayerReady = false;
+    let promoStarted = false;
+    let promoWatchSeconds = 0;
+    let promoWatchTimer = null;
+
+
+    function onYouTubeIframeAPIReady() {
+
+        promoPlayer = new YT.Player(
+            "promoPlayer",
+            {
+                videoId:
+                    "6-uOadSBmGo",
+
+                playerVars: {
+                    rel: 0,
+                    modestbranding: 1,
+                    playsinline: 1
+                },
+
+                events: {
+
+                    onReady:
+                        function () {
+
+                            promoPlayerReady =
+                                true;
+
+                            if (
+                                promoStarted &&
+                                !completedTasks[2]
+                            ) {
+
+                                promoPlayer.playVideo();
+
+                            }
+
+                        },
+
+                    onStateChange:
+                        function (event) {
+
+                            if (
+                                event.data ===
+                                YT.PlayerState.PLAYING
+                            ) {
+
+                                startPromoWatchTimer();
+
+                            }
+                            else {
+
+                                stopPromoWatchTimer();
+
+                            }
+
+                        }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function startPromoWatchTimer() {
+
+        if (
+            promoWatchTimer ||
+            completedTasks[2] ||
+            !promoStarted
+        ) {
+
+            return;
+
+        }
+
+
+        promoWatchTimer =
+            setInterval(
+                function () {
+
+                    if (
+                        !promoPlayer ||
+                        !promoPlayerReady ||
+                        completedTasks[2]
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    if (
+                        promoPlayer.getPlayerState() !==
+                        YT.PlayerState.PLAYING
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    promoWatchSeconds++;
+
+
+                    const remaining =
+                        Math.max(
+                            0,
+                            CONFIG.promoWatchSeconds -
+                            promoWatchSeconds
+                        );
+
+
+                    const timeElement =
+                        document.getElementById(
+                            "promoTime"
+                        );
+
+
+                    if (timeElement) {
+
+                        timeElement.textContent =
+                            remaining;
+
+                    }
+
+
+                    if (
+                        promoWatchSeconds >=
+                        CONFIG.promoWatchSeconds
+                    ) {
+
+                        stopPromoWatchTimer();
+
+                        completeTask(2);
+
+                    }
+
+                },
+                1000
+            );
+
+    }
+
+
+    function stopPromoWatchTimer() {
+
+        if (promoWatchTimer) {
+
+            clearInterval(
+                promoWatchTimer
+            );
+
+            promoWatchTimer =
+                null;
+
+        }
+
+    }
+
+
+    /* =====================================================
        START TASK
     ===================================================== */
 
@@ -1463,7 +1682,9 @@
         }
 
 
-        /* OPEN TASK */
+        /* =================================================
+           TASK 1 - EXISTING 30 SECOND TIMER
+        ================================================= */
 
         if (
             taskNumber === 1
@@ -1474,64 +1695,108 @@
                 "_blank"
             );
 
+
+            button.disabled =
+                true;
+
+
+            button.innerHTML =
+                '<span class="spinner"></span>';
+
+
+            let remaining =
+                CONFIG.taskWaitSeconds;
+
+
+            taskTimers[taskNumber] =
+
+                setInterval(
+                    function () {
+
+                        remaining--;
+
+
+                        if (
+                            remaining <= 0
+                        ) {
+
+                            clearInterval(
+                                taskTimers[taskNumber]
+                            );
+
+                            delete
+                                taskTimers[taskNumber];
+
+                            completeTask(
+                                taskNumber
+                            );
+
+                        }
+
+                    },
+                    1000
+                );
+
+
+            return;
+
         }
 
+
+        /* =================================================
+           TASK 2 - PROMOTIONAL VIDEO
+        ================================================= */
 
         if (
             taskNumber === 2
         ) {
 
-            window.open(
-                CONFIG.promotionURL,
-                "_blank"
-            );
+            document.getElementById(
+                "promoPlayerWrap"
+            ).style.display =
+                "block";
+
+
+            button.disabled =
+                true;
+
+
+            button.innerHTML =
+                '<span class="spinner"></span>';
+
+
+            promoStarted =
+                true;
+
+
+            const timeElement =
+                document.getElementById(
+                    "promoTime"
+                );
+
+
+            if (timeElement) {
+
+                timeElement.textContent =
+                    Math.max(
+                        0,
+                        CONFIG.promoWatchSeconds -
+                        promoWatchSeconds
+                    );
+
+            }
+
+
+            if (
+                promoPlayerReady &&
+                promoPlayer
+            ) {
+
+                promoPlayer.playVideo();
+
+            }
 
         }
-
-
-        /* DISABLE BUTTON */
-
-        button.disabled =
-            true;
-
-
-        button.innerHTML =
-            '<span class="spinner"></span>';
-
-
-        /* START TIMER */
-
-        let remaining =
-            CONFIG.taskWaitSeconds;
-
-
-        taskTimers[taskNumber] =
-
-            setInterval(
-                function () {
-
-                    remaining--;
-
-                    if (
-                        remaining <= 0
-                    ) {
-
-                        clearInterval(
-                            taskTimers[taskNumber]
-                        );
-
-                        delete
-                            taskTimers[taskNumber];
-
-                        completeTask(
-                            taskNumber
-                        );
-
-                    }
-
-                },
-                1000
-            );
 
     }
 
@@ -1769,6 +2034,16 @@
             destinationURL;
 
     }
+
+
+    window.addEventListener(
+        "beforeunload",
+        function () {
+
+            stopPromoWatchTimer();
+
+        }
+    );
 
 
     /* =====================================================
