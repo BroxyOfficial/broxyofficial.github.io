@@ -1332,12 +1332,10 @@
 
         © 2026 • Your Website
 
-        <div
-            style="
-                margin-top:14px;
-                text-align:center;
-            "
-        >
+        <div style="
+            margin-top:14px;
+            text-align:center;
+        ">
             <a
                 href="https://discord.gg/ucmjUzAsv"
                 target="_blank"
@@ -1477,27 +1475,13 @@
        unlock.html?link=video002
     ===================================================== */
 
-    /*
-       ROBUST LINK ID READER
-
-       Reads ?link=video001, ?link=video002, etc.
-       Normalizes accidental spaces/capital letters so the
-       destination lookup does not fail because of URL formatting.
-    */
-
-    const currentURL =
-        new URL(
-            window.location.href
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
         );
 
     const requestedLink =
-        (
-            currentURL.searchParams.get("link") ||
-            ""
-        )
-        .trim()
-        .toLowerCase()
-        .replace(/^\/+|\/+$/g, "");
+        urlParams.get("link");
 
 
     /* =====================================================
@@ -1508,13 +1492,7 @@
         null;
 
 
-    if (
-        requestedLink &&
-        Object.prototype.hasOwnProperty.call(
-            LINKS,
-            requestedLink
-        )
-    ) {
+    if (requestedLink) {
 
         destinationURL =
             LINKS[requestedLink];
@@ -2061,37 +2039,12 @@
 
         /* =================================================
            CHECK THAT A VALID LINK WAS PROVIDED
-
-           Re-read the URL here as well so the unlock check
-           always uses the actual current ?link= value.
         ================================================= */
 
-        const unlockURL =
-            new URL(
-                window.location.href
-            );
-
-        const unlockLinkID =
-            (
-                unlockURL.searchParams.get("link") ||
-                ""
-            )
-            .trim()
-            .toLowerCase()
-            .replace(/^\/+|\/+$/g, "");
-
-        const finalDestination =
-            LINKS[unlockLinkID];
-
-
         if (
-            !unlockLinkID ||
-            !Object.prototype.hasOwnProperty.call(
-                LINKS,
-                unlockLinkID
-            ) ||
-            !finalDestination ||
-            finalDestination ===
+            !requestedLink ||
+            !destinationURL ||
+            destinationURL ===
                 "PASTE-YOUR-FUTURE-LINK-HERE"
         ) {
 
@@ -2105,7 +2058,7 @@
 
 
         window.location.href =
-            finalDestination;
+            destinationURL;
 
     }
 
