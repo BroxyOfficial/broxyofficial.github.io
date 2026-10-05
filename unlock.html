@@ -1448,13 +1448,27 @@
        unlock.html?link=video002
     ===================================================== */
 
-    const urlParams =
-        new URLSearchParams(
-            window.location.search
+    /*
+       ROBUST LINK ID READER
+
+       Reads ?link=video001, ?link=video002, etc.
+       Normalizes accidental spaces/capital letters so the
+       destination lookup does not fail because of URL formatting.
+    */
+
+    const currentURL =
+        new URL(
+            window.location.href
         );
 
     const requestedLink =
-        urlParams.get("link");
+        (
+            currentURL.searchParams.get("link") ||
+            ""
+        )
+        .trim()
+        .toLowerCase()
+        .replace(/^\/+|\/+$/g, "");
 
 
     /* =====================================================
@@ -1465,7 +1479,13 @@
         null;
 
 
-    if (requestedLink) {
+    if (
+        requestedLink &&
+        Object.prototype.hasOwnProperty.call(
+            LINKS,
+            requestedLink
+        )
+    ) {
 
         destinationURL =
             LINKS[requestedLink];
@@ -2012,12 +2032,37 @@
 
         /* =================================================
            CHECK THAT A VALID LINK WAS PROVIDED
+
+           Re-read the URL here as well so the unlock check
+           always uses the actual current ?link= value.
         ================================================= */
 
+        const unlockURL =
+            new URL(
+                window.location.href
+            );
+
+        const unlockLinkID =
+            (
+                unlockURL.searchParams.get("link") ||
+                ""
+            )
+            .trim()
+            .toLowerCase()
+            .replace(/^\/+|\/+$/g, "");
+
+        const finalDestination =
+            LINKS[unlockLinkID];
+
+
         if (
-            !requestedLink ||
-            !destinationURL ||
-            destinationURL ===
+            !unlockLinkID ||
+            !Object.prototype.hasOwnProperty.call(
+                LINKS,
+                unlockLinkID
+            ) ||
+            !finalDestination ||
+            finalDestination ===
                 "PASTE-YOUR-FUTURE-LINK-HERE"
         ) {
 
@@ -2031,7 +2076,7 @@
 
 
         window.location.href =
-            destinationURL;
+            finalDestination;
 
     }
 
