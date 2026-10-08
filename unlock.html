@@ -148,11 +148,11 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: rgba(7, 8, 18, 0.98);
             backdrop-filter: blur(20px);
-            z-index: 1000;
+            z-index: 9999;
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -1202,74 +1202,6 @@
 
 
     <!-- =================================================
-         CINEMATIC MENU OVERLAY
-    ================================================= -->
-    <div class="menu-overlay" id="menuOverlay">
-        <div class="menu-header">
-            <h2>Game Hub</h2>
-            <button class="close-btn" onclick="closeMenu()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="menu-content">
-            <div class="category-title">Roblox</div>
-            
-            <div class="game-list">
-                <!-- Game Item 1 -->
-                <a href="unlock.html?link=video001" class="game-item">
-                    <div class="game-logo">
-                        <!-- Replace with your Roblox image URL -->
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">Steal an Egg</div>
-                        <div class="game-desc">Auto-Farm & Auto-Collect</div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right game-arrow"></i>
-                </a>
-
-                <!-- Game Item 2 -->
-                <a href="unlock.html?link=video002" class="game-item">
-                    <div class="game-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">Dueling Grounds</div>
-                        <div class="game-desc">Auto-Parry & Aimbot</div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right game-arrow"></i>
-                </a>
-
-                <!-- Game Item 3 -->
-                <a href="unlock.html?link=video003" class="game-item">
-                    <div class="game-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">Blox Fruits</div>
-                        <div class="game-desc">Auto-Farm & Fruit Sniper</div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right game-arrow"></i>
-                </a>
-
-                <!-- Game Item 4 -->
-                <a href="unlock.html?link=video004" class="game-item">
-                    <div class="game-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">Pet Simulator 99</div>
-                        <div class="game-desc">Auto-Hatch & Coin Farm</div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right game-arrow"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- =================================================
          TOP AD
     ================================================= -->
 
@@ -1634,6 +1566,73 @@
 </div>
 
 
+<!-- =====================================================
+     CINEMATIC MENU OVERLAY (OUTSIDE .page FOR FULL SCREEN)
+===================================================== -->
+<div class="menu-overlay" id="menuOverlay">
+    <div class="menu-header">
+        <h2>Game Hub</h2>
+        <button class="close-btn" onclick="closeMenu()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="menu-content">
+        <div class="category-title">Roblox</div>
+        
+        <div class="game-list">
+            <!-- Game Item 1 -->
+            <a href="unlock.html?link=video001" class="game-item">
+                <div class="game-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                </div>
+                <div class="game-info">
+                    <div class="game-name">Steal an Egg</div>
+                    <div class="game-desc">Auto-Farm & Auto-Collect</div>
+                </div>
+                <i class="fa-solid fa-chevron-right game-arrow"></i>
+            </a>
+
+            <!-- Game Item 2 -->
+            <a href="unlock.html?link=video002" class="game-item">
+                <div class="game-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                </div>
+                <div class="game-info">
+                    <div class="game-name">Dueling Grounds</div>
+                    <div class="game-desc">Auto-Parry & Aimbot</div>
+                </div>
+                <i class="fa-solid fa-chevron-right game-arrow"></i>
+            </a>
+
+            <!-- Game Item 3 -->
+            <a href="unlock.html?link=video003" class="game-item">
+                <div class="game-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                </div>
+                <div class="game-info">
+                    <div class="game-name">Blox Fruits</div>
+                    <div class="game-desc">Auto-Farm & Fruit Sniper</div>
+                </div>
+                <i class="fa-solid fa-chevron-right game-arrow"></i>
+            </a>
+
+            <!-- Game Item 4 -->
+            <a href="unlock.html?link=video004" class="game-item">
+                <div class="game-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                </div>
+                <div class="game-info">
+                    <div class="game-name">Pet Simulator 99</div>
+                    <div class="game-desc">Auto-Hatch & Coin Farm</div>
+                </div>
+                <i class="fa-solid fa-chevron-right game-arrow"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
 <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -1709,10 +1708,4 @@
             "PASTE-YOUR-FUTURE-LINK-HERE",
 
         video010:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video011:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video012:
             "PASTE-YOUR
