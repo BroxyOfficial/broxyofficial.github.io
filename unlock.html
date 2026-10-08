@@ -42,33 +42,73 @@
         }
         .menu-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* --- SIMPLE FULL SCREEN MENU --- */
-        .simple-menu {
-            display: none; /* Hidden by default */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #070812; z-index: 9999; padding: 30px; overflow-y: auto;
+        /* --- SIDE DRAWER MENU (PC) / FULL SCREEN (MOBILE) --- */
+        .drawer-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 9998;
         }
-        .simple-menu.open { display: block; } /* Shown when clicked */
+        .drawer-overlay.open { display: block; }
 
-        .simple-menu-header {
+        .side-menu {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100%;
+            background: #0b0e14; border-left: 1px solid rgba(255,255,255,0.1);
+            z-index: 9999; padding: 30px; transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        .side-menu.open { transform: translateX(0); }
+
+        .side-menu-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;
         }
-        .simple-menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
-        .close-btn {
-            background: none; border: none; color: white; font-size: 28px; cursor: pointer;
-        }
+        .side-menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
+        .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
 
-        .simple-menu-list { display: flex; flex-direction: column; gap: 15px; }
-        .simple-menu-item {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; padding: 18px; text-decoration: none; color: white;
+        .side-menu-list { display: flex; flex-direction: column; gap: 12px; }
+        .game-item {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; padding: 16px; text-decoration: none; color: white;
             display: flex; align-items: center; gap: 15px; transition: 0.2s;
         }
-        .simple-menu-item:hover { background: rgba(99, 102, 241, 0.2); }
-        .simple-menu-item img { width: 40px; height: 40px; border-radius: 10px; }
-        .simple-menu-item .name { font-weight: 700; font-size: 16px; }
-        .simple-menu-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
+        .game-item:hover { background: rgba(99, 102, 241, 0.15); border-color: #6366f1; }
+        .game-item img { width: 45px; height: 45px; border-radius: 12px; object-fit: cover; }
+        .game-item .name { font-weight: 700; font-size: 16px; }
+        .game-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
+        .game-item .arrow { margin-left: auto; color: #6366f1; }
+
+        /* --- SCRIPT HUB PAGE (Hidden by default) --- */
+        .script-hub { display: none; }
+        .script-hub.active { display: block; }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 10px 18px; border-radius: 12px; font-size: 13px;
+            font-weight: 600; cursor: pointer; margin-bottom: 20px; transition: 0.2s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .script-hub-header { margin-bottom: 25px; }
+        .script-hub-header h2 { font-size: 28px; font-weight: 800; }
+        .script-hub-header p { color: #8b92a3; margin-top: 8px; font-size: 14px; }
+
+        .script-list { display: flex; flex-direction: column; gap: 12px; }
+        .script-card {
+            background: linear-gradient(145deg, #111322, #0b0e14);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px;
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.3s;
+        }
+        .script-card:hover { border-color: #6366f1; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99,102,241,0.1); }
+        .script-info h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .script-info p { font-size: 12px; color: #8b92a3; }
+        .script-btn {
+            background: linear-gradient(135deg, #6366f1, #a855f7); border: none;
+            color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700;
+            font-size: 12px; cursor: pointer; text-decoration: none; transition: 0.2s;
+        }
+        .script-btn:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(99,102,241,0.3); }
 
         /* --- THE REST OF YOUR ORIGINAL PAGE --- */
         .ad-box {
@@ -135,6 +175,7 @@
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 560px) {
             body { padding: 15px 10px 35px; }
+            .side-menu { max-width: 100%; }
             .card { padding: 18px; border-radius: 21px; }
             .brand { margin-top: 8px; margin-bottom: 15px; }
             .brand-icon { width: 55px; height: 55px; border-radius: 17px; }
@@ -281,64 +322,123 @@
 </div>
 
 <!-- ================================================= -->
-<!-- SIMPLE FULL SCREEN MENU (OUTSIDE .page FOR FULL COVER) -->
+<!-- SIDE DRAWER MENU -->
 <!-- ================================================= -->
-<div class="simple-menu" id="simpleMenu">
-    <div class="simple-menu-header">
-        <h2>Game Hub</h2>
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeMenu()"></div>
+<div class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+        <h2>Broxy Hub</h2>
         <button class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="simple-menu-list">
-        <!-- Game Item 1 -->
-        <a href="unlock.html?link=video001" class="simple-menu-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+    <div class="side-menu-list">
+        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="game-item">
+            <img src="https://tr.rbxcdn.com/180DAY-9d0604c536906098b207fced83a15038/512/512/Image/Png/noFilter" alt="Steal an Egg">
             <div>
                 <div class="name">Steal an Egg</div>
                 <div class="desc">Auto-Farm & Auto-Collect</div>
             </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <!-- Game Item 2 -->
-        <a href="unlock.html?link=video002" class="simple-menu-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="game-item">
+            <img src="https://tr.rbxcdn.com/180DAY-430c4f2df83507c05da11d1d6f7ba94c/768/432/Image/Png/noFilter" alt="Dueling Grounds">
             <div>
                 <div class="name">Dueling Grounds</div>
                 <div class="desc">Auto-Parry & Aimbot</div>
             </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <!-- Game Item 3 -->
-        <a href="unlock.html?link=video003" class="simple-menu-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="game-item">
+            <img src="https://emoji.gg/assets/emoji/348009-bloxfruitlogo.png" alt="Blox Fruits">
             <div>
                 <div class="name">Blox Fruits</div>
                 <div class="desc">Auto-Farm & Fruit Sniper</div>
             </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <!-- Game Item 4 -->
-        <a href="unlock.html?link=video004" class="simple-menu-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="game-item">
+            <img src="https://cdn.static.pikoya.com/robloxgo/games/8737899170/thumbnail_6" alt="Pet Simulator 99">
             <div>
                 <div class="name">Pet Simulator 99</div>
                 <div class="desc">Auto-Hatch & Coin Farm</div>
             </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
+    </div>
+</div>
+
+<!-- ================================================= -->
+<!-- SCRIPT HUB PAGE -->
+<!-- ================================================= -->
+<div class="script-hub" id="scriptHubPage">
+    <div class="page">
+        <button class="back-btn" onclick="closeScriptHub()"><i class="fa-solid fa-arrow-left"></i> Back to Menu</button>
+        
+        <div class="script-hub-header">
+            <h2 id="scriptHubTitle">Steal an Egg</h2>
+            <p>Choose a script below to unlock. Each script will redirect you to a task page.</p>
+        </div>
+
+        <div class="script-list">
+            <div class="script-card">
+                <div class="script-info">
+                    <h4>Auto Farm Script</h4>
+                    <p>Automatically farms eggs and collects pets.</p>
+                </div>
+                <a href="unlock.html?link=video001" class="script-btn">Unlock</a>
+            </div>
+
+            <div class="script-card">
+                <div class="script-info">
+                    <h4>Speed Hack</h4>
+                    <p>Increases your movement speed for faster grinding.</p>
+                </div>
+                <a href="unlock.html?link=video002" class="script-btn">Unlock</a>
+            </div>
+
+            <div class="script-card">
+                <div class="script-info">
+                    <h4>Auto Collect</h4>
+                    <p>Automatically collects eggs from your base.</p>
+                </div>
+                <a href="unlock.html?link=video003" class="script-btn">Unlock</a>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     /* =====================================================
-       SIMPLE MENU TOGGLE
+       MENU & SCRIPT HUB TOGGLE
     ===================================================== */
     function openMenu() {
-        document.getElementById('simpleMenu').classList.add('open');
+        document.getElementById('sideMenu').classList.add('open');
+        document.getElementById('drawerOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
     }
 
     function closeMenu() {
-        document.getElementById('simpleMenu').classList.remove('open');
+        document.getElementById('sideMenu').classList.remove('open');
+        document.getElementById('drawerOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function openScriptHub(gameName) {
+        closeMenu();
+        document.getElementById('scriptHubPage').classList.add('active');
+        document.getElementById('scriptHubTitle').textContent = gameName;
+        
+        // Hide the original unlock card
+        document.querySelector('.page').style.display = 'none';
+    }
+
+    function closeScriptHub() {
+        document.getElementById('scriptHubPage').classList.remove('active');
+        document.querySelector('.page').style.display = 'block';
     }
 
     /* =====================================================
@@ -477,33 +577,4 @@
         const unlockButton = document.getElementById("unlockButton");
         const progressText = document.getElementById("progressText");
         unlockButton.disabled = true;
-        progressText.textContent = "Preparing your link...";
-        unlockButton.innerHTML = '<span class="unlock-spinner"></span> Preparing...';
-        let remaining = CONFIG.finalWaitSeconds;
-        if (finalUnlockTimer) clearInterval(finalUnlockTimer);
-        finalUnlockTimer = setInterval(function () {
-            remaining--;
-            if (remaining <= 0) {
-                clearInterval(finalUnlockTimer);
-                finalUnlockTimer = null;
-                unlockButton.disabled = false;
-                unlockButton.innerHTML = "🔓 UNLOCK LINK";
-                progressText.textContent = "Ready to unlock!";
-            }
-        }, 1000);
-    }
-
-    function unlockLink() {
-        const allCompleted = Object.values(completedTasks).every(Boolean);
-        if (!allCompleted) { alert("Please complete all tasks first."); return; }
-        if (!requestedLink || !destinationURL || destinationURL === "PASTE-YOUR-FUTURE-LINK-HERE") {
-            alert("This unlock link is invalid or unavailable."); return;
-        }
-        window.location.href = destinationURL;
-    }
-
-    window.addEventListener("beforeunload", function () { stopPromoWatchTimer(); });
-    updateProgress();
-</script>
-</body>
-</html>
+        progressText.text
