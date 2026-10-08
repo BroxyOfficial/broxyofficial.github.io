@@ -42,34 +42,33 @@
         }
         .menu-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* --- SIMPLE OVERLAY MENU --- */
-        .menu-overlay {
+        /* --- SIMPLE FULL SCREEN MENU --- */
+        .simple-menu {
             display: none; /* Hidden by default */
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 8, 18, 0.98); z-index: 9999;
-            padding: 30px; overflow-y: auto;
-            backdrop-filter: blur(10px);
+            background: #070812; z-index: 9999; padding: 30px; overflow-y: auto;
         }
+        .simple-menu.open { display: block; } /* Shown when clicked */
 
-        .menu-header {
+        .simple-menu-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;
             max-width: 760px; margin-left: auto; margin-right: auto;
         }
-        .menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
+        .simple-menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
         .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
 
-        .menu-list { display: flex; flex-direction: column; gap: 15px; max-width: 760px; margin: 0 auto; }
-        .menu-item {
+        .simple-menu-list { display: flex; flex-direction: column; gap: 15px; max-width: 760px; margin: 0 auto; }
+        .simple-menu-item {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px; padding: 18px; text-decoration: none; color: white;
             display: flex; align-items: center; gap: 15px; transition: 0.2s;
         }
-        .menu-item:hover { background: rgba(99, 102, 241, 0.2); }
-        .menu-item img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
-        .menu-item .name { font-weight: 700; font-size: 16px; }
-        .menu-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
-        .menu-item .arrow { margin-left: auto; color: #6366f1; }
+        .simple-menu-item:hover { background: rgba(99, 102, 241, 0.2); }
+        .simple-menu-item img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
+        .simple-menu-item .name { font-weight: 700; font-size: 16px; }
+        .simple-menu-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
+        .simple-menu-item .arrow { margin-left: auto; color: #6366f1; }
 
         /* --- SCRIPT HUB PAGE (Hidden by default) --- */
         .script-hub { display: none; }
@@ -169,6 +168,7 @@
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 560px) {
             body { padding: 15px 10px 35px; }
+            .simple-menu { padding: 20px; }
             .card { padding: 18px; border-radius: 21px; }
             .brand { margin-top: 8px; margin-bottom: 15px; }
             .brand-icon { width: 55px; height: 55px; border-radius: 17px; }
@@ -317,14 +317,15 @@
 <!-- ================================================= -->
 <!-- SIMPLE FULL SCREEN MENU (OUTSIDE .page) -->
 <!-- ================================================= -->
-<div class="menu-overlay" id="simpleMenu">
-    <div class="menu-header">
+<div class="simple-menu" id="simpleMenu">
+    <div class="simple-menu-header">
         <h2>Broxy Hub</h2>
         <button class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="menu-list">
-        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="menu-item">
+    <div class="simple-menu-list">
+        <!-- Game Item 1 -->
+        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="simple-menu-item">
             <img src="https://tr.rbxcdn.com/180DAY-9d0604c536906098b207fced83a15038/512/512/Image/Png/noFilter" alt="Steal an Egg">
             <div>
                 <div class="name">Steal an Egg</div>
@@ -333,7 +334,8 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="menu-item">
+        <!-- Game Item 2 -->
+        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="simple-menu-item">
             <img src="https://tr.rbxcdn.com/180DAY-430c4f2df83507c05da11d1d6f7ba94c/768/432/Image/Png/noFilter" alt="Dueling Grounds">
             <div>
                 <div class="name">Dueling Grounds</div>
@@ -342,7 +344,8 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="menu-item">
+        <!-- Game Item 3 -->
+        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="simple-menu-item">
             <img src="https://emoji.gg/assets/emoji/348009-bloxfruitlogo.png" alt="Blox Fruits">
             <div>
                 <div class="name">Blox Fruits</div>
@@ -351,7 +354,8 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="menu-item">
+        <!-- Game Item 4 -->
+        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="simple-menu-item">
             <img src="https://cdn.static.pikoya.com/robloxgo/games/8737899170/thumbnail_6" alt="Pet Simulator 99">
             <div>
                 <div class="name">Pet Simulator 99</div>
@@ -365,7 +369,7 @@
 <!-- ================================================= -->
 <!-- SCRIPT HUB PAGE (Hidden by default) -->
 <!-- ================================================= -->
-<div class="script-hub" id="scriptHubPage" style="display: none;">
+<div class="script-hub" id="scriptHubPage">
     <div class="page">
         <button class="back-btn" onclick="closeScriptHub()"><i class="fa-solid fa-arrow-left"></i> Back to Menu</button>
         
@@ -405,29 +409,29 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     /* =====================================================
-       MENU TOGGLE (SIMPLE DISPLAY SWAP)
+       MENU TOGGLE
     ===================================================== */
     function openMenu() {
-        document.getElementById('simpleMenu').style.display = 'block';
+        document.getElementById('simpleMenu').classList.add('open');
     }
 
     function closeMenu() {
-        document.getElementById('simpleMenu').style.display = 'none';
+        document.getElementById('simpleMenu').classList.remove('open');
     }
 
     /* =====================================================
        SCRIPT HUB TOGGLE
     ===================================================== */
     function openScriptHub(gameName) {
-        closeMenu(); // Close the menu overlay
-        document.getElementById('scriptHubPage').style.display = 'block';
+        closeMenu();
+        document.getElementById('scriptHubPage').classList.add('active');
         document.getElementById('scriptHubTitle').textContent = gameName;
-        document.getElementById('mainPage').style.display = 'none'; // Hide original page
+        document.getElementById('mainPage').style.display = 'none';
     }
 
     function closeScriptHub() {
-        document.getElementById('scriptHubPage').style.display = 'none';
-        document.getElementById('mainPage').style.display = 'block'; // Show original page again
+        document.getElementById('scriptHubPage').classList.remove('active');
+        document.getElementById('mainPage').style.display = 'block';
     }
 
     /* =====================================================
@@ -572,4 +576,6 @@
         if (finalUnlockTimer) clearInterval(finalUnlockTimer);
         finalUnlockTimer = setInterval(function () {
             remaining--;
-            if (remaining <= 0
+            if (remaining <= 0) {
+                clearInterval(finalUnlockTimer);
+                finalUnlockTimer =
