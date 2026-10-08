@@ -1,1717 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unlock Your Link</title>
-
-    <meta
-        name="description"
-        content="Complete the tasks to unlock your link."
-    >
-
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            width: 100%;
-            overflow-x: hidden;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { width: 100%; overflow-x: hidden; }
         body {
-
-            font-family:
-                Inter,
-                Arial,
-                Helvetica,
-                sans-serif;
-
+            font-family: Inter, Arial, sans-serif;
             min-height: 100vh;
-
             width: 100%;
-
             color: #ffffff;
-
-            background:
-
-                radial-gradient(
-                    circle at 20% 10%,
-                    rgba(99, 102, 241, 0.25),
-                    transparent 30%
-                ),
-
-                radial-gradient(
-                    circle at 80% 90%,
-                    rgba(168, 85, 247, 0.22),
-                    transparent 30%
-                ),
-
-                #070812;
-
-            padding:
-                25px 15px 50px;
-
+            background: radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.25), transparent 30%),
+                        radial-gradient(circle at 80% 90%, rgba(168, 85, 247, 0.22), transparent 30%),
+                        #070812;
+            padding: 25px 15px 50px;
             overflow-x: hidden;
         }
+        .page { width: 100%; max-width: 760px; margin: auto; }
 
-        .page {
-
-            width: 100%;
-
-            max-width: 760px;
-
-            margin: auto;
-        }
-
-        /* =====================================================
-           HEADER & HAMBURGER MENU
-        ===================================================== */
-
-        .brand {
-            text-align: center;
-            margin: 15px 0 25px;
-            position: relative;
-        }
-
+        /* --- HEADER --- */
+        .brand { text-align: center; margin: 15px 0 25px; position: relative; }
         .brand-icon {
-            width: 62px;
-            height: 62px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            font-size: 28px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            width: 62px; height: 62px; margin: auto; display: flex; align-items: center; justify-content: center;
+            border-radius: 20px; font-size: 28px; background: linear-gradient(135deg, #6366f1, #a855f7);
             box-shadow: 0 15px 40px rgba(99, 102, 241, 0.35);
         }
+        .brand h1 { margin-top: 15px; font-size: clamp(25px, 6vw, 38px); font-weight: 800; letter-spacing: -1px; }
+        .brand p { margin-top: 8px; color: #9ca3af; font-size: 14px; }
 
-        .brand h1 {
-            margin-top: 15px;
-            font-size: clamp(25px, 6vw, 38px);
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .brand p {
-            margin-top: 8px;
-            color: #9ca3af;
-            font-size: 14px;
-        }
-
-        /* Hamburger Menu Button */
+        /* --- HAMBURGER BUTTON --- */
         .menu-btn {
-            position: absolute;
-            top: 10px;
-            right: 0;
-            width: 45px;
-            height: 45px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
-            backdrop-filter: blur(10px);
-            z-index: 50;
+            position: absolute; top: 10px; right: 0; width: 45px; height: 45px;
+            border-radius: 14px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 20px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            z-index: 100;
         }
+        .menu-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        /* --- SIMPLE FULL SCREEN MENU --- */
+        .simple-menu {
+            display: none; /* Hidden by default */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #070812; z-index: 9999; padding: 30px; overflow-y: auto;
         }
+        .simple-menu.open { display: block; } /* Shown when clicked */
 
-        /* =====================================================
-           CINEMATIC FULL-SCREEN MENU OVERLAY
-        ===================================================== */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(7, 8, 18, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 9999;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(-100%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            pointer-events: none;
-            overflow-y: auto;
+        .simple-menu-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;
         }
-
-        .menu-overlay.open {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 20px;
-            width: 100%;
-            max-width: 760px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .menu-header h2 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
+        .simple-menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
         .close-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
+            background: none; border: none; color: white; font-size: 28px; cursor: pointer;
         }
 
-        .close-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            transform: rotate(90deg);
+        .simple-menu-list { display: flex; flex-direction: column; gap: 15px; }
+        .simple-menu-item {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 18px; text-decoration: none; color: white;
+            display: flex; align-items: center; gap: 15px; transition: 0.2s;
         }
+        .simple-menu-item:hover { background: rgba(99, 102, 241, 0.2); }
+        .simple-menu-item img { width: 40px; height: 40px; border-radius: 10px; }
+        .simple-menu-item .name { font-weight: 700; font-size: 16px; }
+        .simple-menu-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
 
-        /* Menu Content Container */
-        .menu-content {
-            width: 100%;
-            max-width: 760px;
-            margin: 0 auto;
-            flex: 1;
-        }
-
-        /* Category Title */
-        .category-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #8b92a3;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        /* Game List Cards */
-        .game-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .game-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .game-item::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: linear-gradient(to bottom, #6366f1, #a855f7);
-            opacity: 0;
-            transition: 0.3s;
-        }
-
-        .game-item:hover {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: rgba(99, 102, 241, 0.3);
-            transform: translateX(5px);
-        }
-
-        .game-item:hover::before {
-            opacity: 1;
-        }
-
-        .game-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        .game-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .game-info {
-            flex: 1;
-        }
-
-        .game-name {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .game-desc {
-            font-size: 12px;
-            color: #8b92a3;
-            margin-top: 4px;
-        }
-
-        .game-arrow {
-            color: #6366f1;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        .game-item:hover .game-arrow {
-            transform: translateX(5px);
-            color: #a855f7;
-        }
-
-        /* =====================================================
-           AD CONTAINER
-        ===================================================== */
-
+        /* --- THE REST OF YOUR ORIGINAL PAGE --- */
         .ad-box {
-
-            width: 100%;
-
-            min-height: 90px;
-
-            margin: 20px 0;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 16px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            overflow: hidden;
-
-            position: relative;
+            width: 100%; min-height: 90px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px; background: rgba(255,255,255,0.025);
+            display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
         }
-
-        .ad-label {
-
-            color: #525866;
-
-            font-size: 10px;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
-        }
-
-        /* =====================================================
-           TOP AD WRAPPER
-        ===================================================== */
-
-        .top-ad-wrapper {
-
-            width: 100%;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-        }
-
-        /* =====================================================
-           MAIN CARD
-        ===================================================== */
-
+        .ad-label { color: #525866; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; }
         .card {
-
-            background:
-                rgba(15, 17, 30, 0.86);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.08);
-
-            border-radius: 25px;
-
-            padding: 25px;
-
-            box-shadow:
-
-                0 25px 80px
-                rgba(0,0,0,0.45),
-
-                inset 0 1px
-                rgba(255,255,255,0.04);
-
+            background: rgba(15, 17, 30, 0.86); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 25px; padding: 25px; box-shadow: 0 25px 80px rgba(0,0,0,0.45), inset 0 1px rgba(255,255,255,0.04);
             backdrop-filter: blur(18px);
         }
-
-        /* =====================================================
-           LOCKED HEADER
-        ===================================================== */
-
-        .locked-header {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 15px;
-
-            margin-bottom: 22px;
-        }
-
+        .locked-header { display: flex; align-items: center; gap: 15px; margin-bottom: 22px; }
         .lock-icon {
-
-            width: 52px;
-
-            height: 52px;
-
-            flex-shrink: 0;
-
-            border-radius: 16px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 23px;
-
-            background:
-                rgba(99,102,241,0.13);
-
-            border:
-                1px solid
-                rgba(99,102,241,0.25);
+            width: 52px; height: 52px; flex-shrink: 0; border-radius: 16px; display: flex; align-items: center;
+            justify-content: center; font-size: 23px; background: rgba(99,102,241,0.13); border: 1px solid rgba(99,102,241,0.25);
         }
-
-        .locked-header h2 {
-
-            font-size: 20px;
-        }
-
-        .locked-header p {
-
-            color: #8b92a3;
-
-            font-size: 13px;
-
-            margin-top: 4px;
-        }
-
-        /* =====================================================
-           PROGRESS
-        ===================================================== */
-
-        .progress-area {
-
-            margin-bottom: 22px;
-        }
-
-        .progress-info {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 9px;
-
-            font-size: 13px;
-        }
-
-        #progressText {
-
-            color: #a5adbd;
-        }
-
-        #taskCount {
-
-            font-weight: 700;
-
-            color: #ffffff;
-        }
-
-        .progress-track {
-
-            width: 100%;
-
-            height: 8px;
-
-            border-radius: 99px;
-
-            overflow: hidden;
-
-            background: #252837;
-        }
-
-        #progressBar {
-
-            width: 0%;
-
-            height: 100%;
-
-            border-radius: inherit;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            transition:
-                width 0.4s ease;
-        }
-
-        /* =====================================================
-           TASKS
-        ===================================================== */
-
-        .tasks {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 13px;
-        }
-
+        .locked-header h2 { font-size: 20px; }
+        .locked-header p { color: #8b92a3; font-size: 13px; margin-top: 4px; }
+        .progress-area { margin-bottom: 22px; }
+        .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; font-size: 13px; }
+        #progressText { color: #a5adbd; }
+        #taskCount { font-weight: 700; color: #ffffff; }
+        .progress-track { width: 100%; height: 8px; border-radius: 99px; overflow: hidden; background: #252837; }
+        #progressBar { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6366f1, #a855f7); transition: width 0.4s ease; }
+        .tasks { display: flex; flex-direction: column; gap: 13px; }
         .task {
-
-            position: relative;
-
-            padding: 17px;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            background:
-                rgba(255,255,255,0.035);
-
-            transition: 0.25s ease;
+            position: relative; padding: 17px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.035); transition: 0.25s ease;
         }
-
-        .task:hover {
-
-            border-color:
-                rgba(139,92,246,0.35);
-
-            transform:
-                translateY(-1px);
-        }
-
-        .task.completed {
-
-            border-color:
-                rgba(34,197,94,0.35);
-
-            background:
-                rgba(34,197,94,0.06);
-        }
-
-        .task-top {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 13px;
-        }
-
-        /* =====================================================
-           TASK ICON
-        ===================================================== */
-
+        .task.completed { border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.06); }
+        .task-top { display: flex; align-items: center; gap: 13px; }
         .task-icon {
-
-            width: 45px;
-
-            height: 45px;
-
-            flex-shrink: 0;
-
-            border-radius: 14px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            background:
-                rgba(99,102,241,0.13);
-
-            overflow: hidden;
+            width: 45px; height: 45px; flex-shrink: 0; border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; font-size: 20px; background: rgba(99,102,241,0.13); overflow: hidden;
         }
-
-        /* =====================================================
-           REAL YOUTUBE LOGO
-        ===================================================== */
-
-        .youtube-icon {
-
-            width: 28px;
-
-            height: 28px;
-
-            display: block;
-        }
-
-        .task-info {
-
-            flex: 1;
-
-            min-width: 0;
-        }
-
-        .task-title {
-
-            font-size: 15px;
-
-            font-weight: 700;
-        }
-
-        .task-description {
-
-            margin-top: 4px;
-
-            color: #8c93a3;
-
-            font-size: 12px;
-
-            line-height: 1.4;
-        }
-
-        /* =====================================================
-           TASK BUTTON
-        ===================================================== */
-
+        .youtube-icon { width: 28px; height: 28px; display: block; }
+        .task-info { flex: 1; min-width: 0; }
+        .task-title { font-size: 15px; font-weight: 700; }
+        .task-description { margin-top: 4px; color: #8c93a3; font-size: 12px; line-height: 1.4; }
         .task-button {
-
-            min-width: 88px;
-
-            height: 40px;
-
-            border: 0;
-
-            outline: none;
-
-            cursor: pointer;
-
-            padding:
-                10px 13px;
-
-            border-radius: 11px;
-
-            color: white;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #8b5cf6
-                );
-
-            transition: 0.2s ease;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 7px;
+            min-width: 88px; height: 40px; border: 0; outline: none; cursor: pointer; padding: 10px 13px;
+            border-radius: 11px; color: white; font-size: 12px; font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6); transition: 0.2s ease;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
         }
-
-        .task-button:hover {
-
-            transform:
-                scale(1.03);
-
-            box-shadow:
-                0 8px 20px
-                rgba(99,102,241,0.25);
-        }
-
-        .task-button:disabled {
-
-            cursor: default;
-
-            background: #20242e;
-
-            color: #22c55e;
-
-            box-shadow: none;
-        }
-
-        /* =====================================================
-           LOADER
-        ===================================================== */
-
-        .spinner {
-
-            width: 18px;
-
-            height: 18px;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                rgba(255,255,255,0.18);
-
-            border-top-color:
-                #ffffff;
-
-            animation:
-                spin 0.8s linear infinite;
-        }
-
-        .unlock-spinner {
-
-            width: 22px;
-
-            height: 22px;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                rgba(255,255,255,0.15);
-
-            border-top-color:
-                #ffffff;
-
-            animation:
-                spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-
-            to {
-                transform:
-                    rotate(360deg);
-            }
-        }
-
-        /* =====================================================
-           UNLOCK
-        ===================================================== */
-
-        .unlock-area {
-
-            margin-top: 22px;
-
-            padding-top: 22px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.07);
-        }
-
+        .task-button:disabled { cursor: default; background: #20242e; color: #22c55e; box-shadow: none; }
+        .spinner { width: 18px; height: 18px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.18); border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
+        .unlock-spinner { width: 22px; height: 22px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.15); border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .unlock-area { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.07); }
         .unlock-button {
-
-            width: 100%;
-
-            height: 55px;
-
-            border: 0;
-
-            border-radius: 16px;
-
-            cursor: pointer;
-
-            color: white;
-
-            font-size: 15px;
-
-            font-weight: 800;
-
-            letter-spacing: 0.2px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 12px 35px
-                rgba(99,102,241,0.22);
-
-            transition: 0.25s ease;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 10px;
+            width: 100%; height: 55px; border: 0; border-radius: 16px; cursor: pointer; color: white;
+            font-size: 15px; font-weight: 800; letter-spacing: 0.2px;
+            background: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 12px 35px rgba(99,102,241,0.22);
+            transition: 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
+        .unlock-button:disabled { cursor: not-allowed; background: #242735; color: #666d7d; box-shadow: none; }
+        .unlock-note { text-align: center; margin-top: 10px; color: #686f7e; font-size: 11px; }
+        footer { text-align: center; margin-top: 25px; color: #555b69; font-size: 11px; }
+        #promoPlayer iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-        .unlock-button:hover:not(:disabled) {
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 18px 40px
-                rgba(99,102,241,0.35);
-        }
-
-        .unlock-button:disabled {
-
-            cursor: not-allowed;
-
-            background: #242735;
-
-            color: #666d7d;
-
-            box-shadow: none;
-        }
-
-        .unlock-note {
-
-            text-align: center;
-
-            margin-top: 10px;
-
-            color: #686f7e;
-
-            font-size: 11px;
-        }
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        footer {
-
-            text-align: center;
-
-            margin-top: 25px;
-
-            color: #555b69;
-
-            font-size: 11px;
-        }
-
-        /* =====================================================
-           PROMOTIONAL VIDEO PLAYER
-        ===================================================== */
-
-        #promoPlayer iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
-        }
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
+        /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 560px) {
-
-            body {
-
-                padding:
-                    15px 10px 35px;
-            }
-
-            .card {
-
-                padding: 18px;
-
-                border-radius: 21px;
-            }
-
-            .brand {
-
-                margin-top: 8px;
-
-                margin-bottom: 15px;
-            }
-
-            .brand-icon {
-
-                width: 55px;
-
-                height: 55px;
-
-                border-radius: 17px;
-            }
-
-            /* =================================================
-               MOBILE TOP AD
-            ================================================= */
-
-            .ad-box.top-ad {
-
-                height: 190px;
-
-                min-height: 190px;
-
-                margin:
-                    10px 0 18px;
-
-                border-radius: 14px;
-            }
-
-            .top-ad-wrapper {
-
-                width: 100%;
-
-                height: 100%;
-
-                overflow: hidden;
-
-                display: flex;
-
-                align-items: center;
-
-                justify-content: center;
-            }
-
+            body { padding: 15px 10px 35px; }
+            .card { padding: 18px; border-radius: 21px; }
+            .brand { margin-top: 8px; margin-bottom: 15px; }
+            .brand-icon { width: 55px; height: 55px; border-radius: 17px; }
+            .ad-box.top-ad { height: 190px; min-height: 190px; margin: 10px 0 18px; border-radius: 14px; }
+            .top-ad-wrapper { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
             .top-ad-inner {
-
-                width: 760px;
-
-                min-width: 760px;
-
-                height: 420px;
-
-                min-height: 420px;
-
-                display: flex;
-
-                justify-content: center;
-
-                align-items: flex-start;
-
-                transform:
-                    scale(0.42);
-
-                transform-origin:
-                    center center;
-
-                flex-shrink: 0;
+                width: 760px; min-width: 760px; height: 420px; min-height: 420px; display: flex;
+                justify-content: center; align-items: flex-start; transform: scale(0.42);
+                transform-origin: center center; flex-shrink: 0;
             }
-
-            #container-754ce29789e6d637de830761ceb267aa {
-
-                width: 760px !important;
-
-                min-width: 760px !important;
-
-                max-width: 760px !important;
-
-                overflow: visible !important;
-            }
-
+            #container-754ce29789e6d637de830761ceb267aa { width: 760px !important; min-width: 760px !important; max-width: 760px !important; overflow: visible !important; }
             .top-ad .ad-label {
-
-                position: absolute;
-
-                left: 2px;
-
-                top: 50%;
-
-                transform:
-                    translateY(-50%)
-                    rotate(-90deg);
-
-                font-size: 7px;
-
-                letter-spacing: 1px;
-
-                z-index: 20;
-
-                pointer-events: none;
+                position: absolute; left: 2px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+                font-size: 7px; letter-spacing: 1px; z-index: 20; pointer-events: none;
             }
-
-            /* =================================================
-               TASKS
-            ================================================= */
-
-            .task {
-
-                padding: 14px;
-            }
-
-            .task-top {
-
-                align-items:
-                    flex-start;
-            }
-
-            .task-button {
-
-                min-width: 75px;
-
-                padding:
-                    9px 10px;
-            }
-
-            .task-icon {
-
-                width: 40px;
-
-                height: 40px;
-
-                border-radius: 12px;
-            }
-
-            .youtube-icon {
-
-                width: 25px;
-
-                height: 25px;
-            }
-
-            .task-title {
-
-                font-size: 14px;
-            }
-
-            .task-description {
-
-                font-size: 11px;
-            }
-
-            /* =================================================
-               MOBILE BOTTOM AD
-            ================================================= */
-
-            .bottom-ad-box {
-
-                height: 85px;
-
-                min-height: 85px;
-
-                margin-top: 15px;
-            }
-
-            .bottom-ad-inner {
-
-                width: 468px;
-
-                min-width: 468px;
-
-                height: 60px;
-
-                transform:
-                    scale(0.55);
-
-                transform-origin:
-                    center center;
-
-                flex-shrink: 0;
-            }
-            
-            /* Mobile Menu Adjustments */
-            .menu-overlay {
-                padding: 20px;
-            }
-            .menu-header {
-                margin-bottom: 20px;
-            }
-            .game-item {
-                padding: 14px 16px;
-            }
-            .game-logo {
-                width: 40px;
-                height: 40px;
-            }
-            .game-name {
-                font-size: 14px;
-            }
-            .game-desc {
-                font-size: 11px;
-            }
+            .task { padding: 14px; }
+            .task-top { align-items: flex-start; }
+            .task-button { min-width: 75px; padding: 9px 10px; }
+            .task-icon { width: 40px; height: 40px; border-radius: 12px; }
+            .youtube-icon { width: 25px; height: 25px; }
+            .task-title { font-size: 14px; }
+            .task-description { font-size: 11px; }
+            .bottom-ad-box { height: 85px; min-height: 85px; margin-top: 15px; }
+            .bottom-ad-inner { width: 468px; min-width: 468px; height: 60px; transform: scale(0.55); transform-origin: center center; flex-shrink: 0; }
         }
-
-        /* =====================================================
-           SMALL PHONES
-        ===================================================== */
-
         @media (max-width: 380px) {
-
-            body {
-
-                padding:
-                    12px 7px 30px;
-            }
-
-            .card {
-
-                padding: 15px;
-            }
-
-            .task {
-
-                padding: 12px;
-            }
-
-            .task-top {
-
-                gap: 9px;
-            }
-
-            .task-button {
-
-                min-width: 68px;
-
-                font-size: 11px;
-
-                padding:
-                    8px;
-            }
-
-            .task-title {
-
-                font-size: 13px;
-            }
-
-            .task-description {
-
-                font-size: 10px;
-            }
-
-            .ad-box.top-ad {
-
-                height: 175px;
-
-                min-height: 175px;
-            }
-
-            .top-ad-inner {
-
-                transform:
-                    scale(0.38);
-            }
+            body { padding: 12px 7px 30px; }
+            .card { padding: 15px; }
+            .task { padding: 12px; }
+            .task-top { gap: 9px; }
+            .task-button { min-width: 68px; font-size: 11px; padding: 8px; }
+            .task-title { font-size: 13px; }
+            .task-description { font-size: 10px; }
+            .ad-box.top-ad { height: 175px; min-height: 175px; }
+            .top-ad-inner { transform: scale(0.38); }
         }
-
     </style>
-
 </head>
-
-
 <body>
 
-
 <div class="page">
-
-
-    <!-- =================================================
-         BRAND & HAMBURGER MENU
-    ================================================= -->
-
+    <!-- HEADER -->
     <div class="brand">
-
-        <!-- Hamburger Menu Button -->
         <button class="menu-btn" onclick="openMenu()">
             <i class="fa-solid fa-bars"></i>
         </button>
-
-        <div class="brand-icon">
-            🔐
-        </div>
-
-        <h1>
-            Unlock Your Link
-        </h1>
-
-        <p>
-            Complete the quick tasks below to continue.
-        </p>
-
+        <div class="brand-icon">🔐</div>
+        <h1>Unlock Your Link</h1>
+        <p>Complete the quick tasks below to continue.</p>
     </div>
 
-
-    <!-- =================================================
-         TOP AD
-    ================================================= -->
-
+    <!-- TOP AD -->
     <div class="ad-box top-ad">
-
-        <span class="ad-label">
-            Advertisement
-        </span>
-
+        <span class="ad-label">Advertisement</span>
         <div class="top-ad-wrapper">
-
             <div class="top-ad-inner">
-
-                <script
-                    async="async"
-                    data-cfasync="false"
-                    src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js">
-                </script>
-
-                <div
-                    id="container-754ce29789e6d637de830761ceb267aa">
-                </div>
-
+                <script async="async" data-cfasync="false" src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js"></script>
+                <div id="container-754ce29789e6d637de830761ceb267aa"></div>
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- =================================================
-         MAIN CARD
-    ================================================= -->
-
+    <!-- MAIN CARD -->
     <div class="card">
-
-
-        <!-- LOCKED HEADER -->
-
         <div class="locked-header">
-
-            <div class="lock-icon">
-                🔒
-            </div>
-
+            <div class="lock-icon">🔒</div>
             <div>
-
-                <h2>
-                    Link Locked
-                </h2>
-
-                <p>
-                    Complete all tasks to unlock.
-                </p>
-
+                <h2>Link Locked</h2>
+                <p>Complete all tasks to unlock.</p>
             </div>
-
         </div>
-
-
-        <!-- =================================================
-             PROGRESS
-        ================================================= -->
 
         <div class="progress-area">
-
             <div class="progress-info">
-
-                <span id="progressText">
-                    Complete the tasks
-                </span>
-
-                <span id="taskCount">
-                    0/2
-                </span>
-
+                <span id="progressText">Complete the tasks</span>
+                <span id="taskCount">0/2</span>
             </div>
-
-            <div class="progress-track">
-
-                <div id="progressBar"></div>
-
-            </div>
-
+            <div class="progress-track"><div id="progressBar"></div></div>
         </div>
-
-
-        <!-- =================================================
-             TASKS
-        ================================================= -->
 
         <div class="tasks">
-
-
-            <!-- =================================================
-                 TASK 1 - YOUTUBE
-            ================================================= -->
-
-            <div
-                class="task"
-                id="task1"
-            >
-
+            <!-- TASK 1 -->
+            <div class="task" id="task1">
                 <div class="task-top">
-
-
-                    <!-- REAL YOUTUBE LOGO -->
-
                     <div class="task-icon">
-
-                        <svg
-                            class="youtube-icon"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-
-                            <path
-                                fill="#FF0000"
-                                d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"
-                            />
-
-                            <path
-                                fill="#ffffff"
-                                d="M9.75 15.75 15.75 12l-6-3.75v7.5Z"
-                            />
-
+                        <svg class="youtube-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#FF0000" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/>
+                            <path fill="#ffffff" d="M9.75 15.75 15.75 12l-6-3.75v7.5Z"/>
                         </svg>
-
                     </div>
-
-
                     <div class="task-info">
-
-                        <div class="task-title">
-                            Subscribe to our YouTube
-                        </div>
-
-                        <div class="task-description">
-                            Visit our channel and subscribe if you'd like to support us.
-                        </div>
-
+                        <div class="task-title">Subscribe to our YouTube</div>
+                        <div class="task-description">Visit our channel and subscribe if you'd like to support us.</div>
                     </div>
-
-
-                    <button
-                        class="task-button"
-                        id="taskButton1"
-                        onclick="startTask(1)"
-                    >
-
-                        Subscribe
-
-                    </button>
-
+                    <button class="task-button" id="taskButton1" onclick="startTask(1)">Subscribe</button>
                 </div>
-
             </div>
 
-
-            <!-- =================================================
-                 TASK 2 - WATCH PROMOTIONAL VIDEO
-            ================================================= -->
-
-            <div
-                class="task"
-                id="task2"
-            >
-
+            <!-- TASK 2 -->
+            <div class="task" id="task2">
                 <div class="task-top">
-
-                    <div class="task-icon">
-                        ▶️
-                    </div>
-
+                    <div class="task-icon">▶️</div>
                     <div class="task-info">
-
-                        <div class="task-title">
-                            Watch our promotional video
-                        </div>
-
-                        <div class="task-description">
-                            Watch the video for 16 seconds to complete this task.
-                        </div>
-
+                        <div class="task-title">Watch our promotional video</div>
+                        <div class="task-description">Watch the video for 16 seconds to complete this task.</div>
                     </div>
-
-                    <button
-                        class="task-button"
-                        id="taskButton2"
-                        onclick="startTask(2)"
-                    >
-
-                        Watch
-
-                    </button>
-
+                    <button class="task-button" id="taskButton2" onclick="startTask(2)">Watch</button>
                 </div>
-
-                <div
-                    id="promoPlayerWrap"
-                    style="
-                        display:none;
-                        margin-top:14px;
-                        width:100%;
-                        overflow:hidden;
-                        border-radius:14px;
-                        background:#000;
-                    "
-                >
-
-                    <div
-                        id="promoPlayer"
-                        style="
-                            width:100%;
-                            aspect-ratio:16/9;
-                        "
-                    ></div>
-
-                    <div
-                        style="
-                            padding:9px 10px;
-                            text-align:center;
-                            color:#a5adbd;
-                            font-size:12px;
-                        "
-                    >
+                <div id="promoPlayerWrap" style="display:none; margin-top:14px; width:100%; overflow:hidden; border-radius:14px; background:#000;">
+                    <div id="promoPlayer" style="width:100%; aspect-ratio:16/9;"></div>
+                    <div style="padding:9px 10px; text-align:center; color:#a5adbd; font-size:12px;">
                         Watch for <span id="promoTime">16</span>s to complete this task.
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
-
-        <!-- =================================================
-             UNLOCK
-        ================================================= -->
 
         <div class="unlock-area">
-
-            <button
-                class="unlock-button"
-                id="unlockButton"
-                disabled
-                onclick="unlockLink()"
-            >
-
-                🔒 Complete Tasks to Unlock
-
-            </button>
-
-            <div class="unlock-note">
-
-                Your destination link will open after all required tasks are completed.
-
-            </div>
-
+            <button class="unlock-button" id="unlockButton" disabled onclick="unlockLink()">🔒 Complete Tasks to Unlock</button>
+            <div class="unlock-note">Your destination link will open after all required tasks are completed.</div>
         </div>
-
-
     </div>
 
-
-    <!-- =================================================
-         BOTTOM AD
-    ================================================= -->
-
-    <div
-        class="ad-box bottom-ad-box"
-    >
-
-        <span class="ad-label">
-            Advertisement
-        </span>
-
-        <div
-            style="
-                width:100%;
-                overflow:hidden;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-            "
-        >
-
+    <!-- BOTTOM AD -->
+    <div class="ad-box bottom-ad-box">
+        <span class="ad-label">Advertisement</span>
+        <div style="width:100%; overflow:hidden; display:flex; justify-content:center; align-items:center;">
             <div class="bottom-ad-inner">
-
                 <script>
-
-                    atOptions = {
-
-                        'key':
-                        '3fd7cae2f72453a6616518fdbb40de89',
-
-                        'format':
-                        'iframe',
-
-                        'height':
-                        60,
-
-                        'width':
-                        468,
-
-                        'params':
-                        {}
-
-                    };
-
+                    atOptions = { 'key': '3fd7cae2f72453a6616518fdbb40de89', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
                 </script>
-
-                <script
-                    src="https://www.highrevenueformat.com/3fd7cae2f72453a6616518fdbb40de89/invoke.js">
-                </script>
-
+                <script src="https://www.highrevenueformat.com/3fd7cae2f72453a6616518fdbb40de89/invoke.js"></script>
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- =================================================
-         FOOTER
-    ================================================= -->
-
+    <!-- FOOTER -->
     <footer>
-
         © 2026 • Your Website
-
-        <div style="
-            margin-top:14px;
-            text-align:center;
-        ">
-            <a
-                href="https://discord.gg/ucmjUzAsv"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="
-                    display:inline-flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                    padding:10px 16px;
-                    border-radius:12px;
-                    color:#ffffff;
-                    background:#5865F2;
-                    text-decoration:none;
-                    font-size:12px;
-                    font-weight:700;
-                    transition:0.2s ease;
-                "
-            >
-                💬 Join our Discord Server
-            </a>
+        <div style="margin-top:14px; text-align:center;">
+            <a href="https://discord.gg/ucmjUzAsv" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 16px; border-radius:12px; color:#ffffff; background:#5865F2; text-decoration:none; font-size:12px; font-weight:700; transition:0.2s ease;">💬 Join our Discord Server</a>
         </div>
-
     </footer>
-
-
 </div>
 
-
-<!-- =====================================================
-     CINEMATIC MENU OVERLAY (OUTSIDE .page FOR FULL SCREEN)
-===================================================== -->
-<div class="menu-overlay" id="menuOverlay">
-    <div class="menu-header">
+<!-- ================================================= -->
+<!-- SIMPLE FULL SCREEN MENU (OUTSIDE .page FOR FULL COVER) -->
+<!-- ================================================= -->
+<div class="simple-menu" id="simpleMenu">
+    <div class="simple-menu-header">
         <h2>Game Hub</h2>
-        <button class="close-btn" onclick="closeMenu()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+        <button class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="menu-content">
-        <div class="category-title">Roblox</div>
-        
-        <div class="game-list">
-            <!-- Game Item 1 -->
-            <a href="unlock.html?link=video001" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Steal an Egg</div>
-                    <div class="game-desc">Auto-Farm & Auto-Collect</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+    <div class="simple-menu-list">
+        <!-- Game Item 1 -->
+        <a href="unlock.html?link=video001" class="simple-menu-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+            <div>
+                <div class="name">Steal an Egg</div>
+                <div class="desc">Auto-Farm & Auto-Collect</div>
+            </div>
+        </a>
 
-            <!-- Game Item 2 -->
-            <a href="unlock.html?link=video002" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Dueling Grounds</div>
-                    <div class="game-desc">Auto-Parry & Aimbot</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+        <!-- Game Item 2 -->
+        <a href="unlock.html?link=video002" class="simple-menu-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+            <div>
+                <div class="name">Dueling Grounds</div>
+                <div class="desc">Auto-Parry & Aimbot</div>
+            </div>
+        </a>
 
-            <!-- Game Item 3 -->
-            <a href="unlock.html?link=video003" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Blox Fruits</div>
-                    <div class="game-desc">Auto-Farm & Fruit Sniper</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+        <!-- Game Item 3 -->
+        <a href="unlock.html?link=video003" class="simple-menu-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+            <div>
+                <div class="name">Blox Fruits</div>
+                <div class="desc">Auto-Farm & Fruit Sniper</div>
+            </div>
+        </a>
 
-            <!-- Game Item 4 -->
-            <a href="unlock.html?link=video004" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Pet Simulator 99</div>
-                    <div class="game-desc">Auto-Hatch & Coin Farm</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
-        </div>
+        <!-- Game Item 4 -->
+        <a href="unlock.html?link=video004" class="simple-menu-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+            <div>
+                <div class="name">Pet Simulator 99</div>
+                <div class="desc">Auto-Hatch & Coin Farm</div>
+            </div>
+        </a>
     </div>
 </div>
-
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
-    <script>
-
-
+<script>
     /* =====================================================
-       MENU TOGGLE FUNCTIONS
+       SIMPLE MENU TOGGLE
     ===================================================== */
     function openMenu() {
-        document.getElementById('menuOverlay').classList.add('open');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        document.getElementById('simpleMenu').classList.add('open');
     }
 
     function closeMenu() {
-        document.getElementById('menuOverlay').classList.remove('open');
-        document.body.style.overflow = ''; // Restore background scrolling
+        document.getElementById('simpleMenu').classList.remove('open');
     }
-
-    // Close menu if user clicks outside the content area
-    document.getElementById('menuOverlay').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeMenu();
-        }
-    });
-
 
     /* =====================================================
        IMPORTANT LINK DATABASE
-
-       ADD YOUR FUTURE LINKS HERE.
-
-       DO NOT CHANGE THE REST OF THE SCRIPT.
-
-       Example:
-
-       video004: "https://your-new-link.com",
-       video005: "https://another-link.com",
-
     ===================================================== */
-
     const LINKS = {
+        video001: "https://link-hub.net/9703092/jW90eakVlhdW",
+        video002: "https://link-target.net/9703092/eJPtMFlC628d",
+        video003: "https://direct-link.net/9703092/pkuQgVSPD5G5",
+        video004: "https://link-center.net/9703092/sB3tnsO2KOKF",
+        video005: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video006: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video007: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video008: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video009: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video010: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video011: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video012: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video013: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video014: "PASTE-YOUR-FUTURE-LINK-HERE",
+        video015: "PASTE-YOUR-FUTURE-LINK-HERE"
+    };
 
-        /* YOUR CURRENT IMPORTANT DESTINATION */
+    const CONFIG = {
+        youtubeURL: "https://www.youtube.com/@Broxy6",
+        promotionURL: "/promotion.html",
+        taskWaitSeconds: 30,
+        promoWatchSeconds: 16,
+        finalWaitSeconds: 20
+    };
 
-        video001:
-            "https://link-hub.net/9703092/jW90eakVlhdW",
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestedLink = urlParams.get("link");
+    let destinationURL = null;
+    if (requestedLink) { destinationURL = LINKS[requestedLink]; }
 
+    let completedTasks = { 1: false, 2: false };
+    let taskTimers = {};
+    let finalUnlockTimer = null;
 
-        /* FUTURE LINKS - PASTE YOUR LINKS HERE */
+    let promoPlayer = null;
+    let promoPlayerReady = false;
+    let promoStarted = false;
+    let promoWatchSeconds = 0;
+    let promoWatchTimer = null;
 
-        video002:
-            "https://link-target.net/9703092/eJPtMFlC628d",
+    function onYouTubeIframeAPIReady() {
+        promoPlayer = new YT.Player("promoPlayer", {
+            videoId: "6-uOadSBmGo",
+            playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+            events: {
+                onReady: function () {
+                    promoPlayerReady = true;
+                    if (promoStarted && !completedTasks[2]) { promoPlayer.playVideo(); }
+                },
+                onStateChange: function (event) {
+                    if (event.data === YT.PlayerState.PLAYING) { startPromoWatchTimer(); }
+                    else { stopPromoWatchTimer(); }
+                }
+            }
+        });
+    }
 
-        video003:
-            "https://direct-link.net/9703092/pkuQgVSPD5G5",
+    function startPromoWatchTimer() {
+        if (promoWatchTimer || completedTasks[2] || !promoStarted) return;
+        promoWatchTimer = setInterval(function () {
+            if (!promoPlayer || !promoPlayerReady || completedTasks[2]) return;
+            if (promoPlayer.getPlayerState() !== YT.PlayerState.PLAYING) return;
+            promoWatchSeconds++;
+            const remaining = Math.max(0, CONFIG.promoWatchSeconds - promoWatchSeconds);
+            const timeElement = document.getElementById("promoTime");
+            if (timeElement) timeElement.textContent = remaining;
+            if (promoWatchSeconds >= CONFIG.promoWatchSeconds) {
+                stopPromoWatchTimer();
+                completeTask(2);
+            }
+        }, 1000);
+    }
 
-        video004:
-            "https://link-center.net/9703092/sB3tnsO2KOKF",
+    function stopPromoWatchTimer() {
+        if (promoWatchTimer) { clearInterval(promoWatchTimer); promoWatchTimer = null; }
+    }
 
-        video005:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+    function startTask(taskNumber) {
+        const button = document.getElementById("taskButton" + taskNumber);
+        if (completedTasks[taskNumber]) return;
 
-        video006:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+        if (taskNumber === 1) {
+            window.open(CONFIG.youtubeURL, "_blank");
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>';
+            let remaining = CONFIG.taskWaitSeconds;
+            taskTimers[taskNumber] = setInterval(function () {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(taskTimers[taskNumber]);
+                    delete taskTimers[taskNumber];
+                    completeTask(taskNumber);
+                }
+            }, 1000);
+            return;
+        }
 
-        video007:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+        if (taskNumber === 2) {
+            document.getElementById("promoPlayerWrap").style.display = "block";
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>';
+            promoStarted = true;
+            const timeElement = document.getElementById("promoTime");
+            if (timeElement) timeElement.textContent = Math.max(0, CONFIG.promoWatchSeconds - promoWatchSeconds);
+            if (promoPlayerReady && promoPlayer) promoPlayer.playVideo();
+        }
+    }
 
-        video008:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+    function completeTask(taskNumber) {
+        completedTasks[taskNumber] = true;
+        const button = document.getElementById("taskButton" + taskNumber);
+        const task = document.getElementById("task" + taskNumber);
+        button.innerHTML = "✓ Done";
+        button.disabled = true;
+        task.classList.add("completed");
+        updateProgress();
+    }
 
-        video009:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+    function updateProgress() {
+        const totalTasks = Object.keys(completedTasks).length;
+        const completed = Object.values(completedTasks).filter(Boolean).length;
+        const percentage = (completed / totalTasks) * 100;
+        document.getElementById("taskCount").textContent = completed + "/" + totalTasks;
+        document.getElementById("progressBar").style.width = percentage + "%";
+        if (completed === totalTasks) { startFinalUnlockTimer(); }
+        else { document.getElementById("progressText").textContent = "Complete the tasks"; }
+    }
 
-        video010:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+    function startFinalUnlockTimer() {
+        const unlockButton = document.getElementById("unlockButton");
+        const progressText = document.getElementById("progressText");
+        unlockButton.disabled = true;
+        progressText.textContent = "Preparing your link...";
+        unlockButton.innerHTML = '<span class="unlock-spinner"></span> Preparing...';
+        let remaining = CONFIG.finalWaitSeconds;
+        if (finalUnlockTimer) clearInterval(finalUnlockTimer);
+        finalUnlockTimer = setInterval(function () {
+            remaining--;
+            if (remaining <= 0) {
+                clearInterval(finalUnlockTimer);
+                finalUnlockTimer = null;
+                unlockButton.disabled = false;
+                unlockButton.innerHTML = "🔓 UNLOCK LINK";
+                progressText.textContent = "Ready to unlock!";
+            }
+        }, 1000);
+    }
 
-        video011:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
+    function unlockLink() {
+        const allCompleted = Object.values(completedTasks).every(Boolean);
+        if (!allCompleted) { alert("Please complete all tasks first."); return; }
+        if (!requestedLink || !destinationURL || destinationURL === "PASTE-YOUR-FUTURE-LINK-HERE") {
+            alert("This unlock link is invalid or unavailable."); return;
+        }
+        window.location.href = destinationURL;
+    }
 
-        video012:
-           
+    window.addEventListener("beforeunload", function () { stopPromoWatchTimer(); });
+    updateProgress();
+</script>
+</body>
+</html>
