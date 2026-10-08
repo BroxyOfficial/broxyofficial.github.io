@@ -1,2088 +1,828 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broxy Hub | Script Unlocker</title>
+    <meta name="description" content="Unlock premium scripts and tools.">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Unlock Your Link</title>
-
-    <meta
-        name="description"
-        content="Complete the tasks to unlock your link."
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* =====================================================
+           BASE STYLES & VARIABLES
+        ===================================================== */
+        :root {
+            --bg-color: #070812;
+            --card-bg: #111322;
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --text-main: #ffffff;
+            --text-muted: #8b92a3;
+            --success: #22c55e;
+        }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
-            width: 100%;
-            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-
-            font-family:
-                Inter,
-                Arial,
-                Helvetica,
-                sans-serif;
-
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.15), transparent 30%),
+                        radial-gradient(circle at 80% 90%, rgba(168, 85, 247, 0.15), transparent 30%),
+                        var(--bg-color);
+            color: var(--text-main);
             min-height: 100vh;
-
-            width: 100%;
-
-            color: #ffffff;
-
-            background:
-
-                radial-gradient(
-                    circle at 20% 10%,
-                    rgba(99, 102, 241, 0.25),
-                    transparent 30%
-                ),
-
-                radial-gradient(
-                    circle at 80% 90%,
-                    rgba(168, 85, 247, 0.22),
-                    transparent 30%
-                ),
-
-                #070812;
-
-            padding:
-                25px 15px 50px;
-
+            padding: 25px 15px 50px;
             overflow-x: hidden;
         }
 
         .page {
-
             width: 100%;
-
             max-width: 760px;
-
             margin: auto;
         }
 
         /* =====================================================
-           HEADER
+           HEADER & 3-DOTS MENU
         ===================================================== */
-
-        .brand {
-
-            text-align: center;
-
-            margin:
-                15px 0 25px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .brand-icon {
-
-            width: 62px;
-
-            height: 62px;
-
-            margin: auto;
-
+            width: 55px;
+            height: 55px;
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            border-radius: 20px;
-
-            font-size: 28px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 15px 40px
-                rgba(99, 102, 241, 0.35);
+            border-radius: 18px;
+            font-size: 24px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 10px 30px var(--accent-glow);
         }
 
-        .brand h1 {
-
-            margin-top: 15px;
-
-            font-size:
-                clamp(
-                    25px,
-                    6vw,
-                    38px
-                );
-
-            font-weight: 800;
-
-            letter-spacing: -1px;
+        .menu-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(10px);
         }
 
-        .brand p {
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
 
-            margin-top: 8px;
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 220px;
+            background: #151828;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 100;
+            animation: slideDown 0.2s ease-out;
+        }
 
-            color: #9ca3af;
+        .dropdown.active {
+            display: block;
+        }
 
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .dropdown a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: white;
+        }
+
+        .dropdown a i {
+            width: 18px;
+            text-align: center;
         }
 
         /* =====================================================
-           AD CONTAINER
+           SEARCH BAR
         ===================================================== */
-
-        .ad-box {
-
-            width: 100%;
-
-            min-height: 90px;
-
-            margin: 20px 0;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 16px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            overflow: hidden;
-
+        .search-container {
+            margin-bottom: 20px;
             position: relative;
         }
 
-        .ad-label {
-
-            color: #525866;
-
-            font-size: 10px;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
         }
 
-        /* =====================================================
-           TOP AD WRAPPER
-        ===================================================== */
-
-        .top-ad-wrapper {
-
+        .search-input {
             width: 100%;
+            padding: 16px 16px 16px 50px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
 
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
+        .search-input:focus {
+            border-color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
         }
 
         /* =====================================================
-           MAIN CARD
+           GAME / SCRIPT CARDS
         ===================================================== */
+        .section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .game-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        .unlock-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* =====================================================
+           TASK FLOW (HIDDEN INITIALLY)
+        ===================================================== */
+        #taskFlow {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .card {
-
-            background:
-                rgba(15, 17, 30, 0.86);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.08);
-
+            background: rgba(17, 19, 34, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 25px;
-
             padding: 25px;
-
-            box-shadow:
-
-                0 25px 80px
-                rgba(0,0,0,0.45),
-
-                inset 0 1px
-                rgba(255,255,255,0.04);
-
+            box-shadow: 0 25px 80px rgba(0,0,0,0.45);
             backdrop-filter: blur(18px);
         }
 
-        /* =====================================================
-           LOCKED HEADER
-        ===================================================== */
+        /* Existing Locked Header styles... */
+        .locked-header { display: flex; align-items: center; gap: 15px; margin-bottom: 22px; }
+        .lock-icon { width: 52px; height: 52px; flex-shrink: 0; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 23px; background: rgba(99,102,241,0.13); border: 1px solid rgba(99,102,241,0.25); }
+        .locked-header h2 { font-size: 20px; }
+        .locked-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
 
-        .locked-header {
+        /* Progress */
+        .progress-area { margin-bottom: 22px; }
+        .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; font-size: 13px; }
+        #progressText { color: #a5adbd; }
+        #taskCount { font-weight: 700; color: #ffffff; }
+        .progress-track { width: 100%; height: 8px; border-radius: 99px; overflow: hidden; background: #252837; }
+        #progressBar { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6366f1, #a855f7); transition: width 0.4s ease; }
 
-            display: flex;
+        /* Tasks */
+        .tasks { display: flex; flex-direction: column; gap: 13px; }
+        .task { position: relative; padding: 17px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.035); transition: 0.25s ease; }
+        .task:hover { border-color: rgba(139,92,246,0.35); transform: translateY(-1px); }
+        .task.completed { border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.06); }
+        .task-top { display: flex; align-items: center; gap: 13px; }
+        .task-icon { width: 45px; height: 45px; flex-shrink: 0; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: rgba(99,102,241,0.13); overflow: hidden; }
+        .youtube-icon { width: 28px; height: 28px; display: block; }
+        .task-info { flex: 1; min-width: 0; }
+        .task-title { font-size: 15px; font-weight: 700; }
+        .task-description { margin-top: 4px; color: #8c93a3; font-size: 12px; line-height: 1.4; }
+        .task-button { min-width: 88px; height: 40px; border: 0; outline: none; cursor: pointer; padding: 10px 13px; border-radius: 11px; color: white; font-size: 12px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #8b5cf6); transition: 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 7px; }
+        .task-button:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(99,102,241,0.25); }
+        .task-button:disabled { cursor: default; background: #20242e; color: #22c55e; box-shadow: none; }
 
+        /* Spinner */
+        .spinner { width: 18px; height: 18px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.18); border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
+        .unlock-spinner { width: 22px; height: 22px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.15); border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Unlock Area */
+        .unlock-area { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.07); }
+        .unlock-button { width: 100%; height: 55px; border: 0; border-radius: 16px; cursor: pointer; color: white; font-size: 15px; font-weight: 800; letter-spacing: 0.2px; background: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 12px 35px rgba(99,102,241,0.22); transition: 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .unlock-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(99,102,241,0.35); }
+        .unlock-button:disabled { cursor: not-allowed; background: #242735; color: #666d7d; box-shadow: none; }
+        .unlock-note { text-align: center; margin-top: 10px; color: #686f7e; font-size: 11px; }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
             align-items: center;
-
-            gap: 15px;
-
-            margin-bottom: 22px;
-        }
-
-        .lock-icon {
-
-            width: 52px;
-
-            height: 52px;
-
-            flex-shrink: 0;
-
-            border-radius: 16px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 23px;
-
-            background:
-                rgba(99,102,241,0.13);
-
-            border:
-                1px solid
-                rgba(99,102,241,0.25);
-        }
-
-        .locked-header h2 {
-
-            font-size: 20px;
-        }
-
-        .locked-header p {
-
-            color: #8b92a3;
-
-            font-size: 13px;
-
-            margin-top: 4px;
-        }
-
-        /* =====================================================
-           PROGRESS
-        ===================================================== */
-
-        .progress-area {
-
-            margin-bottom: 22px;
-        }
-
-        .progress-info {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 9px;
-
-            font-size: 13px;
-        }
-
-        #progressText {
-
-            color: #a5adbd;
-        }
-
-        #taskCount {
-
-            font-weight: 700;
-
-            color: #ffffff;
-        }
-
-        .progress-track {
-
-            width: 100%;
-
-            height: 8px;
-
-            border-radius: 99px;
-
-            overflow: hidden;
-
-            background: #252837;
-        }
-
-        #progressBar {
-
-            width: 0%;
-
-            height: 100%;
-
-            border-radius: inherit;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            transition:
-                width 0.4s ease;
-        }
-
-        /* =====================================================
-           TASKS
-        ===================================================== */
-
-        .tasks {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 13px;
-        }
-
-        .task {
-
-            position: relative;
-
-            padding: 17px;
-
-            border-radius: 18px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            background:
-                rgba(255,255,255,0.035);
-
-            transition: 0.25s ease;
-        }
-
-        .task:hover {
-
-            border-color:
-                rgba(139,92,246,0.35);
-
-            transform:
-                translateY(-1px);
-        }
-
-        .task.completed {
-
-            border-color:
-                rgba(34,197,94,0.35);
-
-            background:
-                rgba(34,197,94,0.06);
-        }
-
-        .task-top {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 13px;
-        }
-
-        /* =====================================================
-           TASK ICON
-        ===================================================== */
-
-        .task-icon {
-
-            width: 45px;
-
-            height: 45px;
-
-            flex-shrink: 0;
-
-            border-radius: 14px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            background:
-                rgba(99,102,241,0.13);
-
-            overflow: hidden;
-        }
-
-        /* =====================================================
-           REAL YOUTUBE LOGO
-        ===================================================== */
-
-        .youtube-icon {
-
-            width: 28px;
-
-            height: 28px;
-
-            display: block;
-        }
-
-        .task-info {
-
-            flex: 1;
-
-            min-width: 0;
-        }
-
-        .task-title {
-
-            font-size: 15px;
-
-            font-weight: 700;
-        }
-
-        .task-description {
-
-            margin-top: 4px;
-
-            color: #8c93a3;
-
-            font-size: 12px;
-
-            line-height: 1.4;
-        }
-
-        /* =====================================================
-           TASK BUTTON
-        ===================================================== */
-
-        .task-button {
-
-            min-width: 88px;
-
-            height: 40px;
-
-            border: 0;
-
-            outline: none;
-
-            cursor: pointer;
-
-            padding:
-                10px 13px;
-
-            border-radius: 11px;
-
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             color: white;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #8b5cf6
-                );
-
-            transition: 0.2s ease;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 7px;
-        }
-
-        .task-button:hover {
-
-            transform:
-                scale(1.03);
-
-            box-shadow:
-                0 8px 20px
-                rgba(99,102,241,0.25);
-        }
-
-        .task-button:disabled {
-
-            cursor: default;
-
-            background: #20242e;
-
-            color: #22c55e;
-
-            box-shadow: none;
-        }
-
-        /* =====================================================
-           LOADER
-        ===================================================== */
-
-        .spinner {
-
-            width: 18px;
-
-            height: 18px;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                rgba(255,255,255,0.18);
-
-            border-top-color:
-                #ffffff;
-
-            animation:
-                spin 0.8s linear infinite;
-        }
-
-        .unlock-spinner {
-
-            width: 22px;
-
-            height: 22px;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                rgba(255,255,255,0.15);
-
-            border-top-color:
-                #ffffff;
-
-            animation:
-                spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-
-            to {
-                transform:
-                    rotate(360deg);
-            }
-        }
-
-        /* =====================================================
-           UNLOCK
-        ===================================================== */
-
-        .unlock-area {
-
-            margin-top: 22px;
-
-            padding-top: 22px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.07);
-        }
-
-        .unlock-button {
-
-            width: 100%;
-
-            height: 55px;
-
-            border: 0;
-
-            border-radius: 16px;
-
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-
-            color: white;
-
-            font-size: 15px;
-
-            font-weight: 800;
-
-            letter-spacing: 0.2px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 12px 35px
-                rgba(99,102,241,0.22);
-
-            transition: 0.25s ease;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 10px;
+            margin-bottom: 15px;
+            transition: 0.2s;
         }
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
 
-        .unlock-button:hover:not(:disabled) {
+        /* Promo Player */
+        #promoPlayer iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-            transform:
-                translateY(-2px);
+        /* Footer */
+        footer { text-align: center; margin-top: 25px; color: #555b69; font-size: 11px; }
+        .discord-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-radius: 12px; color: #ffffff; background: #5865F2; text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.2s ease; margin-top: 14px; }
+        .discord-btn:hover { background: #4752c4; }
 
-            box-shadow:
-                0 18px 40px
-                rgba(99,102,241,0.35);
-        }
-
-        .unlock-button:disabled {
-
-            cursor: not-allowed;
-
-            background: #242735;
-
-            color: #666d7d;
-
-            box-shadow: none;
-        }
-
-        .unlock-note {
-
-            text-align: center;
-
-            margin-top: 10px;
-
-            color: #686f7e;
-
-            font-size: 11px;
-        }
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        footer {
-
-            text-align: center;
-
-            margin-top: 25px;
-
-            color: #555b69;
-
-            font-size: 11px;
-        }
-
-        /* =====================================================
-           PROMOTIONAL VIDEO PLAYER
-        ===================================================== */
-
-        #promoPlayer iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
-        }
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
+        /* Mobile Adjustments */
         @media (max-width: 560px) {
-
-            body {
-
-                padding:
-                    15px 10px 35px;
-            }
-
-            .card {
-
-                padding: 18px;
-
-                border-radius: 21px;
-            }
-
-            .brand {
-
-                margin-top: 8px;
-
-                margin-bottom: 15px;
-            }
-
-            .brand-icon {
-
-                width: 55px;
-
-                height: 55px;
-
-                border-radius: 17px;
-            }
-
-            /* =================================================
-               MOBILE TOP AD
-            ================================================= */
-
-            .ad-box.top-ad {
-
-                height: 190px;
-
-                min-height: 190px;
-
-                margin:
-                    10px 0 18px;
-
-                border-radius: 14px;
-            }
-
-            .top-ad-wrapper {
-
-                width: 100%;
-
-                height: 100%;
-
-                overflow: hidden;
-
-                display: flex;
-
-                align-items: center;
-
-                justify-content: center;
-            }
-
-            .top-ad-inner {
-
-                width: 760px;
-
-                min-width: 760px;
-
-                height: 420px;
-
-                min-height: 420px;
-
-                display: flex;
-
-                justify-content: center;
-
-                align-items: flex-start;
-
-                transform:
-                    scale(0.42);
-
-                transform-origin:
-                    center center;
-
-                flex-shrink: 0;
-            }
-
-            #container-754ce29789e6d637de830761ceb267aa {
-
-                width: 760px !important;
-
-                min-width: 760px !important;
-
-                max-width: 760px !important;
-
-                overflow: visible !important;
-            }
-
-            .top-ad .ad-label {
-
-                position: absolute;
-
-                left: 2px;
-
-                top: 50%;
-
-                transform:
-                    translateY(-50%)
-                    rotate(-90deg);
-
-                font-size: 7px;
-
-                letter-spacing: 1px;
-
-                z-index: 20;
-
-                pointer-events: none;
-            }
-
-            /* =================================================
-               TASKS
-            ================================================= */
-
-            .task {
-
-                padding: 14px;
-            }
-
-            .task-top {
-
-                align-items:
-                    flex-start;
-            }
-
-            .task-button {
-
-                min-width: 75px;
-
-                padding:
-                    9px 10px;
-            }
-
-            .task-icon {
-
-                width: 40px;
-
-                height: 40px;
-
-                border-radius: 12px;
-            }
-
-            .youtube-icon {
-
-                width: 25px;
-
-                height: 25px;
-            }
-
-            .task-title {
-
-                font-size: 14px;
-            }
-
-            .task-description {
-
-                font-size: 11px;
-            }
-
-            /* =================================================
-               MOBILE BOTTOM AD
-            ================================================= */
-
-            .bottom-ad-box {
-
-                height: 85px;
-
-                min-height: 85px;
-
-                margin-top: 15px;
-            }
-
-            .bottom-ad-inner {
-
-                width: 468px;
-
-                min-width: 468px;
-
-                height: 60px;
-
-                transform:
-                    scale(0.55);
-
-                transform-origin:
-                    center center;
-
-                flex-shrink: 0;
-            }
+            .card { padding: 18px; border-radius: 21px; }
+            .grid-container { grid-template-columns: 1fr; }
+            .task { padding: 14px; }
+            .task-button { min-width: 75px; padding: 9px 10px; }
+            .task-icon { width: 40px; height: 40px; border-radius: 12px; }
+            .youtube-icon { width: 25px; height: 25px; }
+            .task-title { font-size: 14px; }
+            .task-description { font-size: 11px; }
         }
-
-        /* =====================================================
-           SMALL PHONES
-        ===================================================== */
-
-        @media (max-width: 380px) {
-
-            body {
-
-                padding:
-                    12px 7px 30px;
-            }
-
-            .card {
-
-                padding: 15px;
-            }
-
-            .task {
-
-                padding: 12px;
-            }
-
-            .task-top {
-
-                gap: 9px;
-            }
-
-            .task-button {
-
-                min-width: 68px;
-
-                font-size: 11px;
-
-                padding:
-                    8px;
-            }
-
-            .task-title {
-
-                font-size: 13px;
-            }
-
-            .task-description {
-
-                font-size: 10px;
-            }
-
-            .ad-box.top-ad {
-
-                height: 175px;
-
-                min-height: 175px;
-            }
-
-            .top-ad-inner {
-
-                transform:
-                    scale(0.38);
-            }
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
-
 <div class="page">
 
-
-    <!-- =================================================
-         BRAND
-    ================================================= -->
-
-    <div class="brand">
-
-        <div class="brand-icon">
-            🔐
-        </div>
-
-        <h1>
-            Unlock Your Link
-        </h1>
-
-        <p>
-            Complete the quick tasks below to continue.
-        </p>
-
-    </div>
-
-
-    <!-- =================================================
-         TOP AD
-    ================================================= -->
-
-    <div class="ad-box top-ad">
-
-        <span class="ad-label">
-            Advertisement
-        </span>
-
-        <div class="top-ad-wrapper">
-
-            <div class="top-ad-inner">
-
-                <script
-                    async="async"
-                    data-cfasync="false"
-                    src="https://pl29329735.profitableratecpmnetwork.com/754ce29789e6d637de830761ceb267aa/invoke.js">
-                </script>
-
-                <div
-                    id="container-754ce29789e6d637de830761ceb267aa">
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         MAIN CARD
-    ================================================= -->
-
-    <div class="card">
-
-
-        <!-- LOCKED HEADER -->
-
-        <div class="locked-header">
-
-            <div class="lock-icon">
-                🔒
-            </div>
-
-            <div>
-
-                <h2>
-                    Link Locked
-                </h2>
-
-                <p>
-                    Complete all tasks to unlock.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             PROGRESS
-        ================================================= -->
-
-        <div class="progress-area">
-
-            <div class="progress-info">
-
-                <span id="progressText">
-                    Complete the tasks
-                </span>
-
-                <span id="taskCount">
-                    0/2
-                </span>
-
-            </div>
-
-            <div class="progress-track">
-
-                <div id="progressBar"></div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             TASKS
-        ================================================= -->
-
-        <div class="tasks">
-
-
-            <!-- =================================================
-                 TASK 1 - YOUTUBE
-            ================================================= -->
-
-            <div
-                class="task"
-                id="task1"
-            >
-
-                <div class="task-top">
-
-
-                    <!-- REAL YOUTUBE LOGO -->
-
-                    <div class="task-icon">
-
-                        <svg
-                            class="youtube-icon"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-
-                            <path
-                                fill="#FF0000"
-                                d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"
-                            />
-
-                            <path
-                                fill="#ffffff"
-                                d="M9.75 15.75 15.75 12l-6-3.75v7.5Z"
-                            />
-
-                        </svg>
-
-                    </div>
-
-
-                    <div class="task-info">
-
-                        <div class="task-title">
-                            Subscribe to our YouTube
-                        </div>
-
-                        <div class="task-description">
-                            Visit our channel and subscribe if you'd like to support us.
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        class="task-button"
-                        id="taskButton1"
-                        onclick="startTask(1)"
-                    >
-
-                        Subscribe
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 TASK 2 - WATCH PROMOTIONAL VIDEO
-            ================================================= -->
-
-            <div
-                class="task"
-                id="task2"
-            >
-
-                <div class="task-top">
-
-                    <div class="task-icon">
-                        ▶️
-                    </div>
-
-                    <div class="task-info">
-
-                        <div class="task-title">
-                            Watch our promotional video
-                        </div>
-
-                        <div class="task-description">
-                            Watch the video for 16 seconds to complete this task.
-                        </div>
-
-                    </div>
-
-                    <button
-                        class="task-button"
-                        id="taskButton2"
-                        onclick="startTask(2)"
-                    >
-
-                        Watch
-
-                    </button>
-
-                </div>
-
-                <div
-                    id="promoPlayerWrap"
-                    style="
-                        display:none;
-                        margin-top:14px;
-                        width:100%;
-                        overflow:hidden;
-                        border-radius:14px;
-                        background:#000;
-                    "
-                >
-
-                    <div
-                        id="promoPlayer"
-                        style="
-                            width:100%;
-                            aspect-ratio:16/9;
-                        "
-                    ></div>
-
-                    <div
-                        style="
-                            padding:9px 10px;
-                            text-align:center;
-                            color:#a5adbd;
-                            font-size:12px;
-                        "
-                    >
-                        Watch for <span id="promoTime">16</span>s to complete this task.
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             UNLOCK
-        ================================================= -->
-
-        <div class="unlock-area">
-
-            <button
-                class="unlock-button"
-                id="unlockButton"
-                disabled
-                onclick="unlockLink()"
-            >
-
-                🔒 Complete Tasks to Unlock
-
+    <!-- =====================================================
+         HEADER WITH 3-DOTS MENU
+    ===================================================== -->
+    <div class="header">
+        <div class="brand-icon">🔐</div>
+        
+        <div style="position: relative;">
+            <button class="menu-btn" onclick="toggleMenu()">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
-
-            <div class="unlock-note">
-
-                Your destination link will open after all required tasks are completed.
-
+            
+            <!-- Dropdown Menu -->
+            <div class="dropdown" id="dropdownMenu">
+                <a href="index.html">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+                <a href="giveaway.html">
+                    <i class="fa-solid fa-gift"></i> Giveaway
+                </a>
+                <a href="live.html">
+                    <i class="fa-solid fa-tower-broadcast"></i> Live Hub
+                </a>
+                <a href="about.html">
+                    <i class="fa-solid fa-circle-info"></i> About Us
+                </a>
             </div>
-
         </div>
-
-
     </div>
 
-
-    <!-- =================================================
-         BOTTOM AD
-    ================================================= -->
-
-    <div
-        class="ad-box bottom-ad-box"
-    >
-
-        <span class="ad-label">
-            Advertisement
-        </span>
-
-        <div
-            style="
-                width:100%;
-                overflow:hidden;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-            "
-        >
-
-            <div class="bottom-ad-inner">
-
-                <script>
-
-                    atOptions = {
-
-                        'key':
-                        '3fd7cae2f72453a6616518fdbb40de89',
-
-                        'format':
-                        'iframe',
-
-                        'height':
-                        60,
-
-                        'width':
-                        468,
-
-                        'params':
-                        {}
-
-                    };
-
-                </script>
-
-                <script
-                    src="https://www.highrevenueformat.com/3fd7cae2f72453a6616518fdbb40de89/invoke.js">
-                </script>
-
-            </div>
-
-        </div>
-
+    <!-- =====================================================
+         SEARCH BAR
+    ===================================================== -->
+    <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search games or scripts..." onkeyup="filterGames()">
     </div>
 
+    <!-- =====================================================
+         DIRECTORY VIEW (DEFAULT)
+    ===================================================== -->
+    <div id="directoryView">
+        <div class="section-title">Available Unlocks</div>
+        
+        <div class="grid-container" id="gameGrid">
+            <!-- Game Card 1 -->
+            <div class="game-card" data-name="Roblox Script" onclick="openUnlock('video001')">
+                <span class="unlock-badge">Unlock</span>
+                <div class="game-icon">🟥</div>
+                <div>
+                    <div class="game-title">Roblox Script</div>
+                    <div class="game-desc">Premium Auto-Farm</div>
+                </div>
+            </div>
 
-    <!-- =================================================
+            <!-- Game Card 2 -->
+            <div class="game-card" data-name="Mobile Legends" onclick="openUnlock('video002')">
+                <span class="unlock-badge">Unlock</span>
+                <div class="game-icon">⚔️</div>
+                <div>
+                    <div class="game-title">Mobile Legends</div>
+                    <div class="game-desc">Map Hack & Auto Retri</div>
+                </div>
+            </div>
+
+            <!-- Game Card 3 -->
+            <div class="game-card" data-name="Free Fire" onclick="openUnlock('video003')">
+                <span class="unlock-badge">Unlock</span>
+                <div class="game-icon">🔥</div>
+                <div>
+                    <div class="game-title">Free Fire</div>
+                    <div class="game-desc">Aimbot & Antenna</div>
+                </div>
+            </div>
+
+            <!-- Game Card 4 -->
+            <div class="game-card" data-name="Genshin Impact" onclick="openUnlock('video004')">
+                <span class="unlock-badge">Unlock</span>
+                <div class="game-icon">🌸</div>
+                <div>
+                    <div class="game-title">Genshin Impact</div>
+                    <div class="game-desc">Auto-Loot & Teleport</div>
+                </div>
+            </div>
+            
+            <!-- Add more cards here matching your LINKS object -->
+        </div>
+    </div>
+
+    <!-- =====================================================
+         TASK FLOW VIEW (HIDDEN INITIALLY)
+    ===================================================== -->
+    <div id="taskFlow">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-arrow-left"></i> Back to Hub
+        </button>
+
+        <div class="card">
+            <div class="locked-header">
+                <div class="lock-icon">🔒</div>
+                <div>
+                    <h2>Link Locked</h2>
+                    <p>Complete all tasks to unlock <span id="targetName" style="color:#a5b4fc; font-weight:bold;">this script</span>.</p>
+                </div>
+            </div>
+
+            <div class="progress-area">
+                <div class="progress-info">
+                    <span id="progressText">Complete the tasks</span>
+                    <span id="taskCount">0/2</span>
+                </div>
+                <div class="progress-track">
+                    <div id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="tasks">
+                <!-- TASK 1 - YOUTUBE -->
+                <div class="task" id="task1">
+                    <div class="task-top">
+                        <div class="task-icon">
+                            <svg class="youtube-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#FF0000" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/>
+                                <path fill="#ffffff" d="M9.75 15.75 15.75 12l-6-3.75v7.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="task-info">
+                            <div class="task-title">Subscribe to our YouTube</div>
+                            <div class="task-description">Visit our channel and subscribe.</div>
+                        </div>
+                        <button class="task-button" id="taskButton1" onclick="startTask(1)">Subscribe</button>
+                    </div>
+                </div>
+
+                <!-- TASK 2 - WATCH PROMOTIONAL VIDEO -->
+                <div class="task" id="task2">
+                    <div class="task-top">
+                        <div class="task-icon">▶️</div>
+                        <div class="task-info">
+                            <div class="task-title">Watch our promotional video</div>
+                            <div class="task-description">Watch for 16 seconds to complete.</div>
+                        </div>
+                        <button class="task-button" id="taskButton2" onclick="startTask(2)">Watch</button>
+                    </div>
+                    <div id="promoPlayerWrap" style="display:none; margin-top:14px; width:100%; overflow:hidden; border-radius:14px; background:#000;">
+                        <div id="promoPlayer" style="width:100%; aspect-ratio:16/9;"></div>
+                        <div style="padding:9px 10px; text-align:center; color:#a5adbd; font-size:12px;">
+                            Watch for <span id="promoTime">16</span>s to complete this task.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unlock-area">
+                <button class="unlock-button" id="unlockButton" disabled onclick="unlockLink()">
+                    🔒 Complete Tasks to Unlock
+                </button>
+                <div class="unlock-note">Your destination link will open after all tasks are completed.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
          FOOTER
-    ================================================= -->
-
+    ===================================================== -->
     <footer>
-
-        © 2026 • Your Website
-
-        <div style="
-            margin-top:14px;
-            text-align:center;
-        ">
-            <a
-                href="https://discord.gg/ucmjUzAsv"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="
-                    display:inline-flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:8px;
-                    padding:10px 16px;
-                    border-radius:12px;
-                    color:#ffffff;
-                    background:#5865F2;
-                    text-decoration:none;
-                    font-size:12px;
-                    font-weight:700;
-                    transition:0.2s ease;
-                "
-            >
+        © 2026 • BROXY HUB
+        <div>
+            <a href="https://discord.gg/ucmjUzAsv" target="_blank" rel="noopener noreferrer" class="discord-btn">
                 💬 Join our Discord Server
             </a>
         </div>
-
     </footer>
-
 
 </div>
 
-
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
-    <script>
+<script>
+    /* =====================================================
+       MENU TOGGLE
+    ===================================================== */
+    function toggleMenu() {
+        const menu = document.getElementById('dropdownMenu');
+        menu.classList.toggle('active');
+    }
 
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('dropdownMenu');
+        const btn = document.querySelector('.menu-btn');
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.remove('active');
+        }
+    });
+
+    /* =====================================================
+       SEARCH FUNCTIONALITY
+    ===================================================== */
+    function filterGames() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.game-card');
+        
+        cards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            if (name.includes(query)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    /* =====================================================
+       VIEW SWITCHING (Directory <-> Task Flow)
+    ===================================================== */
+    function openUnlock(linkId) {
+        // Hide directory, show task flow
+        document.getElementById('directoryView').style.display = 'none';
+        document.getElementById('taskFlow').style.display = 'block';
+        
+        // Set the requested link in the URL hash for tracking
+        window.history.pushState({}, '', '?link=' + linkId);
+        
+        // Update UI to show which link is being unlocked
+        const linkNames = {
+            'video001': 'Roblox Script',
+            'video002': 'Mobile Legends',
+            'video003': 'Free Fire',
+            'video004': 'Genshin Impact'
+        };
+        document.getElementById('targetName').textContent = linkNames[linkId] || 'this script';
+
+        // Reset task state
+        resetTasks();
+    }
+
+    function goBack() {
+        // Show directory, hide task flow
+        document.getElementById('taskFlow').style.display = 'none';
+        document.getElementById('directoryView').style.display = 'block';
+        window.history.pushState({}, '', 'unlock.html');
+        resetTasks();
+    }
+
+    function resetTasks() {
+        completedTasks = { 1: false, 2: false };
+        promoWatchSeconds = 0;
+        promoStarted = false;
+        if (promoPlayer && promoPlayerReady) {
+            promoPlayer.stopVideo();
+        }
+        document.getElementById('promoPlayerWrap').style.display = 'none';
+        document.getElementById('promoTime').textContent = '16';
+        
+        // Reset buttons
+        document.getElementById('taskButton1').disabled = false;
+        document.getElementById('taskButton1').innerHTML = 'Subscribe';
+        document.getElementById('taskButton2').disabled = false;
+        document.getElementById('taskButton2').innerHTML = 'Watch';
+        
+        document.getElementById('task1').classList.remove('completed');
+        document.getElementById('task2').classList.remove('completed');
+        
+        // Reset unlock button
+        const unlockBtn = document.getElementById('unlockButton');
+        unlockBtn.disabled = true;
+        unlockBtn.innerHTML = '🔒 Complete Tasks to Unlock';
+        unlockBtn.style.background = 'linear-gradient(135deg, #6366f1, #a855f7)';
+        unlockBtn.style.color = 'white';
+        
+        document.getElementById('progressText').textContent = 'Complete the tasks';
+        document.getElementById('progressBar').style.width = '0%';
+        document.getElementById('taskCount').textContent = '0/2';
+        
+        // Clear timers
+        if (finalUnlockTimer) clearInterval(finalUnlockTimer);
+        stopPromoWatchTimer();
+    }
 
     /* =====================================================
        IMPORTANT LINK DATABASE
-
-       ADD YOUR FUTURE LINKS HERE.
-
-       DO NOT CHANGE THE REST OF THE SCRIPT.
-
-       Example:
-
-       video004: "https://your-new-link.com",
-       video005: "https://another-link.com",
-
     ===================================================== */
-
     const LINKS = {
-
-        /* YOUR CURRENT IMPORTANT DESTINATION */
-
-        video001:
-            "https://link-hub.net/9703092/jW90eakVlhdW",
-
-
-        /* FUTURE LINKS - PASTE YOUR LINKS HERE */
-
-        video002:
-            "https://link-target.net/9703092/eJPtMFlC628d",
-
-        video003:
-            "https://direct-link.net/9703092/pkuQgVSPD5G5",
-
-        video004:
-            "https://link-center.net/9703092/sB3tnsO2KOKF",
-
-        video005:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video006:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video007:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video008:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video009:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video010:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video011:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video012:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video013:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video014:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video015:
-            "PASTE-YOUR-FUTURE-LINK-HERE"
-
+        video001: "https://link-hub.net/9703092/jW90eakVlhdW",
+        video002: "https://link-target.net/9703092/eJPtMFlC628d",
+        video003: "https://direct-link.net/9703092/pkuQgVSPD5G5",
+        video004: "https://link-center.net/9703092/sB3tnsO2KOKF",
+        video005: "PASTE-YOUR-FUTURE-LINK-HERE",
+        // Add more here...
     };
-
-
-    /* =====================================================
-       CONFIGURATION
-
-       EVERYTHING ELSE IS KEPT THE SAME.
-    ===================================================== */
 
     const CONFIG = {
-
-        youtubeURL:
-            "https://www.youtube.com/@Broxy6",
-
-        promotionURL:
-            "/promotion.html",
-
-        taskWaitSeconds:
-            30,
-
-        promoWatchSeconds:
-            16,
-
-        finalWaitSeconds:
-            20
-
+        youtubeURL: "https://www.youtube.com/@Broxy6",
+        taskWaitSeconds: 30,
+        promoWatchSeconds: 16,
+        finalWaitSeconds: 20
     };
-
-
-    /* =====================================================
-       READ LINK ID FROM URL
-
-       Example:
-
-       unlock.html?link=video001
-
-       unlock.html?link=video002
-    ===================================================== */
-
-    const urlParams =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const requestedLink =
-        urlParams.get("link");
-
-
-    /* =====================================================
-       FIND DESTINATION
-    ===================================================== */
-
-    let destinationURL =
-        null;
-
-
-    if (requestedLink) {
-
-        destinationURL =
-            LINKS[requestedLink];
-
-    }
-
 
     /* =====================================================
        TASK STATE
     ===================================================== */
-
-    let completedTasks = {
-
-        1: false,
-
-        2: false
-
-    };
-
-
+    let completedTasks = { 1: false, 2: false };
     let taskTimers = {};
-
     let finalUnlockTimer = null;
-
+    let requestedLink = null;
+    let destinationURL = null;
 
     /* =====================================================
        PROMOTIONAL VIDEO PLAYER
-       Task 2 completes only after 16 seconds of actual
-       YouTube PLAYING time. Pause/buffering stops counting.
     ===================================================== */
-
     let promoPlayer = null;
     let promoPlayerReady = false;
     let promoStarted = false;
     let promoWatchSeconds = 0;
     let promoWatchTimer = null;
 
-
     function onYouTubeIframeAPIReady() {
-
-        promoPlayer = new YT.Player(
-            "promoPlayer",
-            {
-                videoId:
-                    "6-uOadSBmGo",
-
-                playerVars: {
-                    rel: 0,
-                    modestbranding: 1,
-                    playsinline: 1
+        promoPlayer = new YT.Player("promoPlayer", {
+            videoId: "6-uOadSBmGo",
+            playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+            events: {
+                onReady: function () {
+                    promoPlayerReady = true;
+                    if (promoStarted && !completedTasks[2]) {
+                        promoPlayer.playVideo();
+                    }
                 },
-
-                events: {
-
-                    onReady:
-                        function () {
-
-                            promoPlayerReady =
-                                true;
-
-                            if (
-                                promoStarted &&
-                                !completedTasks[2]
-                            ) {
-
-                                promoPlayer.playVideo();
-
-                            }
-
-                        },
-
-                    onStateChange:
-                        function (event) {
-
-                            if (
-                                event.data ===
-                                YT.PlayerState.PLAYING
-                            ) {
-
-                                startPromoWatchTimer();
-
-                            }
-                            else {
-
-                                stopPromoWatchTimer();
-
-                            }
-
-                        }
-
+                onStateChange: function (event) {
+                    if (event.data === YT.PlayerState.PLAYING) {
+                        startPromoWatchTimer();
+                    } else {
+                        stopPromoWatchTimer();
+                    }
                 }
-
             }
-        );
-
+        });
     }
-
 
     function startPromoWatchTimer() {
+        if (promoWatchTimer || completedTasks[2] || !promoStarted) return;
+        promoWatchTimer = setInterval(function () {
+            if (!promoPlayer || !promoPlayerReady || completedTasks[2]) return;
+            if (promoPlayer.getPlayerState() !== YT.PlayerState.PLAYING) return;
 
-        if (
-            promoWatchTimer ||
-            completedTasks[2] ||
-            !promoStarted
-        ) {
+            promoWatchSeconds++;
+            const remaining = Math.max(0, CONFIG.promoWatchSeconds - promoWatchSeconds);
+            const timeElement = document.getElementById("promoTime");
+            if (timeElement) timeElement.textContent = remaining;
 
-            return;
-
-        }
-
-
-        promoWatchTimer =
-            setInterval(
-                function () {
-
-                    if (
-                        !promoPlayer ||
-                        !promoPlayerReady ||
-                        completedTasks[2]
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    if (
-                        promoPlayer.getPlayerState() !==
-                        YT.PlayerState.PLAYING
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    promoWatchSeconds++;
-
-
-                    const remaining =
-                        Math.max(
-                            0,
-                            CONFIG.promoWatchSeconds -
-                            promoWatchSeconds
-                        );
-
-
-                    const timeElement =
-                        document.getElementById(
-                            "promoTime"
-                        );
-
-
-                    if (timeElement) {
-
-                        timeElement.textContent =
-                            remaining;
-
-                    }
-
-
-                    if (
-                        promoWatchSeconds >=
-                        CONFIG.promoWatchSeconds
-                    ) {
-
-                        stopPromoWatchTimer();
-
-                        completeTask(2);
-
-                    }
-
-                },
-                1000
-            );
-
+            if (promoWatchSeconds >= CONFIG.promoWatchSeconds) {
+                stopPromoWatchTimer();
+                completeTask(2);
+            }
+        }, 1000);
     }
-
 
     function stopPromoWatchTimer() {
-
         if (promoWatchTimer) {
-
-            clearInterval(
-                promoWatchTimer
-            );
-
-            promoWatchTimer =
-                null;
-
+            clearInterval(promoWatchTimer);
+            promoWatchTimer = null;
         }
-
     }
-
 
     /* =====================================================
        START TASK
     ===================================================== */
-
     function startTask(taskNumber) {
+        const button = document.getElementById("taskButton" + taskNumber);
+        if (completedTasks[taskNumber]) return;
 
-        const button =
-            document.getElementById(
-                "taskButton" + taskNumber
-            );
+        if (taskNumber === 1) {
+            window.open(CONFIG.youtubeURL, "_blank");
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>';
+            let remaining = CONFIG.taskWaitSeconds;
 
-
-        if (
-            completedTasks[taskNumber]
-        ) {
-
+            taskTimers[taskNumber] = setInterval(function () {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(taskTimers[taskNumber]);
+                    delete taskTimers[taskNumber];
+                    completeTask(taskNumber);
+                }
+            }, 1000);
             return;
-
         }
 
-
-        /* =================================================
-           TASK 1 - EXISTING 30 SECOND TIMER
-        ================================================= */
-
-        if (
-            taskNumber === 1
-        ) {
-
-            window.open(
-                CONFIG.youtubeURL,
-                "_blank"
-            );
-
-
-            button.disabled =
-                true;
-
-
-            button.innerHTML =
-                '<span class="spinner"></span>';
-
-
-            let remaining =
-                CONFIG.taskWaitSeconds;
-
-
-            taskTimers[taskNumber] =
-
-                setInterval(
-                    function () {
-
-                        remaining--;
-
-
-                        if (
-                            remaining <= 0
-                        ) {
-
-                            clearInterval(
-                                taskTimers[taskNumber]
-                            );
-
-                            delete
-                                taskTimers[taskNumber];
-
-                            completeTask(
-                                taskNumber
-                            );
-
-                        }
-
-                    },
-                    1000
-                );
-
-
-            return;
-
+        if (taskNumber === 2) {
+            document.getElementById("promoPlayerWrap").style.display = "block";
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>';
+            promoStarted = true;
+            const timeElement = document.getElementById("promoTime");
+            if (timeElement) timeElement.textContent = Math.max(0, CONFIG.promoWatchSeconds - promoWatchSeconds);
+            if (promoPlayerReady && promoPlayer) promoPlayer.playVideo();
         }
-
-
-        /* =================================================
-           TASK 2 - PROMOTIONAL VIDEO
-        ================================================= */
-
-        if (
-            taskNumber === 2
-        ) {
-
-            document.getElementById(
-                "promoPlayerWrap"
-            ).style.display =
-                "block";
-
-
-            button.disabled =
-                true;
-
-
-            button.innerHTML =
-                '<span class="spinner"></span>';
-
-
-            promoStarted =
-                true;
-
-
-            const timeElement =
-                document.getElementById(
-                    "promoTime"
-                );
-
-
-            if (timeElement) {
-
-                timeElement.textContent =
-                    Math.max(
-                        0,
-                        CONFIG.promoWatchSeconds -
-                        promoWatchSeconds
-                    );
-
-            }
-
-
-            if (
-                promoPlayerReady &&
-                promoPlayer
-            ) {
-
-                promoPlayer.playVideo();
-
-            }
-
-        }
-
     }
-
 
     /* =====================================================
        COMPLETE TASK
     ===================================================== */
-
     function completeTask(taskNumber) {
-
-        completedTasks[taskNumber] =
-            true;
-
-
-        const button =
-            document.getElementById(
-                "taskButton" + taskNumber
-            );
-
-
-        const task =
-            document.getElementById(
-                "task" + taskNumber
-            );
-
-
-        button.innerHTML =
-            "✓ Done";
-
-
-        button.disabled =
-            true;
-
-
-        task.classList.add(
-            "completed"
-        );
-
-
+        completedTasks[taskNumber] = true;
+        const button = document.getElementById("taskButton" + taskNumber);
+        const task = document.getElementById("task" + taskNumber);
+        button.innerHTML = "✓ Done";
+        button.disabled = true;
+        task.classList.add("completed");
         updateProgress();
-
     }
-
 
     /* =====================================================
        UPDATE PROGRESS
     ===================================================== */
-
     function updateProgress() {
+        const totalTasks = Object.keys(completedTasks).length;
+        const completed = Object.values(completedTasks).filter(Boolean).length;
+        const percentage = (completed / totalTasks) * 100;
 
-        const totalTasks =
-            Object.keys(
-                completedTasks
-            ).length;
+        document.getElementById("taskCount").textContent = completed + "/" + totalTasks;
+        document.getElementById("progressBar").style.width = percentage + "%";
 
-
-        const completed =
-            Object.values(
-                completedTasks
-            )
-            .filter(Boolean)
-            .length;
-
-
-        const percentage =
-            (completed / totalTasks) * 100;
-
-
-        document.getElementById(
-            "taskCount"
-        ).textContent =
-            completed +
-            "/" +
-            totalTasks;
-
-
-        document.getElementById(
-            "progressBar"
-        ).style.width =
-            percentage +
-            "%";
-
-
-        if (
-            completed === totalTasks
-        ) {
-
+        if (completed === totalTasks) {
             startFinalUnlockTimer();
-
+        } else {
+            document.getElementById("progressText").textContent = "Complete the tasks";
         }
-        else {
-
-            document.getElementById(
-                "progressText"
-            ).textContent =
-                "Complete the tasks";
-
-        }
-
     }
-
 
     /* =====================================================
        FINAL UNLOCK TIMER
     ===================================================== */
-
     function startFinalUnlockTimer() {
+        const unlockButton = document.getElementById("unlockButton");
+        const progressText = document.getElementById("progressText");
+        unlockButton.disabled = true;
+        progressText.textContent = "Preparing your link...";
+        unlockButton.innerHTML = '<span class="unlock-spinner"></span> Preparing...';
+        let remaining = CONFIG.finalWaitSeconds;
 
-        const unlockButton =
-            document.getElementById(
-                "unlockButton"
-            );
+        if (finalUnlockTimer) clearInterval(finalUnlockTimer);
 
-
-        const progressText =
-            document.getElementById(
-                "progressText"
-            );
-
-
-        unlockButton.disabled =
-            true;
-
-
-        progressText.textContent =
-            "Preparing your link...";
-
-
-        unlockButton.innerHTML =
-            '<span class="unlock-spinner"></span> Preparing...';
-
-
-        let remaining =
-            CONFIG.finalWaitSeconds;
-
-
-        if (
-            finalUnlockTimer
-        ) {
-
-            clearInterval(
-                finalUnlockTimer
-            );
-
-        }
-
-
-        finalUnlockTimer =
-
-            setInterval(
-                function () {
-
-                    remaining--;
-
-                    if (
-                        remaining <= 0
-                    ) {
-
-                        clearInterval(
-                            finalUnlockTimer
-                        );
-
-                        finalUnlockTimer =
-                            null;
-
-
-                        unlockButton.disabled =
-                            false;
-
-
-                        unlockButton.innerHTML =
-                            "🔓 UNLOCK LINK";
-
-
-                        progressText.textContent =
-                            "Ready to unlock!";
-
-                    }
-
-                },
-                1000
-            );
-
+        finalUnlockTimer = setInterval(function () {
+            remaining--;
+            if (remaining <= 0) {
+                clearInterval(finalUnlockTimer);
+                finalUnlockTimer = null;
+                unlockButton.disabled = false;
+                unlockButton.innerHTML = "🔓 UNLOCK LINK";
+                progressText.textContent = "Ready to unlock!";
+            }
+        }, 1000);
     }
 
-
     /* =====================================================
-       UNLOCK
-    ===================================================== */
-
-    function unlockLink() {
-
-        const allCompleted =
-
-            Object.values(
-                completedTasks
-            )
-            .every(Boolean);
-
-
-        if (
-            !allCompleted
-        ) {
-
-            alert(
-                "Please complete all tasks first."
-            );
-
-            return;
-
-        }
-
-
-        /* =================================================
-           CHECK THAT A VALID LINK WAS PROVIDED
-        ================================================= */
-
-        if (
-            !requestedLink ||
-            !destinationURL ||
-            destinationURL ===
-                "PASTE-YOUR-FUTURE-LINK-HERE"
-        ) {
-
-            alert(
-                "This unlock link is invalid or unavailable."
-            );
-
-            return;
-
-        }
-
-
-        window.location.href =
-            destinationURL;
-
-    }
-
-
-    window.addEventListener(
-        "beforeunload",
-        function () {
-
-            stopPromoWatchTimer();
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    updateProgress();
-
-
-</script>
-
-
-</body>
-
-</html>
+       UNLOCK LINK
