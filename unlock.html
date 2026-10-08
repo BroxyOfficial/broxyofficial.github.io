@@ -79,7 +79,7 @@
         }
 
         /* =====================================================
-           HEADER & 3-DOTS MENU
+           HEADER & HAMBURGER MENU
         ===================================================== */
 
         .brand {
@@ -114,7 +114,7 @@
             font-size: 14px;
         }
 
-        /* 3-Dots Button */
+        /* Hamburger Menu Button */
         .menu-btn {
             position: absolute;
             top: 10px;
@@ -176,6 +176,10 @@
             margin-bottom: 40px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             padding-bottom: 20px;
+            width: 100%;
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .menu-header h2 {
@@ -207,6 +211,14 @@
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
             transform: rotate(90deg);
+        }
+
+        /* Menu Content Container */
+        .menu-content {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            flex: 1;
         }
 
         /* Category Title */
@@ -1068,6 +1080,27 @@
 
                 flex-shrink: 0;
             }
+            
+            /* Mobile Menu Adjustments */
+            .menu-overlay {
+                padding: 20px;
+            }
+            .menu-header {
+                margin-bottom: 20px;
+            }
+            .game-item {
+                padding: 14px 16px;
+            }
+            .game-logo {
+                width: 40px;
+                height: 40px;
+            }
+            .game-name {
+                font-size: 14px;
+            }
+            .game-desc {
+                font-size: 11px;
+            }
         }
 
         /* =====================================================
@@ -1143,14 +1176,14 @@
 
 
     <!-- =================================================
-         BRAND & 3-DOTS MENU
+         BRAND & HAMBURGER MENU
     ================================================= -->
 
     <div class="brand">
 
-        <!-- 3-Dots Button -->
+        <!-- Hamburger Menu Button -->
         <button class="menu-btn" onclick="openMenu()">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
+            <i class="fa-solid fa-bars"></i>
         </button>
 
         <div class="brand-icon">
@@ -1179,57 +1212,59 @@
             </button>
         </div>
 
-        <div class="category-title">Roblox</div>
-        
-        <div class="game-list">
-            <!-- Game Item 1 -->
-            <a href="unlock.html?link=video001" class="game-item">
-                <div class="game-logo">
-                    <!-- Replace with your Roblox image URL -->
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Steal an Egg</div>
-                    <div class="game-desc">Auto-Farm & Auto-Collect</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+        <div class="menu-content">
+            <div class="category-title">Roblox</div>
+            
+            <div class="game-list">
+                <!-- Game Item 1 -->
+                <a href="unlock.html?link=video001" class="game-item">
+                    <div class="game-logo">
+                        <!-- Replace with your Roblox image URL -->
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                    </div>
+                    <div class="game-info">
+                        <div class="game-name">Steal an Egg</div>
+                        <div class="game-desc">Auto-Farm & Auto-Collect</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right game-arrow"></i>
+                </a>
 
-            <!-- Game Item 2 -->
-            <a href="unlock.html?link=video002" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Dueling Grounds</div>
-                    <div class="game-desc">Auto-Parry & Aimbot</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+                <!-- Game Item 2 -->
+                <a href="unlock.html?link=video002" class="game-item">
+                    <div class="game-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                    </div>
+                    <div class="game-info">
+                        <div class="game-name">Dueling Grounds</div>
+                        <div class="game-desc">Auto-Parry & Aimbot</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right game-arrow"></i>
+                </a>
 
-            <!-- Game Item 3 -->
-            <a href="unlock.html?link=video003" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Blox Fruits</div>
-                    <div class="game-desc">Auto-Farm & Fruit Sniper</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+                <!-- Game Item 3 -->
+                <a href="unlock.html?link=video003" class="game-item">
+                    <div class="game-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                    </div>
+                    <div class="game-info">
+                        <div class="game-name">Blox Fruits</div>
+                        <div class="game-desc">Auto-Farm & Fruit Sniper</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right game-arrow"></i>
+                </a>
 
-            <!-- Add more games here easily -->
-            <a href="unlock.html?link=video004" class="game-item">
-                <div class="game-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
-                </div>
-                <div class="game-info">
-                    <div class="game-name">Pet Simulator 99</div>
-                    <div class="game-desc">Auto-Hatch & Coin Farm</div>
-                </div>
-                <i class="fa-solid fa-chevron-right game-arrow"></i>
-            </a>
+                <!-- Game Item 4 -->
+                <a href="unlock.html?link=video004" class="game-item">
+                    <div class="game-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Roblox_logo.svg" alt="Roblox">
+                    </div>
+                    <div class="game-info">
+                        <div class="game-name">Pet Simulator 99</div>
+                        <div class="game-desc">Auto-Hatch & Coin Farm</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right game-arrow"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -1617,7 +1652,7 @@
         document.body.style.overflow = ''; // Restore background scrolling
     }
 
-    // Close menu if user clicks outside the content (optional, but good UX)
+    // Close menu if user clicks outside the content area
     document.getElementById('menuOverlay').addEventListener('click', function(e) {
         if (e.target === this) {
             closeMenu();
@@ -1680,30 +1715,4 @@
             "PASTE-YOUR-FUTURE-LINK-HERE",
 
         video012:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video013:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video014:
-            "PASTE-YOUR-FUTURE-LINK-HERE",
-
-        video015:
-            "PASTE-YOUR-FUTURE-LINK-HERE"
-
-    };
-
-
-    /* =====================================================
-       CONFIGURATION
-
-       EVERYTHING ELSE IS KEPT THE SAME.
-    ===================================================== */
-
-    const CONFIG = {
-
-        youtubeURL:
-            "https://www.youtube.com/@Broxy6",
-
-        promotionURL:
-            "/promotion.html
+            "PASTE-YOUR
