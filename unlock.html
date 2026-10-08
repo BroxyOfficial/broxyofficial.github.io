@@ -17,6 +17,9 @@
         content="Complete the tasks to unlock your link."
     >
 
+    <!-- Font Awesome for the 3-dots icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
 
         * {
@@ -76,70 +79,115 @@
         }
 
         /* =====================================================
-           HEADER
+           HEADER & 3-DOTS MENU (NEW ADDITION)
         ===================================================== */
 
         .brand {
-
             text-align: center;
-
-            margin:
-                15px 0 25px;
+            margin: 15px 0 25px;
+            position: relative; /* Allows absolute positioning of the menu */
         }
 
         .brand-icon {
-
             width: 62px;
-
             height: 62px;
-
             margin: auto;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             border-radius: 20px;
-
             font-size: 28px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 15px 40px
-                rgba(99, 102, 241, 0.35);
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.35);
         }
 
         .brand h1 {
-
             margin-top: 15px;
-
-            font-size:
-                clamp(
-                    25px,
-                    6vw,
-                    38px
-                );
-
+            font-size: clamp(25px, 6vw, 38px);
             font-weight: 800;
-
             letter-spacing: -1px;
         }
 
         .brand p {
-
             margin-top: 8px;
-
             color: #9ca3af;
-
             font-size: 14px;
+        }
+
+        /* 3-Dots Button */
+        .menu-btn {
+            position: absolute;
+            top: 10px;
+            right: 0;
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 220px;
+            background: #151828;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 100;
+            text-align: left;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .dropdown a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: white;
+        }
+
+        .dropdown a i {
+            width: 18px;
+            text-align: center;
+            color: #6366f1;
         }
 
         /* =====================================================
@@ -980,10 +1028,31 @@
 
 
     <!-- =================================================
-         BRAND
+         BRAND & 3-DOTS MENU
     ================================================= -->
 
     <div class="brand">
+
+        <!-- 3-Dots Menu Button -->
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown" id="dropdownMenu">
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i> Home Hub
+            </a>
+            <a href="unlock.html?link=video001">
+                <i class="fa-solid fa-gamepad"></i> Roblox Scripts
+            </a>
+            <a href="unlock.html?link=video002">
+                <i class="fa-solid fa-crosshairs"></i> Game Names
+            </a>
+            <a href="giveaway.html">
+                <i class="fa-solid fa-gift"></i> Giveaway
+            </a>
+        </div>
 
         <div class="brand-icon">
             🔐
@@ -1368,6 +1437,24 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
+
+
+    /* =====================================================
+       MENU TOGGLE FUNCTION
+    ===================================================== */
+    function toggleMenu() {
+        const menu = document.getElementById('dropdownMenu');
+        menu.classList.toggle('active');
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('dropdownMenu');
+        const btn = document.querySelector('.menu-btn');
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.remove('active');
+        }
+    });
 
 
     /* =====================================================
@@ -1902,187 +1989,4 @@
 
         document.getElementById(
             "progressBar"
-        ).style.width =
-            percentage +
-            "%";
-
-
-        if (
-            completed === totalTasks
-        ) {
-
-            startFinalUnlockTimer();
-
-        }
-        else {
-
-            document.getElementById(
-                "progressText"
-            ).textContent =
-                "Complete the tasks";
-
-        }
-
-    }
-
-
-    /* =====================================================
-       FINAL UNLOCK TIMER
-    ===================================================== */
-
-    function startFinalUnlockTimer() {
-
-        const unlockButton =
-            document.getElementById(
-                "unlockButton"
-            );
-
-
-        const progressText =
-            document.getElementById(
-                "progressText"
-            );
-
-
-        unlockButton.disabled =
-            true;
-
-
-        progressText.textContent =
-            "Preparing your link...";
-
-
-        unlockButton.innerHTML =
-            '<span class="unlock-spinner"></span> Preparing...';
-
-
-        let remaining =
-            CONFIG.finalWaitSeconds;
-
-
-        if (
-            finalUnlockTimer
-        ) {
-
-            clearInterval(
-                finalUnlockTimer
-            );
-
-        }
-
-
-        finalUnlockTimer =
-
-            setInterval(
-                function () {
-
-                    remaining--;
-
-                    if (
-                        remaining <= 0
-                    ) {
-
-                        clearInterval(
-                            finalUnlockTimer
-                        );
-
-                        finalUnlockTimer =
-                            null;
-
-
-                        unlockButton.disabled =
-                            false;
-
-
-                        unlockButton.innerHTML =
-                            "🔓 UNLOCK LINK";
-
-
-                        progressText.textContent =
-                            "Ready to unlock!";
-
-                    }
-
-                },
-                1000
-            );
-
-    }
-
-
-    /* =====================================================
-       UNLOCK
-    ===================================================== */
-
-    function unlockLink() {
-
-        const allCompleted =
-
-            Object.values(
-                completedTasks
-            )
-            .every(Boolean);
-
-
-        if (
-            !allCompleted
-        ) {
-
-            alert(
-                "Please complete all tasks first."
-            );
-
-            return;
-
-        }
-
-
-        /* =================================================
-           CHECK THAT A VALID LINK WAS PROVIDED
-        ================================================= */
-
-        if (
-            !requestedLink ||
-            !destinationURL ||
-            destinationURL ===
-                "PASTE-YOUR-FUTURE-LINK-HERE"
-        ) {
-
-            alert(
-                "This unlock link is invalid or unavailable."
-            );
-
-            return;
-
-        }
-
-
-        window.location.href =
-            destinationURL;
-
-    }
-
-
-    window.addEventListener(
-        "beforeunload",
-        function () {
-
-            stopPromoWatchTimer();
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    updateProgress();
-
-
-</script>
-
-
-</body>
-
-</html>
+       
