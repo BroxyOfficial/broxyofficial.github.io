@@ -42,40 +42,34 @@
         }
         .menu-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* --- SIDE DRAWER MENU (PC) / FULL SCREEN (MOBILE) --- */
-        .drawer-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 9998;
+        /* --- SIMPLE OVERLAY MENU --- */
+        .menu-overlay {
+            display: none; /* Hidden by default */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(7, 8, 18, 0.98); z-index: 9999;
+            padding: 30px; overflow-y: auto;
+            backdrop-filter: blur(10px);
         }
-        .drawer-overlay.open { display: block; }
 
-        .side-menu {
-            position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100%;
-            background: #0b0e14; border-left: 1px solid rgba(255,255,255,0.1);
-            z-index: 9999; padding: 30px; transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-        }
-        .side-menu.open { transform: translateX(0); }
-
-        .side-menu-header {
+        .menu-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;
+            max-width: 760px; margin-left: auto; margin-right: auto;
         }
-        .side-menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
+        .menu-header h2 { font-size: 24px; font-weight: 800; color: #a855f7; }
         .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
 
-        .side-menu-list { display: flex; flex-direction: column; gap: 12px; }
-        .game-item {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px; padding: 16px; text-decoration: none; color: white;
+        .menu-list { display: flex; flex-direction: column; gap: 15px; max-width: 760px; margin: 0 auto; }
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 18px; text-decoration: none; color: white;
             display: flex; align-items: center; gap: 15px; transition: 0.2s;
         }
-        .game-item:hover { background: rgba(99, 102, 241, 0.15); border-color: #6366f1; }
-        .game-item img { width: 45px; height: 45px; border-radius: 12px; object-fit: cover; }
-        .game-item .name { font-weight: 700; font-size: 16px; }
-        .game-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
-        .game-item .arrow { margin-left: auto; color: #6366f1; }
+        .menu-item:hover { background: rgba(99, 102, 241, 0.2); }
+        .menu-item img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
+        .menu-item .name { font-weight: 700; font-size: 16px; }
+        .menu-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
+        .menu-item .arrow { margin-left: auto; color: #6366f1; }
 
         /* --- SCRIPT HUB PAGE (Hidden by default) --- */
         .script-hub { display: none; }
@@ -175,7 +169,6 @@
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 560px) {
             body { padding: 15px 10px 35px; }
-            .side-menu { max-width: 100%; }
             .card { padding: 18px; border-radius: 21px; }
             .brand { margin-top: 8px; margin-bottom: 15px; }
             .brand-icon { width: 55px; height: 55px; border-radius: 17px; }
@@ -216,7 +209,7 @@
 </head>
 <body>
 
-<div class="page">
+<div class="page" id="mainPage">
     <!-- HEADER -->
     <div class="brand">
         <button class="menu-btn" onclick="openMenu()">
@@ -322,17 +315,16 @@
 </div>
 
 <!-- ================================================= -->
-<!-- SIDE DRAWER MENU -->
+<!-- SIMPLE FULL SCREEN MENU (OUTSIDE .page) -->
 <!-- ================================================= -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeMenu()"></div>
-<div class="side-menu" id="sideMenu">
-    <div class="side-menu-header">
+<div class="menu-overlay" id="simpleMenu">
+    <div class="menu-header">
         <h2>Broxy Hub</h2>
         <button class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="side-menu-list">
-        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="game-item">
+    <div class="menu-list">
+        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="menu-item">
             <img src="https://tr.rbxcdn.com/180DAY-9d0604c536906098b207fced83a15038/512/512/Image/Png/noFilter" alt="Steal an Egg">
             <div>
                 <div class="name">Steal an Egg</div>
@@ -341,7 +333,7 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="game-item">
+        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="menu-item">
             <img src="https://tr.rbxcdn.com/180DAY-430c4f2df83507c05da11d1d6f7ba94c/768/432/Image/Png/noFilter" alt="Dueling Grounds">
             <div>
                 <div class="name">Dueling Grounds</div>
@@ -350,7 +342,7 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="game-item">
+        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="menu-item">
             <img src="https://emoji.gg/assets/emoji/348009-bloxfruitlogo.png" alt="Blox Fruits">
             <div>
                 <div class="name">Blox Fruits</div>
@@ -359,7 +351,7 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="game-item">
+        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="menu-item">
             <img src="https://cdn.static.pikoya.com/robloxgo/games/8737899170/thumbnail_6" alt="Pet Simulator 99">
             <div>
                 <div class="name">Pet Simulator 99</div>
@@ -371,9 +363,9 @@
 </div>
 
 <!-- ================================================= -->
-<!-- SCRIPT HUB PAGE -->
+<!-- SCRIPT HUB PAGE (Hidden by default) -->
 <!-- ================================================= -->
-<div class="script-hub" id="scriptHubPage">
+<div class="script-hub" id="scriptHubPage" style="display: none;">
     <div class="page">
         <button class="back-btn" onclick="closeScriptHub()"><i class="fa-solid fa-arrow-left"></i> Back to Menu</button>
         
@@ -413,32 +405,29 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     /* =====================================================
-       MENU & SCRIPT HUB TOGGLE
+       MENU TOGGLE (SIMPLE DISPLAY SWAP)
     ===================================================== */
     function openMenu() {
-        document.getElementById('sideMenu').classList.add('open');
-        document.getElementById('drawerOverlay').classList.add('open');
-        document.body.style.overflow = 'hidden';
+        document.getElementById('simpleMenu').style.display = 'block';
     }
 
     function closeMenu() {
-        document.getElementById('sideMenu').classList.remove('open');
-        document.getElementById('drawerOverlay').classList.remove('open');
-        document.body.style.overflow = '';
+        document.getElementById('simpleMenu').style.display = 'none';
     }
 
+    /* =====================================================
+       SCRIPT HUB TOGGLE
+    ===================================================== */
     function openScriptHub(gameName) {
-        closeMenu();
-        document.getElementById('scriptHubPage').classList.add('active');
+        closeMenu(); // Close the menu overlay
+        document.getElementById('scriptHubPage').style.display = 'block';
         document.getElementById('scriptHubTitle').textContent = gameName;
-        
-        // Hide the original unlock card
-        document.querySelector('.page').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'none'; // Hide original page
     }
 
     function closeScriptHub() {
-        document.getElementById('scriptHubPage').classList.remove('active');
-        document.querySelector('.page').style.display = 'block';
+        document.getElementById('scriptHubPage').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'block'; // Show original page again
     }
 
     /* =====================================================
@@ -577,4 +566,10 @@
         const unlockButton = document.getElementById("unlockButton");
         const progressText = document.getElementById("progressText");
         unlockButton.disabled = true;
-        progressText.text
+        progressText.textContent = "Preparing your link...";
+        unlockButton.innerHTML = '<span class="unlock-spinner"></span> Preparing...';
+        let remaining = CONFIG.finalWaitSeconds;
+        if (finalUnlockTimer) clearInterval(finalUnlockTimer);
+        finalUnlockTimer = setInterval(function () {
+            remaining--;
+            if (remaining <= 0
