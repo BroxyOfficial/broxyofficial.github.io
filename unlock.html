@@ -48,7 +48,6 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #070812; z-index: 9999; padding: 30px; overflow-y: auto;
         }
-        .simple-menu.open { display: block; } /* Shown when clicked */
 
         .simple-menu-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -409,14 +408,14 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     /* =====================================================
-       MENU TOGGLE
+       MENU TOGGLE (FORCED DISPLAY SWITCH)
     ===================================================== */
     function openMenu() {
-        document.getElementById('simpleMenu').classList.add('open');
+        document.getElementById('simpleMenu').style.display = 'block';
     }
 
     function closeMenu() {
-        document.getElementById('simpleMenu').classList.remove('open');
+        document.getElementById('simpleMenu').style.display = 'none';
     }
 
     /* =====================================================
@@ -424,13 +423,13 @@
     ===================================================== */
     function openScriptHub(gameName) {
         closeMenu();
-        document.getElementById('scriptHubPage').classList.add('active');
+        document.getElementById('scriptHubPage').style.display = 'block';
         document.getElementById('scriptHubTitle').textContent = gameName;
         document.getElementById('mainPage').style.display = 'none';
     }
 
     function closeScriptHub() {
-        document.getElementById('scriptHubPage').classList.remove('active');
+        document.getElementById('scriptHubPage').style.display = 'none';
         document.getElementById('mainPage').style.display = 'block';
     }
 
@@ -578,4 +577,14 @@
             remaining--;
             if (remaining <= 0) {
                 clearInterval(finalUnlockTimer);
-                finalUnlockTimer =
+                finalUnlockTimer = null;
+                unlockButton.disabled = false;
+                unlockButton.innerHTML = "🔓 UNLOCK LINK";
+                progressText.textContent = "Ready to unlock!";
+            }
+        }, 1000);
+    }
+
+    function unlockLink() {
+        const allCompleted = Object.values(completedTasks).every(Boolean);
+        if (!allCompleted) { alert("Please complete all tasks first."
