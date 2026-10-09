@@ -407,11 +407,19 @@
        MENU TOGGLE (DIRECT DISPLAY SWITCH)
     ===================================================== */
     function openMenu() {
-        document.getElementById('simpleMenu').style.display = 'block';
+        const menu = document.getElementById('simpleMenu');
+        if (menu) {
+            menu.style.display = 'block';
+            menu.setAttribute('aria-hidden', 'false');
+        }
     }
 
     function closeMenu() {
-        document.getElementById('simpleMenu').style.display = 'none';
+        const menu = document.getElementById('simpleMenu');
+        if (menu) {
+            menu.style.display = 'none';
+            menu.setAttribute('aria-hidden', 'true');
+        }
     }
 
     /* =====================================================
@@ -576,4 +584,29 @@
                 finalUnlockTimer = null;
                 unlockButton.disabled = false;
                 unlockButton.innerHTML = "🔓 UNLOCK LINK";
-                progressText.textContent = "Ready to unlock!
+                progressText.textContent = "Ready to unlock!";
+            }
+        }, 1000);
+    }
+
+    function unlockLink() {
+        if (!destinationURL || destinationURL.indexOf("PASTE-YOUR-FUTURE-LINK-HERE") !== -1) {
+            alert("Sorry, this link is not configured yet. Please contact the website owner.");
+            return;
+        }
+
+        try {
+            window.location.href = destinationURL;
+        } catch (error) {
+            console.error("Unable to open destination link:", error);
+            alert("The destination link could not be opened. Please try again.");
+        }
+    }
+
+    // Close the drawer with Escape; clicking the close button still works as before.
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeMenu();
+    });
+</script>
+</body>
+</html>
