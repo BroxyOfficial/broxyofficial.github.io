@@ -68,6 +68,8 @@
         .drawer-item .desc { font-size: 12px; color: #8b92a3; margin-top: 4px; }
         .drawer-item .arrow { margin-left: auto; color: #6366f1; }
 
+        .hub-ad-slot { min-height: 90px; margin: 16px 0; padding: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px dashed rgba(255,255,255,.12); border-radius: 14px; color: #525866; font-size: 10px; text-align: center; }
+
         /* --- SCRIPT HUB PAGE --- */
         .script-hub { display: none; }
         .script-hub.active { display: block; }
@@ -318,46 +320,12 @@
         <button class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="drawer-list">
-        <!-- Game Item 1 -->
-        <a href="javascript:void(0)" onclick="openScriptHub('Steal an Egg')" class="drawer-item">
-            <img src="https://tr.rbxcdn.com/180DAY-9d0604c536906098b207fced83a15038/512/512/Image/Png/noFilter" alt="Steal an Egg">
-            <div>
-                <div class="name">Steal an Egg</div>
-                <div class="desc">Auto-Farm & Auto-Collect</div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
+    <div class="drawer-list" id="gameList"></div>
 
-        <!-- Game Item 2 -->
-        <a href="javascript:void(0)" onclick="openScriptHub('Dueling Grounds')" class="drawer-item">
-            <img src="https://tr.rbxcdn.com/180DAY-430c4f2df83507c05da11d1d6f7ba94c/768/432/Image/Png/noFilter" alt="Dueling Grounds">
-            <div>
-                <div class="name">Dueling Grounds</div>
-                <div class="desc">Auto-Parry & Aimbot</div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <!-- Game Item 3 -->
-        <a href="javascript:void(0)" onclick="openScriptHub('Blox Fruits')" class="drawer-item">
-            <img src="https://emoji.gg/assets/emoji/348009-bloxfruitlogo.png" alt="Blox Fruits">
-            <div>
-                <div class="name">Blox Fruits</div>
-                <div class="desc">Auto-Farm & Fruit Sniper</div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <!-- Game Item 4 -->
-        <a href="javascript:void(0)" onclick="openScriptHub('Pet Simulator 99')" class="drawer-item">
-            <img src="https://cdn.static.pikoya.com/robloxgo/games/8737899170/thumbnail_6" alt="Pet Simulator 99">
-            <div>
-                <div class="name">Pet Simulator 99</div>
-                <div class="desc">Auto-Hatch & Coin Farm</div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
+    <!-- OPTIONAL MENU AD SLOT: paste your ad network code here if allowed -->
+    <div class="hub-ad-slot" id="menuAdSlot">
+        <span class="ad-label">Advertisement</span>
+        <!-- PASTE MENU AD CODE HERE -->
     </div>
 </div>
 
@@ -373,36 +341,81 @@
             <p>Choose a script below to unlock. Each script will redirect you to a task page.</p>
         </div>
 
-        <div class="script-list">
-            <div class="script-card">
-                <div class="script-info">
-                    <h4>Auto Farm Script</h4>
-                    <p>Automatically farms eggs and collects pets.</p>
-                </div>
-                <a href="unlock.html?link=video001" class="script-btn">Unlock</a>
-            </div>
-
-            <div class="script-card">
-                <div class="script-info">
-                    <h4>Speed Hack</h4>
-                    <p>Increases your movement speed for faster grinding.</p>
-                </div>
-                <a href="unlock.html?link=video002" class="script-btn">Unlock</a>
-            </div>
-
-            <div class="script-card">
-                <div class="script-info">
-                    <h4>Auto Collect</h4>
-                    <p>Automatically collects eggs from your base.</p>
-                </div>
-                <a href="unlock.html?link=video003" class="script-btn">Unlock</a>
-            </div>
+        <!-- OPTIONAL GAME-PAGE AD SLOT: paste ad code here if allowed -->
+        <div class="hub-ad-slot" id="gameAdSlot">
+            <span class="ad-label">Advertisement</span>
+            <!-- PASTE GAME PAGE AD CODE HERE -->
         </div>
+
+        <div class="script-list" id="scriptList"></div>
     </div>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
+    /* =====================================================
+       EASY EDIT SECTION — ADD GAMES AND THEIR SCRIPTS HERE
+       For each game, set name, description, logo, and scripts.
+       Each script has its own unique linkId from the LINKS table below.
+    ===================================================== */
+    const GAMES = [
+        {
+            name: "Steal an Egg",
+            description: "Auto-Farm & Auto-Collect",
+            logo: "https://tr.rbxcdn.com/180DAY-9d0604c536906098b207fced83a15038/512/512/Image/Png/noFilter",
+            scripts: [
+                { title: "Auto Farm Script", description: "Automatically farms eggs and collects pets.", linkId: "video001" },
+                { title: "Speed Hack", description: "Increases your movement speed for faster grinding.", linkId: "video002" },
+                { title: "Auto Collect", description: "Automatically collects eggs from your base.", linkId: "video003" }
+            ]
+        },
+        {
+            name: "Dueling Grounds",
+            description: "Auto-Parry & Aimbot",
+            logo: "https://tr.rbxcdn.com/180DAY-430c4f2df83507c05da11d1d6f7ba94c/768/432/Image/Png/noFilter",
+            scripts: [
+                { title: "Auto Parry", description: "Configure the Dueling Grounds unlock task.", linkId: "video004" }
+            ]
+        },
+        {
+            name: "Blox Fruits",
+            description: "Auto-Farm & Fruit Sniper",
+            logo: "https://emoji.gg/assets/emoji/348009-bloxfruitlogo.png",
+            scripts: [
+                { title: "Blox Fruits Script", description: "Add a description for this script.", linkId: "video005" }
+            ]
+        },
+        {
+            name: "Pet Simulator 99",
+            description: "Auto-Hatch & Coin Farm",
+            logo: "https://cdn.static.pikoya.com/robloxgo/games/8737899170/thumbnail_6",
+            scripts: [
+                { title: "Auto Hatch", description: "Add a description for this script.", linkId: "video006" }
+            ]
+        }
+        // COPY one { ... } game block above to add another game.
+    ];
+
+    function renderGames() {
+        const list = document.getElementById("gameList");
+        if (!list) return;
+        list.innerHTML = "";
+        GAMES.forEach((game, index) => {
+            const item = document.createElement("a");
+            item.href = "#"; item.className = "drawer-item";
+            const img = document.createElement("img"); img.src = game.logo; img.alt = game.name; img.loading = "lazy";
+            img.onerror = function () { this.style.display = "none"; };
+            const info = document.createElement("div");
+            const name = document.createElement("div"); name.className = "name"; name.textContent = game.name;
+            const desc = document.createElement("div"); desc.className = "desc"; desc.textContent = game.description;
+            info.append(name, desc);
+            const arrow = document.createElement("i"); arrow.className = "fa-solid fa-chevron-right arrow";
+            item.append(img, info, arrow);
+            item.addEventListener("click", function (event) { event.preventDefault(); openScriptHub(index); });
+            list.appendChild(item);
+        });
+    }
+
     /* =====================================================
        MENU TOGGLE (DIRECT DISPLAY SWITCH)
     ===================================================== */
@@ -425,11 +438,25 @@
     /* =====================================================
        SCRIPT HUB TOGGLE
     ===================================================== */
-    function openScriptHub(gameName) {
+    function openScriptHub(gameIndex) {
+        const game = GAMES[gameIndex];
+        if (!game) return;
         closeMenu();
         document.getElementById('scriptHubPage').classList.add('active');
-        document.getElementById('scriptHubTitle').textContent = gameName;
+        document.getElementById('scriptHubTitle').textContent = game.name;
         document.getElementById('mainPage').style.display = 'none';
+        const list = document.getElementById('scriptList');
+        list.innerHTML = '';
+        game.scripts.forEach(function (script) {
+            const card = document.createElement('div'); card.className = 'script-card';
+            const info = document.createElement('div'); info.className = 'script-info';
+            const title = document.createElement('h4'); title.textContent = script.title;
+            const desc = document.createElement('p'); desc.textContent = script.description;
+            info.append(title, desc);
+            const button = document.createElement('a'); button.className = 'script-btn'; button.textContent = 'Unlock';
+            button.href = 'unlock.html?link=' + encodeURIComponent(script.linkId);
+            card.append(info, button); list.appendChild(card);
+        });
     }
 
     function closeScriptHub() {
@@ -607,6 +634,8 @@
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") closeMenu();
     });
+    renderGames();
+
 </script>
 </body>
 </html>
